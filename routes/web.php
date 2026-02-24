@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\MaterialController as AdminMaterialController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\AdminAuthController;
 
 // ==========================================
 // HALAMAN UTAMA → redirect ke login
@@ -31,7 +32,16 @@ Route::post('/register', [RespondentAuthController::class, 'register'])->name('r
 Route::post('/logout', [RespondentAuthController::class, 'logout'])->name('logout');
 
 // ==========================================
-// AREA RESPONDEN (harus login)
+// AUTH ADMIN (di luar middleware — wajib bisa diakses tanpa login)
+// ==========================================
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+});
+
+// ==========================================
+// AREA RESPONDEN (harus login sebagai responden)
 // ==========================================
 Route::middleware(['auth.respondent'])->group(function () {
     Route::get('/beranda', [HomeController::class, 'index'])->name('respondent.home');
@@ -46,7 +56,7 @@ Route::middleware(['auth.respondent'])->group(function () {
     Route::get('/buku-kerja/post-test', [TestController::class, 'showPostTest'])->name('respondent.posttest');
     Route::post('/buku-kerja/post-test', [TestController::class, 'submitPostTest'])->name('respondent.posttest.submit');
 
-    // Auto save
+    // Auto save jawaban
     Route::post('/buku-kerja/autosave', [TestController::class, 'autoSave'])->name('respondent.autosave');
 
     // Materi
@@ -78,9 +88,4 @@ Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
     // Export
     Route::get('/export/excel', [ExportController::class, 'exportExcel'])->name('admin.export.excel');
     Route::get('/export/csv', [ExportController::class, 'exportCsv'])->name('admin.export.csv');
-
-    // Admin login
-    Route::get('/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'showLogin'])->name('admin.login');
-    Route::post('/login', [\App\Http\Controllers\Admin\AdminAuthController::class, 'login'])->name('admin.login.post');
-    Route::post('/logout', [\App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('admin.logout');
 });
