@@ -33,12 +33,13 @@ class MaterialController extends Controller
         return redirect()->route('admin.materials.index')->with('success', 'Materi berhasil ditambahkan.');
     }
 
-    public function edit(Material $material)
+    // ✅ Ganti $material → $materi agar cocok dengan route {materi}
+    public function edit(Material $materi)
     {
-        return view('admin.materials.edit', compact('material'));
+        return view('admin.materials.edit', ['material' => $materi]);
     }
 
-    public function update(Request $request, Material $material)
+    public function update(Request $request, Material $materi)
     {
         $request->validate([
             'title'       => 'required|string|max:255',
@@ -49,13 +50,13 @@ class MaterialController extends Controller
             'order'       => 'required|integer',
         ]);
 
-        $material->update($request->all());
+        $materi->update($request->all());
         return redirect()->route('admin.materials.index')->with('success', 'Materi berhasil diupdate.');
     }
 
-    public function destroy(Material $material)
+    public function destroy(Material $materi)
     {
-        $material->delete();
+        $materi->delete();
         return redirect()->route('admin.materials.index')->with('success', 'Materi berhasil dihapus.');
     }
 }

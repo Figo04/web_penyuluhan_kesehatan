@@ -104,7 +104,7 @@
 <div class="materials-list">
     @foreach($materials as $material)
     @php
-        $isRead = $readMaterialIds->contains($material->id);
+        $isRead = in_array($material->id, $readMaterialIds);
         $emoji = $material->type === 'video' ? '🎬' : ($material->type === 'pdf' ? '📄' : '📝');
     @endphp
     <div class="material-card {{ $isRead ? 'read' : '' }}">

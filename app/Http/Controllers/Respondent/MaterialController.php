@@ -17,9 +17,9 @@ class MaterialController extends Controller
         }
 
         $materials = Material::orderBy('order')->get();
-        $readIds = $respondent->materialReads()->pluck('material_id')->toArray();
+        $readMaterialIds = $respondent->materialReads()->pluck('material_id')->toArray();
+return view('respondent.material', compact('materials', 'readMaterialIds', 'respondent'));
 
-        return view('respondent.material', compact('materials', 'readIds', 'respondent'));
     }
 
     public function markAsRead($id)

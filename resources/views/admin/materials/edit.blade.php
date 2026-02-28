@@ -15,7 +15,7 @@
 </div>
 
 <div class="card" style="padding:32px;max-width:680px;">
-    <form method="POST" action="{{ route('admin.materials.update', $material) }}">
+    <form method="POST" action="{{ route('admin.materials.update', ['materi' => $material]) }}">
         @csrf
         @method('PUT')
 
@@ -46,10 +46,10 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Durasi (menit)</label>
+                <label class="form-label">Durasi (menit) <span style="font-weight:400;color:var(--text-muted);font-size:12px;">— opsional</span></label>
                 <input type="number" name="duration" class="form-input"
-                    placeholder="Contoh: 10"
-                    value="{{ old('duration', $material->duration) }}" min="1" required>
+                    placeholder="Contoh: 10 (untuk video)"
+                    value="{{ old('duration', $material->duration) }}" min="1">
                 @error('duration') <div style="font-size:13px;color:var(--danger);margin-top:5px;">{{ $message }}</div> @enderror
             </div>
         </div>
