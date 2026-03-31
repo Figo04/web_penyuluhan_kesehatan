@@ -11,13 +11,13 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #1a7a5e;
-            --primary-dark: #155f49;
-            --primary-light: #e8f5f0;
-            --accent: #34c68a;
-            --sidebar-bg: #0f1f1a;
-            --sidebar-hover: #1a3329;
-            --sidebar-active: #1a7a5e;
+            --primary: #5EE9C7;
+            --primary-dark: #3dc9a7;
+            --primary-light: #edfdf9;
+            --accent: #5EE9C7;
+            --sidebar-bg: #0a2a26;
+            --sidebar-hover: #0d3530;
+            --sidebar-active: #5EE9C7;
             --sidebar-text: #94a3a0;
             --sidebar-text-active: #ffffff;
             --text-dark: #111827;
@@ -94,7 +94,7 @@
             transition: all 0.15s;
         }
         .sidebar-link:hover { background: var(--sidebar-hover); color: white; }
-        .sidebar-link.active { background: var(--sidebar-active); color: white; }
+        .sidebar-link.active { background: var(--sidebar-active); color: #111827; }
         .sidebar-link svg { width: 17px; height: 17px; flex-shrink: 0; }
 
         .sidebar-footer {
@@ -126,7 +126,7 @@
         .stat-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
         .stat-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .stat-icon svg { width: 20px; height: 20px; }
-        .stat-icon-teal { background: #e8f5f0; color: var(--primary); }
+        .stat-icon-teal { background: #edfdf9; color: var(--primary); }
         .stat-icon-blue { background: #eff6ff; color: #3b82f6; }
         .stat-icon-purple { background: #f5f3ff; color: #8b5cf6; }
         .stat-icon-amber { background: #fffbeb; color: #f59e0b; }
@@ -142,7 +142,7 @@
 
         .btn { display: inline-flex; align-items: center; gap: 7px; padding: 10px 18px; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.15s; }
         .btn svg { width: 15px; height: 15px; }
-        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary { background: var(--primary); color: #111827; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-outline { background: transparent; color: var(--text-dark); border: 1px solid var(--border); }
         .btn-outline:hover { background: var(--bg); }

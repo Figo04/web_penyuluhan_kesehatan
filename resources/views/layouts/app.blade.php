@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'SehatEdukasi') — Platform Penyuluhan Kesehatan Digital</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" href="{{ asset('kemen_icon.png') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #1a7a5e;
-            --primary-dark: #155f49;
-            --primary-light: #e8f5f0;
-            --primary-mid: #2d9b76;
-            --accent: #34c68a;
+            --primary: #5EE9C7;
+            --primary-dark: #3dc9a7;
+            --primary-light: #edfdf9;
+            --primary-mid: #4ed4b3;
+            --accent: #5EE9C7;
             --text-dark: #111827;
             --text-mid: #374151;
             --text-muted: #6b7280;
@@ -51,7 +51,7 @@
         .nav-links { display: flex; align-items: center; gap: 2px; flex: 1; }
         .nav-link { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-sm); text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 14px; transition: all 0.15s; white-space: nowrap; }
         .nav-link:hover { background: var(--bg); color: var(--text-dark); }
-        .nav-link.active { background: var(--primary); color: white; }
+        .nav-link.active { background: var(--primary); color: #111827; }
         .nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
         .nav-logout { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-sm); color: var(--text-muted); font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
         .nav-logout:hover { color: var(--danger); background: #fef2f2; }
@@ -96,7 +96,7 @@
         /* COMPONENTS */
         .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
         .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
-        .btn-primary { background: var(--primary); color: white; width: 100%; justify-content: center; padding: 14px 20px; font-size: 15px; border-radius: var(--radius-sm); }
+        .btn-primary { background: var(--primary); color: #111827; width: 100%; justify-content: center; padding: 14px 20px; font-size: 15px; border-radius: var(--radius-sm); }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-outline { background: transparent; color: var(--text-dark); border: 1px solid var(--border); }
         .btn-outline:hover { background: var(--bg); }
@@ -133,9 +133,9 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="{{ route('respondent.home') }}" class="nav-brand">
-                <div class="nav-brand-avatar">S</div>
-                SehatEdukasi
-            </a>
+    <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:32px; height:32px; border-radius:8px; object-fit:contain;">
+    SehatEdukasi
+</a>
             <div class="nav-links">
                 <a href="{{ route('respondent.home') }}" class="nav-link {{ request()->routeIs('respondent.home') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>

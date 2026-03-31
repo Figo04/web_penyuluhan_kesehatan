@@ -152,6 +152,21 @@
         .form-error { font-size: 13px; color: #dc2626; margin-top: 6px; }
         .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+        }
+
         .btn-primary {
             display: flex;
             align-items: center;
@@ -181,12 +196,19 @@
             z-index: 1;
         }
         .footer-link a { color: white; font-weight: 600; text-decoration: underline; }
+
+        /* Input number hide arrows */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
     </style>
 </head>
 <body>
     <div class="page-header">
         <a href="{{ route('login') }}" class="back-btn">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
         </a>
         <h1>Daftar Akun Baru</h1>
     </div>
@@ -198,7 +220,9 @@
 
         <div class="card-avatar">
             <div class="avatar-circle">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
             </div>
             <span class="avatar-label">Data Diri Responden</span>
         </div>
@@ -206,15 +230,23 @@
         <form method="POST" action="{{ route('register') }}">
             @csrf
 
+            {{-- SECTION: Identitas --}}
+            <p class="section-title">Identitas</p>
+
             <div class="form-group">
                 <label class="form-label">Nama Lengkap</label>
-                <input type="text" name="name" class="form-input" placeholder="Masukkan nama lengkap" value="{{ old('name') }}" required>
+                <input type="text" name="name" class="form-input"
+                    placeholder="Masukkan nama lengkap"
+                    value="{{ old('name') }}" required>
                 @error('name') <div class="form-error">{{ $message }}</div> @enderror
             </div>
 
             <div class="form-group">
                 <label class="form-label">Umur</label>
-                <input type="number" name="age" class="form-input" placeholder="Masukkan umur" value="{{ old('age') }}" min="10" max="120" required>
+                <input type="number" name="age" class="form-input"
+                    placeholder="Masukkan umur"
+                    value="{{ old('age') }}"
+                    min="10" max="120" required>
                 @error('age') <div class="form-error">{{ $message }}</div> @enderror
             </div>
 
@@ -222,25 +254,32 @@
                 <label class="form-label">Jenis Kelamin</label>
                 <div class="radio-group">
                     <label class="radio-label">
-                        <input type="radio" name="gender" value="laki-laki" {{ old('gender') == 'laki-laki' ? 'checked' : '' }} required>
+                        <input type="radio" name="gender" value="laki-laki"
+                            {{ old('gender') == 'laki-laki' ? 'checked' : '' }} required>
                         Laki-laki
                     </label>
                     <label class="radio-label">
-                        <input type="radio" name="gender" value="perempuan" {{ old('gender') == 'perempuan' ? 'checked' : '' }}>
+                        <input type="radio" name="gender" value="perempuan"
+                            {{ old('gender') == 'perempuan' ? 'checked' : '' }}>
                         Perempuan
                     </label>
                 </div>
                 @error('gender') <div class="form-error">{{ $message }}</div> @enderror
             </div>
 
+            <div class="divider"></div>
+
+            {{-- SECTION: Status & Pekerjaan --}}
+            <p class="section-title">Status & Pekerjaan</p>
+
             <div class="form-group">
                 <label class="form-label">Status Perkawinan</label>
                 <select name="marital_status" class="form-input" required>
                     <option value="" disabled {{ !old('marital_status') ? 'selected' : '' }}>Pilih status perkawinan</option>
-                    <option value="belum menikah" {{ old('marital_status') == 'belum menikah' ? 'selected' : '' }}>Belum Menikah</option>
-                    <option value="menikah" {{ old('marital_status') == 'menikah' ? 'selected' : '' }}>Menikah</option>
-                    <option value="cerai hidup" {{ old('marital_status') == 'cerai hidup' ? 'selected' : '' }}>Cerai Hidup</option>
-                    <option value="cerai mati" {{ old('marital_status') == 'cerai mati' ? 'selected' : '' }}>Cerai Mati</option>
+                    <option value="belum menikah"  {{ old('marital_status') == 'belum menikah'  ? 'selected' : '' }}>Belum Menikah</option>
+                    <option value="menikah"        {{ old('marital_status') == 'menikah'        ? 'selected' : '' }}>Menikah</option>
+                    <option value="cerai hidup"    {{ old('marital_status') == 'cerai hidup'    ? 'selected' : '' }}>Cerai Hidup</option>
+                    <option value="cerai mati"     {{ old('marital_status') == 'cerai mati'     ? 'selected' : '' }}>Cerai Mati</option>
                 </select>
                 @error('marital_status') <div class="form-error">{{ $message }}</div> @enderror
             </div>
@@ -249,23 +288,49 @@
                 <label class="form-label">Pekerjaan</label>
                 <select name="occupation" class="form-input" required>
                     <option value="" disabled {{ !old('occupation') ? 'selected' : '' }}>Pilih pekerjaan</option>
-                    <option value="PNS" {{ old('occupation') == 'PNS' ? 'selected' : '' }}>PNS</option>
-                    <option value="Swasta" {{ old('occupation') == 'Swasta' ? 'selected' : '' }}>Karyawan Swasta</option>
-                    <option value="Wiraswasta" {{ old('occupation') == 'Wiraswasta' ? 'selected' : '' }}>Wiraswasta</option>
-                    <option value="Petani" {{ old('occupation') == 'Petani' ? 'selected' : '' }}>Petani</option>
-                    <option value="IRT" {{ old('occupation') == 'IRT' ? 'selected' : '' }}>Ibu Rumah Tangga</option>
-                    <option value="Pelajar" {{ old('occupation') == 'Pelajar' ? 'selected' : '' }}>Pelajar/Mahasiswa</option>
-                    <option value="Tidak Bekerja" {{ old('occupation') == 'Tidak Bekerja' ? 'selected' : '' }}>Tidak Bekerja</option>
-                    <option value="Lainnya" {{ old('occupation') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                    <option value="PNS"          {{ old('occupation') == 'PNS'          ? 'selected' : '' }}>PNS</option>
+                    <option value="Swasta"       {{ old('occupation') == 'Swasta'       ? 'selected' : '' }}>Karyawan Swasta</option>
+                    <option value="Wiraswasta"   {{ old('occupation') == 'Wiraswasta'   ? 'selected' : '' }}>Wiraswasta</option>
+                    <option value="Petani"       {{ old('occupation') == 'Petani'       ? 'selected' : '' }}>Petani</option>
+                    <option value="IRT"          {{ old('occupation') == 'IRT'          ? 'selected' : '' }}>Ibu Rumah Tangga</option>
+                    <option value="Pelajar"      {{ old('occupation') == 'Pelajar'      ? 'selected' : '' }}>Pelajar/Mahasiswa</option>
+                    <option value="Tidak Bekerja"{{ old('occupation') == 'Tidak Bekerja'? 'selected' : '' }}>Tidak Bekerja</option>
+                    <option value="Lainnya"      {{ old('occupation') == 'Lainnya'      ? 'selected' : '' }}>Lainnya</option>
                 </select>
                 @error('occupation') <div class="form-error">{{ $message }}</div> @enderror
             </div>
+
+            <div class="divider"></div>
+
+            {{-- SECTION: Data Anak --}}
+            <p class="section-title">Data Anak</p>
+
+            <div class="form-group">
+                <label class="form-label">Jumlah Anak</label>
+                <input type="number" name="total_children" class="form-input"
+                    placeholder="Masukkan jumlah anak"
+                    value="{{ old('total_children') }}"
+                    min="0" max="20" required>
+                @error('total_children') <div class="form-error">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="divider"></div>
+
+            {{-- SECTION: Riwayat Kesehatan --}}
+            <p class="section-title">Riwayat Kesehatan</p>
 
             <div class="form-group">
                 <label class="form-label">Riwayat Penyakit</label>
                 <div class="checkbox-list">
                     @php
-                        $diseases = ['Hipertensi (Tekanan Darah Tinggi)', 'Diabetes Mellitus (Penyakit Gula)', 'Hiperkolesterolemia (Kolesterol Tinggi)', 'Stroke', 'Penyakit Jantung', 'Tidak Ada'];
+                        $diseases = [
+                            'Hipertensi (Tekanan Darah Tinggi)',
+                            'Diabetes Mellitus (Penyakit Gula)',
+                            'Hiperkolesterolemia (Kolesterol Tinggi)',
+                            'Stroke',
+                            'Penyakit Jantung',
+                            'Tidak Ada',
+                        ];
                         $oldMedical = old('medical_history', []);
                     @endphp
                     @foreach($diseases as $disease)
@@ -281,7 +346,9 @@
 
             <button type="submit" class="btn-primary">
                 Daftar &amp; Mulai
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
             </button>
         </form>
     </div>

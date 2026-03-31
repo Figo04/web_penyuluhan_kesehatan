@@ -11,8 +11,8 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #1a7a5e;
-            --primary-dark: #155f49;
+            --primary: #5EE9C7;
+            --primary-dark: #3dc9a7;
             --border: #e5e7eb;
             --text-dark: #111827;
             --text-muted: #6b7280;
@@ -23,7 +23,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a7a5e 0%, #155f49 40%, #0f4035 100%);
+            background: linear-gradient(135deg, #5EE9C7 0%, #3dc9a7 40%, #2aab8a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,8 +37,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 70% 20%, rgba(52,198,138,0.15) 0%, transparent 60%),
-                        radial-gradient(ellipse at 20% 80%, rgba(26,122,94,0.2) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
         }
 
         .logo-wrap {
@@ -51,21 +51,18 @@
         }
 
         .logo-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(255,255,255,0.12);
+            width: 64px; height: 64px;
+            background: rgba(255,255,255,0.25);
             backdrop-filter: blur(10px);
             border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin-bottom: 16px;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .logo-icon svg { width: 32px; height: 32px; color: white; }
-        .logo-name { font-size: 26px; font-weight: 800; color: white; letter-spacing: -0.5px; }
-        .logo-sub { font-size: 14px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+        .logo-icon svg { width: 32px; height: 32px; color: #111827; }
+        .logo-name { font-size: 26px; font-weight: 800; color: #111827; letter-spacing: -0.5px; }
+        .logo-sub { font-size: 14px; color: rgba(0,0,0,0.5); margin-top: 4px; }
 
         .card {
             background: white;
@@ -75,10 +72,9 @@
             max-width: 420px;
             position: relative;
             z-index: 1;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
         }
 
-        /* TAB */
         .tab-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -90,104 +86,68 @@
         }
 
         .tab-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: var(--text-muted);
-            background: transparent;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 10px; border-radius: 8px; border: none;
+            font-family: inherit; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            color: var(--text-muted); background: transparent;
         }
 
         .tab-btn.active {
-            background: white;
-            color: var(--text-dark);
+            background: white; color: var(--text-dark);
             box-shadow: 0 1px 4px rgba(0,0,0,0.1);
         }
-
         .tab-btn svg { width: 15px; height: 15px; }
 
-        /* FORM */
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text-dark); }
         .form-input {
-            width: 100%;
-            padding: 13px 16px;
-            border: 1.5px solid var(--border);
-            border-radius: 9px;
-            font-family: inherit;
-            font-size: 15px;
-            color: var(--text-dark);
-            background: var(--bg);
-            outline: none;
-            transition: all 0.15s;
+            width: 100%; padding: 13px 16px;
+            border: 1.5px solid var(--border); border-radius: 9px;
+            font-family: inherit; font-size: 15px;
+            color: var(--text-dark); background: var(--bg);
+            outline: none; transition: all 0.15s;
         }
-        .form-input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(26,122,94,0.08); }
+        .form-input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(94,233,199,0.15); }
         .form-input::placeholder { color: var(--text-light); }
         .form-hint { font-size: 12.5px; color: var(--text-muted); margin-top: 6px; }
 
         .btn-primary {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 9px;
-            font-family: inherit;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.15s;
-            margin-top: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 14px;
+            background: var(--primary); color: #111827;
+            border: none; border-radius: 9px;
+            font-family: inherit; font-size: 15px; font-weight: 700;
+            cursor: pointer; transition: all 0.15s; margin-top: 8px;
         }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,122,94,0.3); }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(94,233,199,0.4); }
         .btn-primary:active { transform: translateY(0); }
         .btn-primary svg { width: 18px; height: 18px; }
 
         .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
-        /* FORM PANELS */
         .form-panel { display: none; }
         .form-panel.active { display: block; }
 
         .footer-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.65);
-            position: relative;
-            z-index: 1;
+            text-align: center; margin-top: 20px;
+            font-size: 14px; color: rgba(0,0,0,0.5);
+            position: relative; z-index: 1;
         }
-        .footer-link a { color: white; font-weight: 600; text-decoration: underline; }
+        .footer-link a { color: #111827; font-weight: 600; text-decoration: underline; }
 
         .copyright {
-            text-align: center;
-            margin-top: 16px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.35);
-            position: relative;
-            z-index: 1;
+            text-align: center; margin-top: 16px;
+            font-size: 12px; color: rgba(0,0,0,0.35);
+            position: relative; z-index: 1;
         }
     </style>
 </head>
 <body>
     <div class="logo-wrap">
         <div class="logo-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-        </div>
+    <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:40px; height:40px; object-fit:contain;">
+</div>
         <div class="logo-name">SehatEdukasi</div>
         <div class="logo-sub">Platform Penyuluhan Kesehatan Digital</div>
     </div>
@@ -200,7 +160,6 @@
             <div class="alert">{{ session('error') }}</div>
         @endif
 
-        <!-- TAB SWITCHER -->
         <div class="tab-group">
             <button class="tab-btn active" id="tab-respondent" onclick="switchTab('respondent')" type="button">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -216,7 +175,6 @@
             </button>
         </div>
 
-        <!-- FORM RESPONDEN -->
         <div class="form-panel active" id="panel-respondent">
             <form method="POST" action="{{ route('login.post') }}">
                 @csrf
@@ -237,7 +195,6 @@
             </form>
         </div>
 
-        <!-- FORM ADMIN -->
         <div class="form-panel" id="panel-admin">
             <form method="POST" action="{{ route('admin.login.post') }}">
                 @csrf
@@ -270,16 +227,12 @@
 
     <script>
         function switchTab(tab) {
-            // Update tab buttons
             document.getElementById('tab-respondent').classList.toggle('active', tab === 'respondent');
             document.getElementById('tab-admin').classList.toggle('active', tab === 'admin');
-
-            // Update panels
             document.getElementById('panel-respondent').classList.toggle('active', tab === 'respondent');
             document.getElementById('panel-admin').classList.toggle('active', tab === 'admin');
         }
 
-        // Jika ada error dari admin login, langsung tampilkan tab admin
         @if(session('active_tab') === 'admin' || old('email'))
             switchTab('admin');
         @endif
