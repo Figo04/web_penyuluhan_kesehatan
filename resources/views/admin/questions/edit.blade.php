@@ -4,6 +4,34 @@
 
 @push('styles')
 <style>
+    /* ── Format Toggle ── */
+    .format-toggle {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+    .format-card {
+        border: 2px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.18s;
+        background: var(--bg);
+        text-align: center;
+        user-select: none;
+    }
+    .format-card:hover { border-color: var(--primary); }
+    .format-card.active {
+        border-color: var(--primary);
+        background: #e6faf5;
+    }
+    .format-card .format-icon { font-size: 26px; margin-bottom: 6px; display: block; }
+    .format-card .format-title { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
+    .format-card .format-desc  { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .format-card.active .format-title { color: #065f46; }
+
+    /* ── MC Options ── */
     .option-row {
         display: flex;
         align-items: center;
@@ -72,6 +100,116 @@
         border-radius: 50%;
         display: block;
     }
+    .btn-add-option {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1.5px dashed var(--border);
+        border-radius: 8px;
+        color: var(--text-muted);
+        font-size: 13px;
+        font-weight: 600;
+        background: transparent;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.15s;
+        margin-top: 4px;
+    }
+    .btn-add-option:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-remove-option {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        border: 1px solid #fecaca;
+        background: transparent;
+        color: #ef4444;
+        cursor: pointer;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.15s;
+        font-family: inherit;
+        line-height: 1;
+    }
+    .btn-remove-option:hover { background: #fef2f2; }
+
+    /* ── Likert Preview ── */
+    .likert-preview {
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        overflow: hidden;
+        margin-bottom: 16px;
+    }
+    .likert-preview-header {
+        background: var(--bg);
+        padding: 12px 16px;
+        font-size: 12px;
+        color: var(--text-muted);
+        font-weight: 600;
+        border-bottom: 1px solid var(--border);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .likert-option-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--border);
+    }
+    .likert-option-row:last-child { border-bottom: none; }
+    .likert-badge {
+        min-width: 42px;
+        padding: 3px 8px;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 800;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    .likert-badge.ss  { background: #d1fae5; color: #065f46; }
+    .likert-badge.s   { background: #dbeafe; color: #1e40af; }
+    .likert-badge.r   { background: #f3f4f6; color: #6b7280; }
+    .likert-badge.ts  { background: #fef3c7; color: #92400e; }
+    .likert-badge.sts { background: #fee2e2; color: #991b1b; }
+    .likert-score-badge {
+        margin-left: auto;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 6px;
+    }
+    .score-high { background: #d1fae5; color: #065f46; }
+    .score-mid  { background: #f3f4f6; color: #374151; }
+    .score-low  { background: #fee2e2; color: #991b1b; }
+
+    /* Favourable toggle */
+    .fav-toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .fav-card {
+        border: 2px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: all 0.15s;
+        background: var(--bg);
+    }
+    .fav-card:hover { border-color: var(--primary); }
+    .fav-card.active-fav   { border-color: #10b981; background: #ecfdf5; }
+    .fav-card.active-unfav { border-color: #f59e0b; background: #fffbeb; }
+    .fav-card .fav-title { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+    .fav-card .fav-sub   { font-size: 12px; color: var(--text-muted); }
+    .fav-card.active-fav  .fav-title { color: #065f46; }
+    .fav-card.active-unfav .fav-title { color: #92400e; }
+
+    .panel-mc, .panel-likert { display: none; }
+    .panel-mc.visible, .panel-likert.visible { display: block; }
+
+    @media (max-width: 600px) {
+        .format-toggle, .fav-toggle-group { grid-template-columns: 1fr; }
+    }
 </style>
 @endpush
 
@@ -99,11 +237,27 @@
     </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.questions.update', $question) }}">
+    @php
+        $currentFormat  = old('question_format', $question->question_format ?? 'multiple_choice');
+        $currentFav     = old('is_favourable', $question->is_favourable ?? true);
+        $mcOptions      = $question->options->sortBy('label')->values();
+
+        // Cari index opsi yang benar
+        $correctIndex = null;
+        if ($currentFormat === 'multiple_choice') {
+            $labels = ['A','B','C','D','E'];
+            foreach ($mcOptions as $i => $opt) {
+                if ($opt->is_correct) { $correctIndex = $i; break; }
+            }
+        }
+    @endphp
+
+    <form method="POST" action="{{ route('admin.questions.update', $question) }}" id="questionForm">
         @csrf
         @method('PUT')
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+        {{-- Metadata --}}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
             <div class="form-group" style="margin-bottom:0;">
                 <label class="form-label">Tipe Soal</label>
                 <select name="type" class="form-input" required>
@@ -119,49 +273,146 @@
             </div>
         </div>
 
+        {{-- Teks Soal --}}
         <div class="form-group">
-            <label class="form-label">Teks Soal / Pertanyaan</label>
-            <textarea name="question_text" class="form-input" rows="3"
-                placeholder="Tulis pertanyaan di sini..." required>{{ old('question_text', $question->question_text) }}</textarea>
+            <label class="form-label">Teks Soal / Pernyataan</label>
+            <textarea name="question_text" class="form-input" rows="3" required>{{ old('question_text', $question->question_text) }}</textarea>
         </div>
 
-        <div style="margin-bottom:24px;">
-            <label class="form-label">Pilihan Jawaban</label>
-            <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
-                Edit pilihan jawaban, lalu klik lingkaran di kanan untuk menandai jawaban yang <strong>benar</strong>.
+        {{-- Format Toggle --}}
+        <div style="margin-bottom:8px;">
+            <label class="form-label">Format Soal</label>
+        </div>
+        <div class="format-toggle">
+            <div class="format-card {{ $currentFormat === 'multiple_choice' ? 'active' : '' }}"
+                 onclick="setFormat('multiple_choice')">
+                <span class="format-icon">🔤</span>
+                <div class="format-title">Pilihan Ganda (A–E)</div>
+                <div class="format-desc">Soal pengetahuan dengan satu jawaban benar</div>
+            </div>
+            <div class="format-card {{ $currentFormat === 'likert' ? 'active' : '' }}"
+                 onclick="setFormat('likert')">
+                <span class="format-icon">📊</span>
+                <div class="format-title">Skala Likert (Sikap)</div>
+                <div class="format-desc">SS / S / R / TS / STS — mengukur sikap responden</div>
+            </div>
+        </div>
+        <input type="hidden" name="question_format" id="questionFormat" value="{{ $currentFormat }}">
+
+        {{-- ════ Panel: Multiple Choice ════ --}}
+        <div class="panel-mc {{ $currentFormat === 'multiple_choice' ? 'visible' : '' }}"
+             id="panelMc">
+
+            <div style="margin-bottom:12px;">
+                <label class="form-label">Pilihan Jawaban</label>
+                <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+                    Edit pilihan jawaban. Klik lingkaran untuk menandai jawaban <strong>benar</strong>.
+                </div>
+
+                <div id="optionsList">
+                    @php
+                        $labels     = ['A','B','C','D','E'];
+                        $oldOptions = old('options');
+                    @endphp
+
+                    @if($oldOptions)
+                        {{-- Old input setelah validation error --}}
+                        @foreach($oldOptions as $i => $opt)
+                        <div class="option-row" id="optionRow{{ $i }}">
+                            <div class="option-label-badge">{{ $labels[$i] }}</div>
+                            <input type="text" name="options[{{ $i }}][text]"
+                                class="option-text-input"
+                                placeholder="Pilihan {{ $labels[$i] }}..."
+                                value="{{ $opt['text'] ?? '' }}"
+                                {{ $i < 2 ? 'required' : '' }}>
+                            <input type="radio" name="correct_option" value="{{ $i }}"
+                                id="correct_{{ $i }}" class="correct-radio"
+                                {{ old('correct_option') == $i ? 'checked' : '' }}>
+                            <label for="correct_{{ $i }}" class="correct-check"></label>
+                            @if($i >= 2)
+                            <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
+                            @endif
+                        </div>
+                        @endforeach
+                    @else
+                        {{-- Data dari database --}}
+                        @foreach($mcOptions as $i => $opt)
+                        <div class="option-row" id="optionRow{{ $i }}">
+                            <div class="option-label-badge">{{ $labels[$i] ?? chr(65+$i) }}</div>
+                            <input type="text" name="options[{{ $i }}][text]"
+                                class="option-text-input"
+                                placeholder="Pilihan {{ $labels[$i] ?? chr(65+$i) }}..."
+                                value="{{ $opt->option_text }}"
+                                {{ $i < 2 ? 'required' : '' }}>
+                            <input type="radio" name="correct_option" value="{{ $i }}"
+                                id="correct_{{ $i }}" class="correct-radio"
+                                {{ $opt->is_correct ? 'checked' : '' }}>
+                            <label for="correct_{{ $i }}" class="correct-check"></label>
+                            @if($i >= 2)
+                            <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
+                            @endif
+                        </div>
+                        @endforeach
+                    @endif
+                </div>
+
+                @php $currentOptionCount = $oldOptions ? count($oldOptions) : $mcOptions->count(); @endphp
+
+                <button type="button" class="btn-add-option" id="btnAddOption"
+                    onclick="addOption()" {{ $currentOptionCount >= 5 ? 'style=display:none' : '' }}>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Tambah Pilihan
+                </button>
+
+                @error('correct_option')
+                    <div style="font-size:13px;color:var(--danger);margin-top:8px;">{{ $message }}</div>
+                @enderror
             </div>
 
-            @php
-                $labels  = ['A', 'B', 'C', 'D'];
-                $options = $question->options->sortBy('label')->values();
-            @endphp
-
-            @foreach($labels as $i => $label)
-            @php $opt = $options[$i] ?? null; @endphp
-            <label class="option-row" for="correct_{{ $i }}">
-                <div class="option-label-badge">{{ $label }}</div>
-                <input type="text" name="options[{{ $i }}][text]"
-                    class="option-text-input"
-                    placeholder="Pilihan {{ $label }}..."
-                    value="{{ old('options.' . $i . '.text', $opt ? $opt->option_text : '') }}"
-                    required>
-                <input type="radio" name="correct_option" value="{{ $i }}"
-                    id="correct_{{ $i }}"
-                    class="correct-radio"
-                    {{ old('correct_option', $opt && $opt->is_correct ? $i : null) == $i ? 'checked' : '' }}>
-                <div class="correct-check" title="Tandai sebagai jawaban benar"></div>
-            </label>
-            @endforeach
-
-            @error('correct_option')
-                <div style="font-size:13px;color:var(--danger);margin-top:6px;">{{ $message }}</div>
-            @enderror
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#166534;">
+                💡 <strong>Tips:</strong> Klik pada baris pilihan untuk menandai sebagai jawaban benar. Setiap jawaban benar bernilai <strong>10 poin</strong>.
+            </div>
         </div>
 
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#166534;">
-            💡 <strong>Tips:</strong> Klik pada baris pilihan untuk menandai sebagai jawaban benar. Pilihan yang benar akan berwarna hijau.
+        {{-- ════ Panel: Likert ════ --}}
+        <div class="panel-likert {{ $currentFormat === 'likert' ? 'visible' : '' }}"
+             id="panelLikert">
+
+            <div style="margin-bottom:8px;">
+                <label class="form-label">Arah Pernyataan</label>
+                <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+                    Tentukan apakah pernyataan ini mendukung atau menentang pencegahan stunting.
+                </div>
+            </div>
+
+            <div class="fav-toggle-group">
+                <div class="fav-card {{ $currentFav ? 'active-fav' : '' }}"
+                     onclick="setFavourable(true)" id="cardFav">
+                    <div class="fav-title">✅ Favourable</div>
+                    <div class="fav-sub">Mendukung pencegahan stunting<br>SS=5 · S=4 · R=3 · TS=2 · STS=1</div>
+                </div>
+                <div class="fav-card {{ !$currentFav ? 'active-unfav' : '' }}"
+                     onclick="setFavourable(false)" id="cardUnfav">
+                    <div class="fav-title">❌ Unfavourable</div>
+                    <div class="fav-sub">Menentang pencegahan stunting<br>SS=1 · S=2 · R=3 · TS=4 · STS=5</div>
+                </div>
+            </div>
+            <input type="hidden" name="is_favourable" id="isFavourable"
+                   value="{{ $currentFav ? '1' : '0' }}">
+
+            <div style="margin-bottom:8px;">
+                <label class="form-label">Preview Skala Jawaban</label>
+            </div>
+            <div class="likert-preview" id="likertPreview"></div>
+
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#1e40af;">
+                📊 <strong>Info:</strong> Pilihan jawaban Likert sudah otomatis diisi (STS/TS/R/S/SS). Skor dihitung otomatis sesuai arah pernyataan.
+            </div>
         </div>
 
+        {{-- Submit --}}
         <div style="display:flex;gap:12px;">
             <button type="submit" class="btn btn-primary" style="width:auto;">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -171,4 +422,95 @@
         </div>
     </form>
 </div>
+
+@push('scripts')
+<script>
+let currentFormat = '{{ $currentFormat }}';
+let isFavourable  = {{ $currentFav ? 'true' : 'false' }};
+let optionCount   = {{ $currentOptionCount }};
+const MAX_OPTIONS = 5;
+const labels      = ['A','B','C','D','E'];
+
+function setFormat(format) {
+    currentFormat = format;
+    document.getElementById('questionFormat').value = format;
+    document.querySelectorAll('.format-card').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.format-card')[format === 'multiple_choice' ? 0 : 1].classList.add('active');
+    document.getElementById('panelMc').classList.toggle('visible', format === 'multiple_choice');
+    document.getElementById('panelLikert').classList.toggle('visible', format === 'likert');
+    toggleMcInputs(format === 'multiple_choice');
+}
+
+function toggleMcInputs(enabled) {
+    document.querySelectorAll('#optionsList input').forEach(el => { el.disabled = !enabled; });
+}
+
+function setFavourable(fav) {
+    isFavourable = fav;
+    document.getElementById('isFavourable').value = fav ? '1' : '0';
+    document.getElementById('cardFav').className    = 'fav-card' + (fav  ? ' active-fav'   : '');
+    document.getElementById('cardUnfav').className  = 'fav-card' + (!fav ? ' active-unfav' : '');
+    renderLikertPreview();
+}
+
+const LIKERT = [
+    { label:'STS', text:'Sangat Tidak Setuju', cls:'sts' },
+    { label:'TS',  text:'Tidak Setuju',        cls:'ts'  },
+    { label:'R',   text:'Ragu-ragu / Netral',  cls:'r'   },
+    { label:'S',   text:'Setuju',              cls:'s'   },
+    { label:'SS',  text:'Sangat Setuju',       cls:'ss'  },
+];
+
+function renderLikertPreview() {
+    const scores = isFavourable ? [1,2,3,4,5] : [5,4,3,2,1];
+    let html = '';
+    LIKERT.forEach((opt, i) => {
+        const score    = scores[i];
+        const scoreCls = score >= 4 ? 'score-high' : score == 3 ? 'score-mid' : 'score-low';
+        html += `
+        <div class="likert-option-row">
+            <span class="likert-badge ${opt.cls}">${opt.label}</span>
+            <span style="font-size:14px;color:var(--text-dark);">${opt.text}</span>
+            <span class="likert-score-badge ${scoreCls}">Skor ${score}</span>
+        </div>`;
+    });
+    document.getElementById('likertPreview').innerHTML =
+        '<div class="likert-preview-header">Pilihan jawaban yang akan tampil ke responden</div>' + html;
+}
+
+function addOption() {
+    if (optionCount >= MAX_OPTIONS) return;
+    const idx  = optionCount;
+    const lbl  = labels[idx];
+    const list = document.getElementById('optionsList');
+    const row  = document.createElement('div');
+    row.className = 'option-row';
+    row.id = `optionRow${idx}`;
+    row.innerHTML = `
+        <div class="option-label-badge">${lbl}</div>
+        <input type="text" name="options[${idx}][text]"
+            class="option-text-input" placeholder="Pilihan ${lbl}...">
+        <input type="radio" name="correct_option" value="${idx}"
+            id="correct_${idx}" class="correct-radio">
+        <label for="correct_${idx}" class="correct-check"></label>
+        <button type="button" class="btn-remove-option" onclick="removeOption(${idx})">×</button>
+    `;
+    list.appendChild(row);
+    optionCount++;
+    if (optionCount >= MAX_OPTIONS) document.getElementById('btnAddOption').style.display = 'none';
+}
+
+function removeOption(idx) {
+    const row = document.getElementById(`optionRow${idx}`);
+    if (row) row.remove();
+    optionCount--;
+    document.getElementById('btnAddOption').style.display = '';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderLikertPreview();
+    setFormat(currentFormat);
+});
+</script>
+@endpush
 @endsection

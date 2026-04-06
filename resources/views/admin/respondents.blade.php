@@ -29,7 +29,8 @@
                     <th>Kode</th>
                     <th>Nama</th>
                     <th>Umur</th>
-                    <th>Lokasi</th>
+<th style="text-align:center;">Jml Anak</th>
+<th>Lokasi</th>
                     <th style="text-align:center;">Pre</th>
                     <th style="text-align:center;">Post</th>
                 </tr>
@@ -40,7 +41,8 @@
                     <td><span style="font-size:12px;font-weight:600;color:var(--text-muted);font-family:monospace;">{{ $r->access_code }}</span></td>
                     <td style="font-weight:600;">{{ $r->name }}</td>
                     <td style="color:var(--text-muted);">{{ $r->age }}</td>
-                    <td style="color:var(--text-muted);">{{ $r->location ? $r->location->name : '—' }}</td>
+<td style="text-align:center;font-weight:600;">{{ $r->total_children ?? 0 }}</td>
+<td style="color:var(--text-muted);">{{ $r->location ? $r->location->name : '—' }}</td>
                     <td style="text-align:center;">
                         <span class="dot {{ $r->pre_test_done ? 'dot-green' : 'dot-gray' }}"></span>
                     </td>
@@ -50,7 +52,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" style="text-align:center;color:var(--text-muted);padding:32px;">Belum ada responden terdaftar.</td>
+                    <td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px;">Belum ada responden terdaftar.</td>
                 </tr>
                 @endforelse
             </tbody>

@@ -10,8 +10,10 @@ return new class extends Migration
         Schema::create('question_options', function (Blueprint $table) {
             $table->id();
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
-            $table->string('label'); // A, B, C, D
-            $table->text('option_text'); // isi pilihan jawaban
+            $table->string('label');
+            $table->text('option_text');
+            $table->boolean('is_correct')->default(false);
+            $table->integer('score')->default(0);
             $table->timestamps();
         });
     }

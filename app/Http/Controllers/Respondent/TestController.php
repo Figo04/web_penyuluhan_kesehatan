@@ -118,7 +118,9 @@ class TestController extends Controller
             'post_test_at'   => now(),
         ]);
 
-        return redirect()->route('respondent.home')->with('success', 'Post-Test berhasil dikumpulkan! Terima kasih.');
+        return redirect()->route('respondent.home')
+    ->with('success', 'Pre-Test berhasil dikumpulkan!')
+    ->with('show_highlight', true);
     }
 
     public function autoSave(Request $request)

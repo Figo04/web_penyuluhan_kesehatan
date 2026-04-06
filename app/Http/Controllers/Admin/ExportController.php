@@ -18,7 +18,7 @@ class ExportController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // ── Header ──────────────────────────────────────────────
-        $headers = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Riwayat Penyakit', 'Lokasi'];
+        $headers = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Jumlah Anak', 'Riwayat Penyakit', 'Lokasi'];
         foreach ($preQuestions as $q)  $headers[] = 'Pre Q'  . $q->order;
         foreach ($postQuestions as $q) $headers[] = 'Post Q' . $q->order;
         $headers[] = 'Pre-Test Selesai';
@@ -56,6 +56,7 @@ class ExportController extends Controller
                 $r->gender,
                 $r->marital_status,
                 $r->occupation,
+                $r->total_children ?? 0,
                 $medicalHistory,
                 $r->location ? $r->location->name : '-',
             ];

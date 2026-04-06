@@ -49,6 +49,8 @@ class RespondentAuthController extends Controller
             'gender'         => 'required|in:laki-laki,perempuan',
             'marital_status' => 'required|in:belum menikah,menikah,cerai hidup,cerai mati',
             'occupation'     => 'required|string|max:255',
+            'total_children'  => 'required|integer|min:0|max:20',
+'medical_history' => 'nullable|array',
             'medical_history'=> 'nullable|array',
             'location_id'    => 'nullable|exists:locations,id',
         ]);
