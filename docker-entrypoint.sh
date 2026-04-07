@@ -4,6 +4,9 @@ set -e
 echo "Running migrations..."
 php artisan migrate --force
 
+echo "Seeding admin..."
+php artisan db:seed --class=AdminSeeder --force
+
 echo "Caching config..."
 php artisan config:cache
 

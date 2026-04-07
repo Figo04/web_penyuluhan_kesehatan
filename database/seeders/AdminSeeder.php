@@ -8,11 +8,13 @@ use App\Models\User;
 class AdminSeeder extends Seeder
 {
     public function run(): void
-    {
-        User::create([
+{
+    User::firstOrCreate(
+        ['email' => 'admin@gmail.com'],
+        [
             'name' => 'Admin SehatEdukasi',
-            'email' => 'admin@gmail.com',
             'password' => Hash::make('admin123'),
-        ]);
-    }
+        ]
+    );
+}
 }
