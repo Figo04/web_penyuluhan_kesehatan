@@ -1,5 +1,3 @@
-Copy
-
 FROM php:8.4-cli
  
 # Install system dependencies
