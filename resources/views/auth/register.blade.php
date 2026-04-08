@@ -11,8 +11,8 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #1a7a5e;
-            --primary-dark: #155f49;
+            --primary: #5EE9C7;
+            --primary-dark: #3dc9a7;
             --border: #e5e7eb;
             --text-dark: #111827;
             --text-muted: #6b7280;
@@ -23,7 +23,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a7a5e 0%, #155f49 40%, #0f4035 100%);
+            background: linear-gradient(135deg, #5EE9C7 0%, #3dc9a7 40%, #2aab8a 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -36,7 +36,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 70% 20%, rgba(52,198,138,0.12) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.2) 0%, transparent 60%),
+                        radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
         }
 
         .page-header {
@@ -57,16 +58,16 @@
             width: 36px;
             height: 36px;
             border-radius: 9px;
-            background: rgba(255,255,255,0.12);
-            color: white;
+            background: rgba(255,255,255,0.25);
+            color: #111827;
             text-decoration: none;
             transition: background 0.15s;
             flex-shrink: 0;
         }
-        .back-btn:hover { background: rgba(255,255,255,0.2); }
+        .back-btn:hover { background: rgba(255,255,255,0.4); }
         .back-btn svg { width: 18px; height: 18px; }
 
-        .page-header h1 { font-size: 22px; font-weight: 800; color: white; }
+        .page-header h1 { font-size: 22px; font-weight: 800; color: #111827; }
 
         .card {
             background: white;
@@ -76,7 +77,7 @@
             max-width: 440px;
             position: relative;
             z-index: 1;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
         }
 
         .card-avatar {
@@ -96,7 +97,7 @@
             justify-content: center;
             margin-bottom: 8px;
         }
-        .avatar-circle svg { width: 26px; height: 26px; color: var(--primary); }
+        .avatar-circle svg { width: 26px; height: 26px; color: var(--primary-dark); }
         .avatar-label { font-size: 13px; color: var(--text-muted); font-weight: 500; }
 
         .form-group { margin-bottom: 20px; }
@@ -113,7 +114,11 @@
             outline: none;
             transition: all 0.15s;
         }
-        .form-input:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(26,122,94,0.08); }
+        .form-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(94,233,199,0.15);
+        }
         .form-input::placeholder { color: var(--text-light); }
 
         /* RADIO */
@@ -129,7 +134,7 @@
         .radio-label input[type="radio"] {
             width: 18px;
             height: 18px;
-            accent-color: var(--primary);
+            accent-color: var(--primary-dark);
         }
 
         /* CHECKBOXES */
@@ -145,18 +150,22 @@
         .checkbox-label input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: var(--primary);
+            accent-color: var(--primary-dark);
             flex-shrink: 0;
         }
 
         .form-error { font-size: 13px; color: #dc2626; margin-top: 6px; }
-        .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 24px 0;
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
         }
+
+        .divider { height: 1px; background: var(--border); margin: 24px 0; }
 
         .section-title {
             font-size: 12px;
@@ -175,7 +184,7 @@
             width: 100%;
             padding: 14px;
             background: var(--primary);
-            color: white;
+            color: #111827;
             border: none;
             border-radius: 9px;
             font-family: inherit;
@@ -185,17 +194,22 @@
             transition: all 0.15s;
             margin-top: 8px;
         }
-        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,122,94,0.3); }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(94,233,199,0.4);
+        }
+        .btn-primary:active { transform: translateY(0); }
 
         .footer-link {
             text-align: center;
             margin-top: 20px;
             font-size: 14px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(0,0,0,0.5);
             position: relative;
             z-index: 1;
         }
-        .footer-link a { color: white; font-weight: 600; text-decoration: underline; }
+        .footer-link a { color: #111827; font-weight: 600; text-decoration: underline; }
 
         /* Input number hide arrows */
         input[type=number]::-webkit-inner-spin-button,
@@ -288,14 +302,14 @@
                 <label class="form-label">Pekerjaan</label>
                 <select name="occupation" class="form-input" required>
                     <option value="" disabled {{ !old('occupation') ? 'selected' : '' }}>Pilih pekerjaan</option>
-                    <option value="PNS"          {{ old('occupation') == 'PNS'          ? 'selected' : '' }}>PNS</option>
-                    <option value="Swasta"       {{ old('occupation') == 'Swasta'       ? 'selected' : '' }}>Karyawan Swasta</option>
-                    <option value="Wiraswasta"   {{ old('occupation') == 'Wiraswasta'   ? 'selected' : '' }}>Wiraswasta</option>
-                    <option value="Petani"       {{ old('occupation') == 'Petani'       ? 'selected' : '' }}>Petani</option>
-                    <option value="IRT"          {{ old('occupation') == 'IRT'          ? 'selected' : '' }}>Ibu Rumah Tangga</option>
-                    <option value="Pelajar"      {{ old('occupation') == 'Pelajar'      ? 'selected' : '' }}>Pelajar/Mahasiswa</option>
-                    <option value="Tidak Bekerja"{{ old('occupation') == 'Tidak Bekerja'? 'selected' : '' }}>Tidak Bekerja</option>
-                    <option value="Lainnya"      {{ old('occupation') == 'Lainnya'      ? 'selected' : '' }}>Lainnya</option>
+                    <option value="PNS"           {{ old('occupation') == 'PNS'           ? 'selected' : '' }}>PNS</option>
+                    <option value="Swasta"        {{ old('occupation') == 'Swasta'        ? 'selected' : '' }}>Karyawan Swasta</option>
+                    <option value="Wiraswasta"    {{ old('occupation') == 'Wiraswasta'    ? 'selected' : '' }}>Wiraswasta</option>
+                    <option value="Petani"        {{ old('occupation') == 'Petani'        ? 'selected' : '' }}>Petani</option>
+                    <option value="IRT"           {{ old('occupation') == 'IRT'           ? 'selected' : '' }}>Ibu Rumah Tangga</option>
+                    <option value="Pelajar"       {{ old('occupation') == 'Pelajar'       ? 'selected' : '' }}>Pelajar/Mahasiswa</option>
+                    <option value="Tidak Bekerja" {{ old('occupation') == 'Tidak Bekerja' ? 'selected' : '' }}>Tidak Bekerja</option>
+                    <option value="Lainnya"       {{ old('occupation') == 'Lainnya'       ? 'selected' : '' }}>Lainnya</option>
                 </select>
                 @error('occupation') <div class="form-error">{{ $message }}</div> @enderror
             </div>
