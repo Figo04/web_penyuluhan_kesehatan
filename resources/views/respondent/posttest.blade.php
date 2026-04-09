@@ -113,7 +113,7 @@
         content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; display: block;
     }
 
-    /* ── Likert Options: vertikal berwarna ── */
+    /* ── Likert Options: vertikal berwarna via data-selected ── */
     .likert-list { display: flex; flex-direction: column; gap: 8px; }
     .likert-item {
         display: flex; align-items: center; gap: 12px; padding: 14px 16px;
@@ -132,37 +132,45 @@
     }
     .likert-full-text { font-size: 14px; color: var(--text-dark); font-weight: 500; transition: color 0.15s; }
 
-    .likert-item:not(:has(input:checked)):hover { border-color: var(--primary); background: var(--primary-light); }
-    .likert-item:has(input:checked) .likert-dot::after {
+    /* Hover — hanya item yang belum dipilih */
+    .likert-item:not([data-selected]):hover { border-color: var(--primary); background: var(--primary-light); }
+
+    /* Dot isi putih saat dipilih */
+    .likert-item[data-selected] .likert-dot::after {
         content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; display: block;
     }
 
-    .likert-item:has(input[value="STS"]:checked) { background: #fef2f2; border-color: #fca5a5; }
-    .likert-item:has(input[value="STS"]:checked) .likert-dot { background: #ef4444; border-color: #ef4444; }
-    .likert-item:has(input[value="STS"]:checked) .likert-abbr-text { color: #7f1d1d; }
-    .likert-item:has(input[value="STS"]:checked) .likert-full-text { color: #991b1b; }
+    /* STS — merah */
+    .likert-item[data-selected="STS"] { background: #fef2f2; border-color: #fca5a5; }
+    .likert-item[data-selected="STS"] .likert-dot { background: #ef4444; border-color: #ef4444; }
+    .likert-item[data-selected="STS"] .likert-abbr-text { color: #7f1d1d; }
+    .likert-item[data-selected="STS"] .likert-full-text { color: #991b1b; }
 
-    .likert-item:has(input[value="TS"]:checked) { background: #fffbeb; border-color: #fcd34d; }
-    .likert-item:has(input[value="TS"]:checked) .likert-dot { background: #f59e0b; border-color: #f59e0b; }
-    .likert-item:has(input[value="TS"]:checked) .likert-abbr-text { color: #451a03; }
-    .likert-item:has(input[value="TS"]:checked) .likert-full-text { color: #78350f; }
+    /* TS — kuning */
+    .likert-item[data-selected="TS"] { background: #fffbeb; border-color: #fcd34d; }
+    .likert-item[data-selected="TS"] .likert-dot { background: #f59e0b; border-color: #f59e0b; }
+    .likert-item[data-selected="TS"] .likert-abbr-text { color: #451a03; }
+    .likert-item[data-selected="TS"] .likert-full-text { color: #78350f; }
 
-    .likert-item:has(input[value="R"]:checked) { background: #f9fafb; border-color: #9ca3af; }
-    .likert-item:has(input[value="R"]:checked) .likert-dot { background: #6b7280; border-color: #6b7280; }
-    .likert-item:has(input[value="R"]:checked) .likert-abbr-text { color: #111827; }
-    .likert-item:has(input[value="R"]:checked) .likert-full-text { color: #374151; }
+    /* R — abu */
+    .likert-item[data-selected="R"] { background: #f9fafb; border-color: #9ca3af; }
+    .likert-item[data-selected="R"] .likert-dot { background: #6b7280; border-color: #6b7280; }
+    .likert-item[data-selected="R"] .likert-abbr-text { color: #111827; }
+    .likert-item[data-selected="R"] .likert-full-text { color: #374151; }
 
-    .likert-item:has(input[value="S"]:checked) { background: #eff6ff; border-color: #93c5fd; }
-    .likert-item:has(input[value="S"]:checked) .likert-dot { background: #3b82f6; border-color: #3b82f6; }
-    .likert-item:has(input[value="S"]:checked) .likert-abbr-text { color: #1e3a8a; }
-    .likert-item:has(input[value="S"]:checked) .likert-full-text { color: #1d4ed8; }
+    /* S — biru */
+    .likert-item[data-selected="S"] { background: #eff6ff; border-color: #93c5fd; }
+    .likert-item[data-selected="S"] .likert-dot { background: #3b82f6; border-color: #3b82f6; }
+    .likert-item[data-selected="S"] .likert-abbr-text { color: #1e3a8a; }
+    .likert-item[data-selected="S"] .likert-full-text { color: #1d4ed8; }
 
-    .likert-item:has(input[value="SS"]:checked) { background: #ecfdf5; border-color: #6ee7b7; }
-    .likert-item:has(input[value="SS"]:checked) .likert-dot { background: #10b981; border-color: #10b981; }
-    .likert-item:has(input[value="SS"]:checked) .likert-abbr-text { color: #064e3b; }
-    .likert-item:has(input[value="SS"]:checked) .likert-full-text { color: #047857; }
+    /* SS — hijau */
+    .likert-item[data-selected="SS"] { background: #ecfdf5; border-color: #6ee7b7; }
+    .likert-item[data-selected="SS"] .likert-dot { background: #10b981; border-color: #10b981; }
+    .likert-item[data-selected="SS"] .likert-abbr-text { color: #064e3b; }
+    .likert-item[data-selected="SS"] .likert-full-text { color: #047857; }
 
-    /* Lock & Done banners */
+    /* ── Lock & Done banners ── */
     .lock-banner {
         background: #fffbeb; border: 1px solid #fde68a;
         border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;
@@ -185,6 +193,14 @@
     .done-icon  { font-size: 40px; margin-bottom: 12px; }
     .done-title { font-size: 18px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
     .done-sub   { font-size: 14px; color: #047857; }
+
+    /* ── Error banner ── */
+    .error-banner {
+        background: #fef2f2; border: 1px solid #fca5a5;
+        border-radius: 10px; padding: 14px 18px;
+        margin-bottom: 16px; color: #991b1b;
+        font-size: 14px; font-weight: 600;
+    }
 
     .btn-submit {
         display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -293,6 +309,12 @@
         </div>
     </div>
 
+    @if($errors->any())
+    <div class="error-banner">
+        ⚠️ {{ $errors->first() }}
+    </div>
+    @endif
+
     <div class="progress-wrap">
         <div class="progress-header">
             <span>Progres pengisian</span>
@@ -324,11 +346,13 @@
                 @php $sortedOptions = $question->options->sortBy(fn($o) => $likertOrder[$o->label] ?? 99); @endphp
                 <div class="likert-list">
                     @foreach($sortedOptions as $option)
-                    <label class="likert-item">
+                    @php $isChecked = isset($answers[$question->id]) && $answers[$question->id]->question_option_id == $option->id; @endphp
+                    <label class="likert-item" {{ $isChecked ? 'data-selected="'.$option->label.'"' : '' }}>
                         <input type="radio"
                             name="answers[{{ $question->id }}]"
-                            value="{{ $option->label }}"
-                            {{ isset($answers[$question->id]) && $answers[$question->id]->question_option_id == $option->id ? 'checked' : '' }}
+                            value="{{ $option->id }}"
+                            data-label="{{ $option->label }}"
+                            {{ $isChecked ? 'checked' : '' }}
                             {{ $respondent->post_test_done ? 'disabled' : '' }}
                             onchange="autoSave({{ $question->id }}, {{ $option->id }})">
                         <div class="likert-dot"></div>
@@ -381,6 +405,24 @@ function toggleInstruction() {
     btn.classList.toggle('open', !open);
 }
 
+// Terapkan warna Likert via data-selected pada parent label
+document.querySelectorAll('.likert-item input[type="radio"]').forEach(function(input) {
+    // Saat user memilih
+    input.addEventListener('change', function() {
+        const name  = this.getAttribute('name');
+        const label = this.dataset.label;
+        const item  = this.closest('.likert-item');
+
+        // Reset semua item dalam grup yang sama
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function(i) {
+            i.closest('.likert-item').removeAttribute('data-selected');
+        });
+
+        // Tandai item yang dipilih
+        item.setAttribute('data-selected', label);
+    });
+});
+
 function autoSave(questionId, optionId) {
     fetch('{{ route('respondent.autosave') }}', {
         method: 'POST',
@@ -389,7 +431,7 @@ function autoSave(questionId, optionId) {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
         body: JSON.stringify({ question_id: questionId, question_option_id: optionId, test_type: 'post' })
-    }).then(() => updateProgress());
+    }).then(function() { updateProgress(); });
 }
 
 function updateProgress() {
