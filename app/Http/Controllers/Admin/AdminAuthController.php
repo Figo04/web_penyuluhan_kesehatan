@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 class AdminAuthController extends Controller
 {
     public function showLogin()
-    {
-        if (auth()->check()) {
-            return redirect()->route('admin.dashboard');
-        }
-        return view('auth.login');
+{
+    if (auth()->check()) {
+        return redirect()->route('admin.dashboard');
     }
+    return view('admin.login'); 
+}
 
     public function login(Request $request)
     {

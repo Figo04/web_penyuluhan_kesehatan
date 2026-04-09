@@ -60,7 +60,6 @@
             border: 1px solid rgba(255,255,255,0.3);
         }
 
-        .logo-icon svg { width: 32px; height: 32px; color: #111827; }
         .logo-name { font-size: 26px; font-weight: 800; color: #111827; letter-spacing: -0.5px; }
         .logo-sub { font-size: 14px; color: rgba(0,0,0,0.5); margin-top: 4px; }
 
@@ -75,32 +74,12 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
         }
 
-        .tab-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 4px;
-            margin-bottom: 28px;
-        }
-
-        .tab-btn {
-            display: flex; align-items: center; justify-content: center; gap: 7px;
-            padding: 10px; border-radius: 8px; border: none;
-            font-family: inherit; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: all 0.2s;
-            color: var(--text-muted); background: transparent;
-        }
-
-        .tab-btn.active {
-            background: white; color: var(--text-dark);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-        .tab-btn svg { width: 15px; height: 15px; }
+        .card-title { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+        .card-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 28px; }
 
         .form-group { margin-bottom: 20px; }
         .form-label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; color: var(--text-dark); }
+
         .form-input {
             width: 100%; padding: 13px 16px;
             border: 1.5px solid var(--border); border-radius: 9px;
@@ -126,9 +105,6 @@
 
         .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
-        .form-panel { display: none; }
-        .form-panel.active { display: block; }
-
         .footer-link {
             text-align: center; margin-top: 20px;
             font-size: 14px; color: rgba(0,0,0,0.5);
@@ -144,10 +120,11 @@
     </style>
 </head>
 <body>
+
     <div class="logo-wrap">
         <div class="logo-icon">
-    <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:40px; height:40px; object-fit:contain;">
-</div>
+            <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:40px; height:40px; object-fit:contain;">
+        </div>
         <div class="logo-name">SehatEdukasi</div>
         <div class="logo-sub">Platform Penyuluhan Kesehatan Digital</div>
     </div>
@@ -160,64 +137,31 @@
             <div class="alert">{{ session('error') }}</div>
         @endif
 
-        <div class="tab-group">
-            <button class="tab-btn active" id="tab-respondent" onclick="switchTab('respondent')" type="button">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-                </svg>
-                Responden
-            </button>
-            <button class="tab-btn" id="tab-admin" onclick="switchTab('admin')" type="button">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                </svg>
-                Admin
-            </button>
-        </div>
+        <div class="card-title">Selamat datang 👋</div>
+        <div class="card-sub">Daftar terlebih dahulu jika belum punya kode akses</div>
 
-        <div class="form-panel active" id="panel-respondent">
-            <form method="POST" action="{{ route('login.post') }}">
-                @csrf
-                <div class="form-group">
-                    <label class="form-label">Kode Akses</label>
-                    <input type="text" name="access_code" class="form-input"
-                        placeholder="Masukkan kode akses (cth: SEHAT001)"
-                        value="{{ old('access_code') }}"
-                        autocomplete="off">
-                    <div class="form-hint">Kode akses diberikan oleh petugas kesehatan</div>
-                </div>
-                <button type="submit" class="btn-primary">
-                    Masuk
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
-
-        <div class="form-panel" id="panel-admin">
-            <form method="POST" action="{{ route('admin.login.post') }}">
-                @csrf
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input"
-                        placeholder="Masukkan email admin"
-                        value="{{ old('email') }}"
-                        autocomplete="email">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Password Admin</label>
-                    <input type="password" name="password" class="form-input"
-                        placeholder="Masukkan password admin">
-                </div>
-                <button type="submit" class="btn-primary">
-                    Masuk
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                    </svg>
-                </button>
-            </form>
-        </div>
+        <form method="POST" action="{{ route('login.post') }}">
+            @csrf
+            <div class="form-group">
+                <label class="form-label">Kode Akses</label>
+                <input
+                    type="text"
+                    name="access_code"
+                    class="form-input"
+                    placeholder="Contoh: SEHAT001"
+                    value="{{ old('access_code') }}"
+                    autocomplete="off"
+                    autofocus
+                >
+                <div class="form-hint">Daftar terlebih dahulu jika belum punya kode akses</div>
+            </div>
+            <button type="submit" class="btn-primary">
+                Masuk
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+            </button>
+        </form>
     </div>
 
     <div class="footer-link">
@@ -225,17 +169,5 @@
     </div>
     <div class="copyright">© {{ date('Y') }} SehatEdukasi — Penyuluhan Kesehatan</div>
 
-    <script>
-        function switchTab(tab) {
-            document.getElementById('tab-respondent').classList.toggle('active', tab === 'respondent');
-            document.getElementById('tab-admin').classList.toggle('active', tab === 'admin');
-            document.getElementById('panel-respondent').classList.toggle('active', tab === 'respondent');
-            document.getElementById('panel-admin').classList.toggle('active', tab === 'admin');
-        }
-
-        @if(session('active_tab') === 'admin' || old('email'))
-            switchTab('admin');
-        @endif
-    </script>
 </body>
 </html>
