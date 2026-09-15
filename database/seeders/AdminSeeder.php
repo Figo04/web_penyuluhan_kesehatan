@@ -13,9 +13,9 @@ class AdminSeeder extends Seeder
         // ikut tersimpan di repositori. Set ADMIN_EMAIL & ADMIN_PASSWORD di server.
         $password = env('ADMIN_PASSWORD', 'admin123');
 
-        // Gagalkan deploy daripada diam-diam menyalakan server produksi dengan
-        // password yang tertulis di repositori. Entrypoint memakai `set -e`,
-        // jadi deploy berhenti dan pesan ini terlihat di log Railway.
+        // Berhenti daripada diam-diam menyalakan server produksi dengan password
+        // yang tertulis di repositori. Perintah seeder gagal dengan pesan ini,
+        // sehingga pemasangan tidak bisa lanjut tanpa menyetel ADMIN_PASSWORD.
         if (app()->environment('production') && $password === 'admin123') {
             throw new \RuntimeException(
                 'ADMIN_PASSWORD belum diset. Set environment variable ADMIN_PASSWORD '

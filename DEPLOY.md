@@ -215,10 +215,3 @@ pre-test, materi, post-test, dan kontrol akses admin.
 | Admin dapat 403 di `/admin` | Migrasi `is_admin` belum jalan → `php artisan migrate --force` |
 | Seeder berhenti dengan pesan ADMIN_PASSWORD | Memang disengaja. Set `ADMIN_PASSWORD` di `.env`, lalu ulangi |
 
----
-
-## Catatan
-
-Berkas `Dockerfile`, `docker-entrypoint.sh`, dan `railway.toml` adalah sisa deployment
-Railway sebelumnya. Tidak dipakai pada hosting cPanel dan tidak mengganggu — aman dihapus
-kalau memang tidak akan dipakai lagi.
