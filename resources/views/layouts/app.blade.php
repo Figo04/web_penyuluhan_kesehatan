@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'SehatEdukasi') — Platform Penyuluhan Kesehatan Digital</title>
+    <title>@yield('title', 'Kenali Stunting') — Platform Penyuluhan Kesehatan Digital</title>
     <link rel="icon" type="image/png" href="{{ asset('kemen_icon.png') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -134,7 +134,7 @@
         <div class="nav-inner">
             <a href="{{ route('respondent.home') }}" class="nav-brand">
     <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:32px; height:32px; border-radius:8px; object-fit:contain;">
-    SehatEdukasi
+    Kenali Stunting 
 </a>
             <div class="nav-links">
                 <a href="{{ route('respondent.home') }}" class="nav-link {{ request()->routeIs('respondent.home') ? 'active' : '' }}">

@@ -21,7 +21,6 @@
     .tab-link.active { background: var(--primary); color: white; }
     .tab-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    /* ── Petunjuk ── */
     .instruction-box {
         background: white; border: 1px solid var(--border);
         border-radius: 12px; margin-bottom: 20px;
@@ -73,13 +72,11 @@
     .chip-ts  { background: #fef3c7; color: #92400e; }
     .chip-sts { background: #fee2e2; color: #991b1b; }
 
-    /* ── Progress ── */
     .progress-wrap { margin-bottom: 20px; }
     .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
     .progress-bar { height: 6px; background: var(--bg); border-radius: 100px; overflow: hidden; border: 1px solid var(--border); }
     .progress-fill { height: 100%; background: var(--primary); border-radius: 100px; transition: width 0.3s ease; }
 
-    /* ── Question Card ── */
     .question-card {
         background: white; border-radius: 12px; border: 1px solid var(--border);
         padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow);
@@ -94,7 +91,6 @@
     .badge-mc     { background: #f3f4f6; color: #374151; }
     .badge-likert { background: #eff6ff; color: #1d4ed8; }
 
-    /* ── MC Options ── */
     .options-list { display: flex; flex-direction: column; gap: 8px; }
     .option-label {
         display: flex; align-items: center; gap: 12px; padding: 13px 16px;
@@ -113,7 +109,6 @@
         content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; display: block;
     }
 
-    /* ── Likert Options: vertikal berwarna via data-selected ── */
     .likert-list { display: flex; flex-direction: column; gap: 8px; }
     .likert-item {
         display: flex; align-items: center; gap: 12px; padding: 14px 16px;
@@ -126,57 +121,44 @@
         display: flex; align-items: center; justify-content: center;
         flex-shrink: 0; transition: all 0.15s;
     }
-    .likert-abbr-text {
-        font-size: 13px; font-weight: 800; min-width: 32px;
-        color: var(--text-muted); flex-shrink: 0; transition: color 0.15s;
-    }
+    .likert-abbr-text { font-size: 13px; font-weight: 800; min-width: 32px; color: var(--text-muted); flex-shrink: 0; transition: color 0.15s; }
     .likert-full-text { font-size: 14px; color: var(--text-dark); font-weight: 500; transition: color 0.15s; }
-
-    /* Hover — hanya item yang belum dipilih */
     .likert-item:not([data-selected]):hover { border-color: var(--primary); background: var(--primary-light); }
-
-    /* Dot isi putih saat dipilih */
-    .likert-item[data-selected] .likert-dot::after {
-        content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; display: block;
-    }
-
-    /* STS — merah */
+    .likert-item[data-selected] .likert-dot::after { content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; display: block; }
     .likert-item[data-selected="STS"] { background: #fef2f2; border-color: #fca5a5; }
     .likert-item[data-selected="STS"] .likert-dot { background: #ef4444; border-color: #ef4444; }
     .likert-item[data-selected="STS"] .likert-abbr-text { color: #7f1d1d; }
     .likert-item[data-selected="STS"] .likert-full-text { color: #991b1b; }
-
-    /* TS — kuning */
     .likert-item[data-selected="TS"] { background: #fffbeb; border-color: #fcd34d; }
     .likert-item[data-selected="TS"] .likert-dot { background: #f59e0b; border-color: #f59e0b; }
     .likert-item[data-selected="TS"] .likert-abbr-text { color: #451a03; }
     .likert-item[data-selected="TS"] .likert-full-text { color: #78350f; }
-
-    /* R — abu */
     .likert-item[data-selected="R"] { background: #f9fafb; border-color: #9ca3af; }
     .likert-item[data-selected="R"] .likert-dot { background: #6b7280; border-color: #6b7280; }
     .likert-item[data-selected="R"] .likert-abbr-text { color: #111827; }
     .likert-item[data-selected="R"] .likert-full-text { color: #374151; }
-
-    /* S — biru */
     .likert-item[data-selected="S"] { background: #eff6ff; border-color: #93c5fd; }
     .likert-item[data-selected="S"] .likert-dot { background: #3b82f6; border-color: #3b82f6; }
     .likert-item[data-selected="S"] .likert-abbr-text { color: #1e3a8a; }
     .likert-item[data-selected="S"] .likert-full-text { color: #1d4ed8; }
-
-    /* SS — hijau */
     .likert-item[data-selected="SS"] { background: #ecfdf5; border-color: #6ee7b7; }
     .likert-item[data-selected="SS"] .likert-dot { background: #10b981; border-color: #10b981; }
     .likert-item[data-selected="SS"] .likert-abbr-text { color: #064e3b; }
     .likert-item[data-selected="SS"] .likert-full-text { color: #047857; }
 
-    /* ── Error banner ── */
     .error-banner {
         background: #fef2f2; border: 1px solid #fca5a5;
         border-radius: 10px; padding: 14px 18px;
-        margin-bottom: 16px; color: #991b1b;
-        font-size: 14px; font-weight: 600;
+        margin-bottom: 16px; color: #991b1b; font-size: 14px; font-weight: 600;
     }
+
+    .done-banner {
+        background: #ecfdf5; border: 1px solid #a7f3d0;
+        border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;
+    }
+    .done-icon  { font-size: 40px; margin-bottom: 12px; }
+    .done-title { font-size: 18px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
+    .done-sub   { font-size: 14px; color: #047857; }
 
     .btn-submit {
         display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -186,13 +168,64 @@
     }
     .btn-submit:hover { background: var(--primary-dark); }
 
-    .done-banner {
-        background: #ecfdf5; border: 1px solid #a7f3d0;
-        border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;
+    /* ── Result Modal ── */
+    .result-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.6); z-index: 1000;
+        align-items: center; justify-content: center; padding: 16px;
     }
-    .done-icon  { font-size: 40px; margin-bottom: 12px; }
-    .done-title { font-size: 18px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
-    .done-sub   { font-size: 14px; color: #047857; }
+    .result-overlay.active { display: flex; }
+    .result-box {
+        background: white; border-radius: 20px;
+        width: 100%; max-width: 480px; overflow: hidden;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+        animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+        from { transform: translateY(30px); opacity: 0; }
+        to   { transform: translateY(0);    opacity: 1; }
+    }
+    .result-header {
+        padding: 28px 24px 20px; text-align: center;
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        border-bottom: 1px solid #a7f3d0;
+    }
+    .result-emoji  { font-size: 52px; margin-bottom: 10px; line-height: 1; }
+    .result-title  { font-size: 20px; font-weight: 800; color: #065f46; margin-bottom: 4px; }
+    .result-sub    { font-size: 14px; color: #047857; }
+    .result-body   { padding: 20px 24px; }
+    .result-section-title {
+        font-size: 11px; font-weight: 800; color: var(--text-muted);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        margin-bottom: 10px; margin-top: 16px;
+    }
+    .result-section-title:first-child { margin-top: 0; }
+    .result-row {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 14px; border-radius: 9px; margin-bottom: 6px;
+        background: var(--bg); border: 1px solid var(--border);
+    }
+    .result-row-label { font-size: 14px; color: var(--text-dark); font-weight: 500; display: flex; align-items: center; gap: 8px; }
+    .result-row-value { font-size: 15px; font-weight: 800; }
+    .value-correct { color: #059669; }
+    .value-wrong   { color: #ef4444; }
+    .value-score   { color: var(--primary); }
+    .value-likert  { color: #3b82f6; }
+    .result-score-big {
+        background: linear-gradient(135deg, var(--primary-light), #d1fae5);
+        border: 2px solid var(--primary); border-radius: 12px;
+        padding: 16px; text-align: center; margin: 16px 0 0;
+    }
+    .result-score-big .score-num   { font-size: 40px; font-weight: 800; color: #065f46; line-height: 1; }
+    .result-score-big .score-label { font-size: 13px; color: #047857; margin-top: 4px; font-weight: 600; }
+    .result-footer { padding: 16px 24px 24px; }
+    .btn-result-ok {
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        width: 100%; padding: 13px; background: var(--primary); color: white;
+        border: none; border-radius: 10px; font-family: inherit;
+        font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-result-ok:hover { background: var(--primary-dark); }
 </style>
 @endpush
 
@@ -225,9 +258,10 @@
     $mcCount     = $questions->where('question_format', 'multiple_choice')->count();
     $likertCount = $questions->where('question_format', 'likert')->count();
     $likertOrder = ['STS' => 1, 'TS' => 2, 'R' => 3, 'S' => 4, 'SS' => 5];
+    $answeredCount  = $answers->count();
+    $totalQuestions = $questions->count();
 @endphp
 
-{{-- Petunjuk --}}
 <div class="instruction-box">
     <div class="instruction-header" onclick="toggleInstruction()">
         <div class="instruction-header-left">
@@ -280,15 +314,8 @@
 @endif
 
 @if($errors->any())
-<div class="error-banner">
-    ⚠️ {{ $errors->first() }}
-</div>
+<div class="error-banner">⚠️ {{ $errors->first() }}</div>
 @endif
-
-@php
-    $answeredCount  = $answers->count();
-    $totalQuestions = $questions->count();
-@endphp
 
 <div class="progress-wrap">
     <div class="progress-header">
@@ -305,7 +332,6 @@
     @csrf
     @foreach($questions as $index => $question)
     <div class="question-card">
-
         @if($hasMc && $hasLikert)
             @if($question->question_format === 'likert')
                 <span class="question-format-badge badge-likert">📊 Sikap</span>
@@ -313,7 +339,6 @@
                 <span class="question-format-badge badge-mc">🔤 Pengetahuan</span>
             @endif
         @endif
-
         <div class="question-num">Soal {{ $index + 1 }}</div>
         <div class="question-text">{{ $question->question_text }}</div>
 
@@ -364,6 +389,63 @@
     </button>
     @endif
 </form>
+
+{{-- RESULT MODAL --}}
+@if(session('show_result') && session('result'))
+@php $r = session('result'); @endphp
+<div class="result-overlay active" id="resultModal">
+    <div class="result-box">
+        <div class="result-header">
+            <div class="result-emoji">🎉</div>
+            <div class="result-title">Pre-Test Selesai!</div>
+            <div class="result-sub">Berikut hasil jawaban Anda</div>
+        </div>
+        <div class="result-body">
+            @if($r['has_mc'])
+            <div class="result-section-title">📝 Pengetahuan (Pilihan Ganda)</div>
+            <div class="result-row">
+                <span class="result-row-label">✅ Jawaban Benar</span>
+                <span class="result-row-value value-correct">{{ $r['mc_correct'] }} / {{ $r['mc_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">❌ Jawaban Salah</span>
+                <span class="result-row-value value-wrong">{{ $r['mc_wrong'] }} / {{ $r['mc_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">🏆 Skor</span>
+                <span class="result-row-value value-score">{{ $r['mc_score'] }} / {{ $r['mc_max'] }}</span>
+            </div>
+            @endif
+
+            @if($r['has_likert'])
+            <div class="result-section-title">📊 Sikap (Likert)</div>
+            <div class="result-row">
+                <span class="result-row-label">📋 Jumlah Pernyataan</span>
+                <span class="result-row-value value-likert">{{ $r['likert_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">🏆 Total Skor</span>
+                <span class="result-row-value value-likert">{{ $r['likert_score'] }} / {{ $r['likert_max'] }}</span>
+            </div>
+            @endif
+
+            <div class="result-score-big">
+                <div class="score-num">{{ $r['mc_score'] + $r['likert_score'] }}</div>
+                <div class="score-label">Total Skor dari {{ $r['mc_max'] + $r['likert_max'] }}</div>
+            </div>
+        </div>
+        <div class="result-footer">
+            <button class="btn-result-ok" onclick="closeResult()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Oke, Mengerti!
+            </button>
+        </div>
+    </div>
+</div>
+@endif
+
 @endsection
 
 @push('scripts')
@@ -378,20 +460,14 @@ function toggleInstruction() {
     btn.classList.toggle('open', !open);
 }
 
-// Terapkan warna Likert via data-selected pada parent label
 document.querySelectorAll('.likert-item input[type="radio"]').forEach(function(input) {
-    // Saat user memilih
     input.addEventListener('change', function() {
         const name  = this.getAttribute('name');
         const label = this.dataset.label;
         const item  = this.closest('.likert-item');
-
-        // Reset semua item dalam grup yang sama
         document.querySelectorAll('input[name="' + name + '"]').forEach(function(i) {
             i.closest('.likert-item').removeAttribute('data-selected');
         });
-
-        // Tandai item yang dipilih
         item.setAttribute('data-selected', label);
     });
 });
@@ -412,5 +488,13 @@ function updateProgress() {
     document.getElementById('progress-fill').style.width = (answered / totalQuestions * 100) + '%';
     document.getElementById('progress-label').textContent = answered + '/' + totalQuestions;
 }
+
+function closeResult() {
+    document.getElementById('resultModal').classList.remove('active');
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeResult();
+});
 </script>
 @endpush

@@ -15,6 +15,10 @@ return Application::configure(basePath: dirname(__DIR__))
         'auth.respondent' => \App\Http\Middleware\AuthRespondent::class,
         'auth.admin' => \App\Http\Middleware\AuthAdmin::class,
     ]);
+
+    $middleware->web(append: [
+        \App\Http\Middleware\SecurityHeaders::class,
+    ]);
 })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

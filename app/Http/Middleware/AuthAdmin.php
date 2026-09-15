@@ -12,6 +12,11 @@ class AuthAdmin
             return redirect()->route('admin.login')->with('error', 'Silakan login sebagai admin.');
         }
 
+        // Login saja tidak cukup — area admin memuat data pribadi seluruh responden.
+        if (!auth()->user()->is_admin) {
+            abort(403, 'Anda tidak punya akses ke halaman admin.');
+        }
+
         return $next($request);
     }
 }

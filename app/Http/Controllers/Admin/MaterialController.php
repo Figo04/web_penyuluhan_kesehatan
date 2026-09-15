@@ -24,7 +24,7 @@ class MaterialController extends Controller
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'type'        => 'required|in:video,artikel,pdf',
-            'content'     => 'required|string',
+            'content'     => 'required|string|url:http,https',
             'duration'    => 'nullable|integer',
             'order'       => 'required|integer',
         ]);
@@ -45,7 +45,7 @@ class MaterialController extends Controller
             'title'       => 'required|string|max:255',
             'description' => 'nullable|string',
             'type'        => 'required|in:video,artikel,pdf',
-            'content'     => 'required|string',
+            'content'     => 'required|string|url:http,https',
             'duration'    => 'nullable|integer',
             'order'       => 'required|integer',
         ]);

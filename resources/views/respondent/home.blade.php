@@ -101,6 +101,10 @@
     }
     .progress-step.done .step-label { color: #0d7a5f; }
 
+    .progress-step.locked { cursor: not-allowed; opacity: 0.55; }
+    .progress-step.locked .step-dot { background: #e5e7eb; border-color: #e5e7eb; color: #9ca3af; }
+    .progress-step.locked .step-label { color: #9ca3af; }
+
     /* ── HIGHLIGHT SECTION ─────────────────── */
     .highlight-section {
         animation: fadeSlideUp 0.5s ease both;
@@ -222,27 +226,45 @@
         <div class="step-label">Pre-Test</div>
     </a>
 
-    <a href="{{ route('respondent.material') }}" class="progress-step {{ $respondent->material_done ? 'done' : '' }}">
+    @php
+        // Kunci yang sama persis dengan yang ditegakkan server di
+        // MaterialController::index dan TestController::stageBlocked.
+        $materiTerkunci   = !$respondent->pre_test_done;
+        $postTestTerkunci = !$respondent->pre_test_done
+            || (!$respondent->material_done && $totalMaterials > 0);
+    @endphp
+
+    <{{ $materiTerkunci ? 'div' : 'a' }}
+        @if(!$materiTerkunci) href="{{ route('respondent.material') }}" @endif
+        class="progress-step {{ $respondent->material_done ? 'done' : '' }} {{ $materiTerkunci ? 'locked' : '' }}"
+        @if($materiTerkunci) title="Selesaikan Pre-Test terlebih dahulu" @endif>
         <div class="step-dot">
             @if($respondent->material_done)
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            @elseif($materiTerkunci)
+                🔒
             @else
                 2
             @endif
         </div>
         <div class="step-label">Materi</div>
-    </a>
+    </{{ $materiTerkunci ? 'div' : 'a' }}>
 
-    <a href="{{ route('respondent.posttest') }}" class="progress-step {{ $respondent->post_test_done ? 'done' : '' }}">
+    <{{ $postTestTerkunci ? 'div' : 'a' }}
+        @if(!$postTestTerkunci) href="{{ route('respondent.posttest') }}" @endif
+        class="progress-step {{ $respondent->post_test_done ? 'done' : '' }} {{ $postTestTerkunci ? 'locked' : '' }}"
+        @if($postTestTerkunci) title="Selesaikan Pre-Test dan baca semua materi terlebih dahulu" @endif>
         <div class="step-dot">
             @if($respondent->post_test_done)
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            @elseif($postTestTerkunci)
+                🔒
             @else
                 3
             @endif
         </div>
         <div class="step-label">Post-Test</div>
-    </a>
+    </{{ $postTestTerkunci ? 'div' : 'a' }}>
 </div>
 
 {{-- HIGHLIGHT CARDS — hanya muncul setelah pre-test selesai --}}

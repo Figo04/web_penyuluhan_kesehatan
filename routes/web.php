@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\MaterialController as AdminMaterialController;
 use App\Http\Controllers\Admin\DoctorController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\AdminAuthController;
 
 // ==========================================
@@ -67,7 +68,10 @@ Route::middleware(['auth.respondent'])->group(function () {
 // ==========================================
 // AREA ADMIN (harus login sebagai admin)
 // ==========================================
-Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
+// auth.admin sudah memeriksa login + role, dan mengarahkan tamu ke /admin/login.
+// Middleware 'auth' bawaan tidak dipakai di sini karena ia melempar tamu ke
+// halaman login responden.
+Route::prefix('admin')->middleware(['auth.admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Responden
@@ -84,6 +88,12 @@ Route::prefix('admin')->middleware(['auth', 'auth.admin'])->group(function () {
 
     // Dokter
     Route::resource('dokter', DoctorController::class)->names('admin.doctors');
+
+    // Lokasi praktik bidan (dipakai dropdown saat responden mendaftar)
+    Route::get('/lokasi', [LocationController::class, 'index'])->name('admin.locations.index');
+    Route::post('/lokasi', [LocationController::class, 'store'])->name('admin.locations.store');
+    Route::put('/lokasi/{lokasi}', [LocationController::class, 'update'])->name('admin.locations.update');
+    Route::delete('/lokasi/{lokasi}', [LocationController::class, 'destroy'])->name('admin.locations.destroy');
 
     // Export
     Route::get('/export/excel', [ExportController::class, 'exportExcel'])->name('admin.export.excel');

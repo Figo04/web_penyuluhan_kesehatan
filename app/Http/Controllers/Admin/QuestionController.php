@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Question;
-use App\Models\QuestionOption;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -129,9 +128,6 @@ class QuestionController extends Controller
             'is_favourable'   => $format === 'likert' ? $request->boolean('is_favourable') : null,
         ]);
 
-        // Hapus semua opsi lama, lalu buat ulang (paling aman)
-        $soal->options()->delete();
-
         if ($format === 'multiple_choice') {
             $this->saveMcOptions($soal, $request->options, (int) $request->correct_option);
         } else {
@@ -161,16 +157,18 @@ class QuestionController extends Controller
     private function saveMcOptions(Question $question, array $options, int $correctIndex): void
     {
         $labels = ['A', 'B', 'C', 'D', 'E'];
+        $rows = [];
         foreach ($options as $index => $option) {
             $isCorrect = ($index === $correctIndex);
-            QuestionOption::create([
-                'question_id' => $question->id,
+            $rows[] = [
                 'label'       => $labels[$index] ?? chr(65 + $index),
                 'option_text' => $option['text'],
                 'is_correct'  => $isCorrect,
                 'score'       => $isCorrect ? 10 : 0,
-            ]);
+            ];
         }
+
+        $this->syncOptions($question, $rows);
     }
 
     /**
@@ -181,14 +179,42 @@ class QuestionController extends Controller
     {
         $scores = $isFavourable ? self::LIKERT_SCORES_FAV : self::LIKERT_SCORES_UNFAV;
 
+        $rows = [];
         foreach (self::LIKERT_OPTIONS as $index => $opt) {
-            QuestionOption::create([
-                'question_id' => $question->id,
+            $rows[] = [
                 'label'       => $opt['label'],
                 'option_text' => $opt['option_text'],
                 'is_correct'  => false, // Likert tidak punya "benar/salah"
                 'score'       => $scores[$index],
-            ]);
+            ];
         }
+
+        $this->syncOptions($question, $rows);
+    }
+
+    /**
+     * Perbarui opsi di tempat, bukan hapus-lalu-buat-ulang.
+     *
+     * answers.question_option_id memakai cascadeOnDelete, jadi menghapus satu opsi
+     * ikut menghapus jawaban responden yang memilihnya. Dengan menulis ulang baris
+     * yang sama, id opsi tetap hidup dan jawaban yang sudah terkumpul selamat —
+     * admin bisa memperbaiki typo tanpa kehilangan data penelitian.
+     *
+     * Opsi berlebih tetap dihapus (memang tidak ada lagi pilihannya), dan itu satu-
+     * satunya kondisi yang boleh menghapus jawaban.
+     */
+    private function syncOptions(Question $question, array $rows): void
+    {
+        $existing = $question->options()->reorder()->orderBy('id')->get();
+
+        foreach ($rows as $index => $row) {
+            if ($lama = $existing->get($index)) {
+                $lama->update($row);
+            } else {
+                $question->options()->create($row);
+            }
+        }
+
+        $existing->slice(count($rows))->each->delete();
     }
 }

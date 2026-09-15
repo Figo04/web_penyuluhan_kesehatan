@@ -22,12 +22,12 @@ return view('respondent.material', compact('materials', 'readMaterialIds', 'resp
 
     }
 
-    public function markAsRead($id)
+    public function markAsRead(Material $material)
     {
         $respondent = Respondent::find(session('respondent_id'));
 
         MaterialRead::firstOrCreate(
-            ['respondent_id' => $respondent->id, 'material_id' => $id],
+            ['respondent_id' => $respondent->id, 'material_id' => $material->id],
             ['read_at' => now()]
         );
 

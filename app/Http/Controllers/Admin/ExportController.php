@@ -5,12 +5,30 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Respondent;
 use App\Models\Question;
+use Illuminate\Support\Facades\Log;
 
 class ExportController extends Controller
 {
+    /**
+     * File export memuat kode akses seluruh responden — dan kode akses adalah
+     * kredensial login mereka. Siapa pun yang memegang file itu bisa masuk
+     * sebagai responden mana pun. Selama kolom itu masih ikut terekspor,
+     * minimal harus ada jejak siapa mengunduhnya dan kapan.
+     */
+    private function catatExport(string $format, int $jumlah): void
+    {
+        Log::info('Data responden diexport', [
+            'format'     => $format,
+            'jumlah'     => $jumlah,
+            'admin'      => auth()->user()?->email,
+            'ip'         => request()->ip(),
+        ]);
+    }
+
     public function exportExcel()
     {
         $respondents   = Respondent::with(['answers.option', 'answers.question', 'location'])->get();
+        $this->catatExport('xlsx', $respondents->count());
         $preQuestions  = Question::where('type', 'pre')->orderBy('order')->get();
         $postQuestions = Question::where('type', 'post')->orderBy('order')->get();
 
@@ -22,7 +40,7 @@ class ExportController extends Controller
         foreach ($preQuestions as $q)  $headers[] = 'Pre Q'  . $q->order;
         foreach ($postQuestions as $q) $headers[] = 'Post Q' . $q->order;
         $headers[] = 'Pre-Test Selesai';
-        $headers[] = 'Post-Test Selesai';
+        $headers[] = 'Post-Test Selesai';                   
         $headers[] = 'Waktu Pre-Test';
         $headers[] = 'Waktu Post-Test';
         $sheet->fromArray($headers, null, 'A1');
@@ -87,11 +105,14 @@ class ExportController extends Controller
         $writer   = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $filename = 'data-penelitian-' . date('Ymd-His') . '.xlsx';
 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="' . $filename . '"');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit;
+        // streamDownload, bukan header()+exit: exit mematikan proses sebelum Laravel
+        // sempat menutup session dan menjalankan middleware terminate-nya.
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Cache-Control' => 'max-age=0',
+        ]);
     }
 
     public function exportCsv()
@@ -99,6 +120,8 @@ class ExportController extends Controller
         $respondents   = Respondent::with(['answers.question', 'answers.option', 'location'])->get();
         $preQuestions  = Question::where('type', 'pre')->orderBy('order')->get();
         $postQuestions = Question::where('type', 'post')->orderBy('order')->get();
+
+        $this->catatExport('csv', $respondents->count());
 
         $filename = 'data-penelitian-' . date('Ymd-His') . '.csv';
 
@@ -114,7 +137,7 @@ class ExportController extends Controller
             fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
             // ── Header CSV ──────────────────────────────────────
-            $header = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Riwayat Penyakit', 'Lokasi'];
+            $header = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Jumlah Anak', 'Riwayat Penyakit', 'Lokasi'];
             foreach ($preQuestions as $q)  $header[] = 'Pre Q'  . $q->order;
             foreach ($postQuestions as $q) $header[] = 'Post Q' . $q->order;
             $header[] = 'Pre-Test Selesai';
@@ -137,6 +160,7 @@ class ExportController extends Controller
                     $r->gender,
                     $r->marital_status,
                     $r->occupation,
+                    $r->total_children ?? 0,
                     $medicalHistory,
                     $r->location ? $r->location->name : '-',
                 ];
