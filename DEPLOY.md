@@ -161,6 +161,20 @@ menjalankan blok perintah ini sekali dari direktori project.
 `key:generate` hanya dijalankan **sekali saat pemasangan pertama**. Mengganti `APP_KEY`
 setelah aplikasi dipakai akan membuat seluruh sesi yang berjalan menjadi tidak valid.
 
+> ### ⚠️ Setelah `config:cache`, `.env` tidak lagi dibaca
+>
+> Laravel mengambil seluruh konfigurasi dari file cache, bukan dari `.env`. Setiap kali
+> kamu mengubah `.env` — password database, `ADMIN_PASSWORD`, `APP_DEBUG`, apa pun —
+> perubahan itu **tidak berpengaruh sampai config di-cache ulang**:
+>
+> ```bash
+> php artisan config:cache
+> ```
+>
+> Gejalanya membingungkan: password sudah diganti tapi yang berlaku masih yang lama,
+> atau `APP_DEBUG=true` tidak memunculkan detail error. Kalau ada yang "tidak mau
+> berubah", periksa ini lebih dulu sebelum mencari penyebab lain.
+
 ---
 
 ## 6. Verifikasi sebelum diserahkan
