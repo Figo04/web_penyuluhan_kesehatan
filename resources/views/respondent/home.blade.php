@@ -4,22 +4,6 @@
 
 @push('styles')
 <style>
-    /* Palet khusus halaman beranda. Dibatasi di sini supaya halaman lain
-       tetap memakai palet lama dan tidak ikut berubah. */
-    .home {
-        --h-cream:      #FBF6F1;
-        --h-ink:        #14503E;
-        --h-ink-soft:   #2C7A5F;
-        --h-mint-1:     #E4F1E8;
-        --h-mint-2:     #CFE7DA;
-        --h-line:       #EFE6DD;
-        --h-peach-bg:   #FDEDE3;
-        --h-peach-ink:  #C4603B;
-        --h-muted:      #8A9A93;
-    }
-
-    body { background: #FBF6F1; }
-
     /* ── SAPAAN ─────────────────────────────── */
     .greet {
         display: flex; align-items: center; gap: 12px;
@@ -28,54 +12,54 @@
     .greet-avatar {
         width: 44px; height: 44px; flex-shrink: 0;
         border-radius: 14px;
-        background: var(--h-mint-1);
+        background: var(--primary-light);
         display: flex; align-items: center; justify-content: center;
-        color: var(--h-ink);
+        color: var(--primary);
     }
     .greet-avatar svg { width: 22px; height: 22px; }
     .greet-text { flex: 1; min-width: 0; }
-    .greet-hello { font-size: 13px; color: var(--h-muted); line-height: 1.3; }
+    .greet-hello { font-size: 13px; color: var(--text-muted); line-height: 1.3; }
     .greet-name {
-        font-size: 19px; font-weight: 800; color: var(--h-ink);
+        font-size: 19px; font-weight: 800; color: var(--primary);
         line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .greet-action {
         width: 38px; height: 38px; flex-shrink: 0;
         border-radius: 50%;
-        border: 1px solid var(--h-line);
+        border: 1px solid var(--border);
         background: #fff;
         display: flex; align-items: center; justify-content: center;
-        color: var(--h-ink-soft);
+        color: var(--primary-mid);
         text-decoration: none;
         transition: all 0.15s;
     }
-    .greet-action:hover { background: var(--h-mint-1); }
+    .greet-action:hover { background: var(--primary-light); }
     .greet-action svg { width: 18px; height: 18px; }
 
     /* ── HERO ───────────────────────────────── */
     .hero {
         position: relative; overflow: hidden;
         border-radius: 22px;
-        background: linear-gradient(135deg, var(--h-mint-1) 0%, var(--h-mint-2) 100%);
+        background: linear-gradient(135deg, var(--primary-light) 0%, var(--mint-2) 100%);
         padding: 26px 24px 28px;
         margin-bottom: 16px;
     }
     .hero-eyebrow {
         font-size: 11px; font-weight: 800;
         letter-spacing: 0.12em; text-transform: uppercase;
-        color: var(--h-ink-soft); margin-bottom: 10px;
+        color: var(--primary-mid); margin-bottom: 10px;
     }
     .hero-title {
         position: relative; z-index: 1;
         font-size: 28px; font-weight: 800; line-height: 1.22;
-        color: var(--h-ink); margin-bottom: 12px;
+        color: var(--primary); margin-bottom: 12px;
         max-width: 15ch;
     }
     .hero-sub {
         position: relative; z-index: 1;
         font-size: 13.5px; line-height: 1.6;
-        color: var(--h-ink-soft); max-width: 30ch;
+        color: var(--primary-mid); max-width: 30ch;
     }
     /* Motif dekoratif — pengganti ilustrasi, tidak menutupi teks */
     .hero-motif {
@@ -87,7 +71,7 @@
     /* ── STRIP INFO ─────────────────────────── */
     .infostrip {
         display: flex; align-items: stretch;
-        background: #fff; border: 1px solid var(--h-line);
+        background: #fff; border: 1px solid var(--border);
         border-radius: 18px; padding: 14px 4px;
         margin-bottom: 26px;
     }
@@ -95,25 +79,25 @@
         flex: 1; display: flex; align-items: center; gap: 10px;
         padding: 0 16px; min-width: 0;
     }
-    .infostrip-cell + .infostrip-cell { border-left: 1px solid var(--h-line); }
-    .infostrip-cell svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--h-peach-ink); }
-    .infostrip-label { font-size: 11.5px; color: var(--h-muted); line-height: 1.3; }
-    .infostrip-value { font-size: 14px; font-weight: 800; color: var(--h-ink); line-height: 1.3; }
+    .infostrip-cell + .infostrip-cell { border-left: 1px solid var(--border); }
+    .infostrip-cell svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--peach-ink); }
+    .infostrip-label { font-size: 11.5px; color: var(--text-muted); line-height: 1.3; }
+    .infostrip-value { font-size: 14px; font-weight: 800; color: var(--primary); line-height: 1.3; }
 
     /* ── JUDUL SEKSI ────────────────────────── */
     .sec-eyebrow {
         font-size: 11px; font-weight: 800;
         letter-spacing: 0.12em; text-transform: uppercase;
-        color: var(--h-muted); margin-bottom: 6px;
+        color: var(--text-muted); margin-bottom: 6px;
     }
     .sec-head {
         display: flex; align-items: center; justify-content: space-between;
         gap: 12px; margin-bottom: 14px;
     }
-    .sec-title { font-size: 20px; font-weight: 800; color: var(--h-ink); }
+    .sec-title { font-size: 20px; font-weight: 800; color: var(--primary); }
     .sec-pill {
         flex-shrink: 0;
-        background: var(--h-peach-bg); color: var(--h-peach-ink);
+        background: var(--peach-bg); color: var(--peach-ink);
         font-size: 12px; font-weight: 700;
         padding: 5px 12px; border-radius: 100px;
     }
@@ -121,7 +105,7 @@
     /* ── STEPPER ────────────────────────────── */
     .stepper {
         display: flex; align-items: flex-start;
-        background: #fff; border: 1px solid var(--h-line);
+        background: #fff; border: 1px solid var(--border);
         border-radius: 20px; padding: 24px 16px 20px;
         margin-bottom: 18px;
     }
@@ -135,33 +119,33 @@
     .step:not(:last-child)::after {
         content: ''; position: absolute;
         top: 19px; left: calc(50% + 24px); right: calc(-50% + 24px);
-        height: 2px; background: var(--h-line); z-index: 0;
+        height: 2px; background: var(--border); z-index: 0;
     }
-    .step.done:not(:last-child)::after { background: var(--h-ink); }
+    .step.done:not(:last-child)::after { background: var(--primary); }
 
     .step-dot {
         width: 38px; height: 38px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
         position: relative; z-index: 1;
-        background: #fff; border: 2px solid var(--h-line);
-        color: var(--h-muted);
+        background: #fff; border: 2px solid var(--border);
+        color: var(--text-muted);
         font-size: 13px; font-weight: 800;
     }
-    .step.done .step-dot { background: var(--h-ink); border-color: var(--h-ink); color: #fff; }
+    .step.done .step-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
     .step.done .step-dot svg { width: 17px; height: 17px; }
-    .step.current .step-dot { border-color: var(--h-ink); color: var(--h-ink); }
+    .step.current .step-dot { border-color: var(--primary); color: var(--primary); }
     .step.current .step-dot::before {
         content: ''; width: 13px; height: 13px;
-        border-radius: 50%; background: var(--h-ink);
+        border-radius: 50%; background: var(--primary);
     }
     .step.locked .step-dot { background: #F1EEEA; border-color: #F1EEEA; color: #B6ABA1; }
     .step.locked .step-dot svg { width: 15px; height: 15px; }
     .step.locked { cursor: not-allowed; }
 
-    .step-name { font-size: 13px; font-weight: 800; color: var(--h-ink); text-align: center; }
+    .step-name { font-size: 13px; font-weight: 800; color: var(--primary); text-align: center; }
     .step-state { font-size: 11px; text-align: center; line-height: 1.3; }
-    .step.done    .step-state { color: var(--h-ink-soft); }
-    .step.current .step-state { color: var(--h-peach-ink); font-weight: 700; }
+    .step.done    .step-state { color: var(--primary-mid); }
+    .step.current .step-state { color: var(--peach-ink); font-weight: 700; }
     .step.locked  .step-name,
     .step.locked  .step-state { color: #B6ABA1; }
 
@@ -169,7 +153,7 @@
     .cta {
         display: flex; align-items: center; justify-content: center; gap: 8px;
         width: 100%; padding: 17px;
-        background: var(--h-ink); color: #fff;
+        background: var(--primary); color: #fff;
         border-radius: 16px; font-size: 15.5px; font-weight: 700;
         text-decoration: none; transition: all 0.15s;
         margin-bottom: 32px;
@@ -177,10 +161,10 @@
     .cta:hover { background: #0E3D2F; }
     .cta svg { width: 18px; height: 18px; }
     .cta.finished {
-        background: var(--h-mint-1); color: var(--h-ink);
+        background: var(--primary-light); color: var(--primary);
         cursor: default;
     }
-    .cta.finished:hover { background: var(--h-mint-1); }
+    .cta.finished:hover { background: var(--primary-light); }
 
     /* ── KARTU INFO KESEHATAN ───────────────── */
     .tips { animation: tipsIn 0.5s ease both; }
@@ -199,19 +183,19 @@
 
     .tip-card {
         flex-shrink: 0; width: 230px;
-        background: #fff; border: 1px solid var(--h-line);
+        background: #fff; border: 1px solid var(--border);
         border-radius: 18px; padding: 18px;
         scroll-snap-align: start;
         text-decoration: none; display: block;
         transition: all 0.2s;
     }
     .tip-card:hover, .tip-card:active {
-        border-color: var(--h-mint-2);
+        border-color: var(--mint-2);
         box-shadow: 0 6px 20px rgba(20,80,62,0.08);
         transform: translateY(-2px);
     }
     .tip-title {
-        font-size: 13.5px; font-weight: 800; color: var(--h-ink);
+        font-size: 13.5px; font-weight: 800; color: var(--primary);
         margin-bottom: 9px; line-height: 1.4;
     }
     .tip-body { font-size: 12.5px; color: #5C6B64; line-height: 1.65; }
@@ -221,19 +205,19 @@
     .tips-dots { display: flex; justify-content: center; gap: 5px; margin-top: 12px; }
     .tips-dot {
         width: 6px; height: 6px; border-radius: 50%;
-        background: var(--h-line); transition: all 0.2s;
+        background: var(--border); transition: all 0.2s;
     }
-    .tips-dot.active { background: var(--h-ink); width: 18px; border-radius: 3px; }
+    .tips-dot.active { background: var(--primary); width: 18px; border-radius: 3px; }
 
     .tips-link {
         display: flex; align-items: center; justify-content: center; gap: 8px;
         margin-top: 18px; padding: 15px;
-        background: #fff; border: 1.5px solid var(--h-ink);
-        color: var(--h-ink); border-radius: 14px;
+        background: #fff; border: 1.5px solid var(--primary);
+        color: var(--primary); border-radius: 14px;
         font-weight: 700; font-size: 14.5px;
         text-decoration: none; transition: all 0.15s;
     }
-    .tips-link:hover { background: var(--h-mint-1); }
+    .tips-link:hover { background: var(--primary-light); }
     .tips-link svg { width: 17px; height: 17px; }
 
     @media (max-width: 380px) {
