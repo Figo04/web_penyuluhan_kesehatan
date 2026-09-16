@@ -227,7 +227,7 @@
     .value-score   { color: var(--primary); }
     .value-likert  { color: #3b82f6; }
     .result-score-big {
-        background: linear-gradient(135deg, var(--primary-light), var(--mint-2));
+        background: linear-gradient(135deg, var(--primary-light), #d1fae5);
         border: 2px solid var(--primary); border-radius: 12px;
         padding: 16px; text-align: center; margin: 16px 0 0;
     }

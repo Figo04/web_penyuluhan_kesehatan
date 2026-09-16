@@ -14,13 +14,13 @@
         border-radius: 14px;
         background: var(--primary-light);
         display: flex; align-items: center; justify-content: center;
-        color: var(--primary);
+        color: var(--ink);
     }
     .greet-avatar svg { width: 22px; height: 22px; }
     .greet-text { flex: 1; min-width: 0; }
     .greet-hello { font-size: 13px; color: var(--text-muted); line-height: 1.3; }
     .greet-name {
-        font-size: 19px; font-weight: 800; color: var(--primary);
+        font-size: 19px; font-weight: 800; color: var(--text-dark);
         line-height: 1.3;
         overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
@@ -30,7 +30,7 @@
         border: 1px solid var(--border);
         background: #fff;
         display: flex; align-items: center; justify-content: center;
-        color: var(--primary-mid);
+        color: var(--ink);
         text-decoration: none;
         transition: all 0.15s;
     }
@@ -41,25 +41,25 @@
     .hero {
         position: relative; overflow: hidden;
         border-radius: 22px;
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--mint-2) 100%);
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
         padding: 26px 24px 28px;
         margin-bottom: 16px;
     }
     .hero-eyebrow {
         font-size: 11px; font-weight: 800;
         letter-spacing: 0.12em; text-transform: uppercase;
-        color: var(--primary-mid); margin-bottom: 10px;
+        color: rgba(0,0,0,0.6); margin-bottom: 10px;
     }
     .hero-title {
         position: relative; z-index: 1;
         font-size: 28px; font-weight: 800; line-height: 1.22;
-        color: var(--primary); margin-bottom: 12px;
+        color: #111827; margin-bottom: 12px;
         max-width: 15ch;
     }
     .hero-sub {
         position: relative; z-index: 1;
         font-size: 13.5px; line-height: 1.6;
-        color: var(--primary-mid); max-width: 30ch;
+        color: rgba(0,0,0,0.6); max-width: 30ch;
     }
     /* Motif dekoratif — pengganti ilustrasi, tidak menutupi teks */
     .hero-motif {
@@ -80,9 +80,9 @@
         padding: 0 16px; min-width: 0;
     }
     .infostrip-cell + .infostrip-cell { border-left: 1px solid var(--border); }
-    .infostrip-cell svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--peach-ink); }
+    .infostrip-cell svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--ink); }
     .infostrip-label { font-size: 11.5px; color: var(--text-muted); line-height: 1.3; }
-    .infostrip-value { font-size: 14px; font-weight: 800; color: var(--primary); line-height: 1.3; }
+    .infostrip-value { font-size: 14px; font-weight: 800; color: var(--text-dark); line-height: 1.3; }
 
     /* ── JUDUL SEKSI ────────────────────────── */
     .sec-eyebrow {
@@ -94,10 +94,10 @@
         display: flex; align-items: center; justify-content: space-between;
         gap: 12px; margin-bottom: 14px;
     }
-    .sec-title { font-size: 20px; font-weight: 800; color: var(--primary); }
+    .sec-title { font-size: 20px; font-weight: 800; color: var(--text-dark); }
     .sec-pill {
         flex-shrink: 0;
-        background: var(--peach-bg); color: var(--peach-ink);
+        background: var(--primary); color: var(--on-primary);
         font-size: 12px; font-weight: 700;
         padding: 5px 12px; border-radius: 100px;
     }
@@ -131,37 +131,37 @@
         color: var(--text-muted);
         font-size: 13px; font-weight: 800;
     }
-    .step.done .step-dot { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .step.done .step-dot { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
     .step.done .step-dot svg { width: 17px; height: 17px; }
-    .step.current .step-dot { border-color: var(--primary); color: var(--primary); }
+    .step.current .step-dot { border-color: var(--primary); color: var(--ink); }
     .step.current .step-dot::before {
         content: ''; width: 13px; height: 13px;
         border-radius: 50%; background: var(--primary);
     }
-    .step.locked .step-dot { background: #F1EEEA; border-color: #F1EEEA; color: #B6ABA1; }
+    .step.locked .step-dot { background: #eef1f0; border-color: #eef1f0; color: var(--text-light); }
     .step.locked .step-dot svg { width: 15px; height: 15px; }
     .step.locked { cursor: not-allowed; }
 
-    .step-name { font-size: 13px; font-weight: 800; color: var(--primary); text-align: center; }
+    .step-name { font-size: 13px; font-weight: 800; color: var(--text-dark); text-align: center; }
     .step-state { font-size: 11px; text-align: center; line-height: 1.3; }
-    .step.done    .step-state { color: var(--primary-mid); }
-    .step.current .step-state { color: var(--peach-ink); font-weight: 700; }
+    .step.done    .step-state { color: var(--ink); }
+    .step.current .step-state { color: var(--ink); font-weight: 700; }
     .step.locked  .step-name,
-    .step.locked  .step-state { color: #B6ABA1; }
+    .step.locked  .step-state { color: var(--text-light); }
 
     /* ── TOMBOL UTAMA ───────────────────────── */
     .cta {
         display: flex; align-items: center; justify-content: center; gap: 8px;
         width: 100%; padding: 17px;
-        background: var(--primary); color: #fff;
+        background: var(--primary); color: var(--on-primary);
         border-radius: 16px; font-size: 15.5px; font-weight: 700;
         text-decoration: none; transition: all 0.15s;
         margin-bottom: 32px;
     }
-    .cta:hover { background: #0E3D2F; }
+    .cta:hover { background: var(--primary-dark); }
     .cta svg { width: 18px; height: 18px; }
     .cta.finished {
-        background: var(--primary-light); color: var(--primary);
+        background: var(--primary-light); color: var(--ink);
         cursor: default;
     }
     .cta.finished:hover { background: var(--primary-light); }
@@ -190,12 +190,12 @@
         transition: all 0.2s;
     }
     .tip-card:hover, .tip-card:active {
-        border-color: var(--mint-2);
-        box-shadow: 0 6px 20px rgba(20,80,62,0.08);
+        border-color: var(--primary);
+        box-shadow: 0 6px 20px rgba(94,233,199,0.3);
         transform: translateY(-2px);
     }
     .tip-title {
-        font-size: 13.5px; font-weight: 800; color: var(--primary);
+        font-size: 13.5px; font-weight: 800; color: var(--ink);
         margin-bottom: 9px; line-height: 1.4;
     }
     .tip-body { font-size: 12.5px; color: #5C6B64; line-height: 1.65; }
@@ -213,7 +213,7 @@
         display: flex; align-items: center; justify-content: center; gap: 8px;
         margin-top: 18px; padding: 15px;
         background: #fff; border: 1.5px solid var(--primary);
-        color: var(--primary); border-radius: 14px;
+        color: var(--ink); border-radius: 14px;
         font-weight: 700; font-size: 14.5px;
         text-decoration: none; transition: all 0.15s;
     }
@@ -257,9 +257,9 @@
         <svg class="hero-motif" viewBox="0 0 200 200" fill="none" aria-hidden="true">
             <circle cx="120" cy="90" r="70" fill="#fff" fill-opacity="0.35"/>
             <circle cx="60" cy="150" r="42" fill="#fff" fill-opacity="0.25"/>
-            <path d="M150 140c0-24 18-42 42-42 0 24-18 42-42 42z" fill="#2C7A5F" fill-opacity="0.18"/>
-            <path d="M150 140c-24 0-42-18-42-42 24 0 42 18 42 42z" fill="#2C7A5F" fill-opacity="0.12"/>
-            <path d="M150 140v34" stroke="#2C7A5F" stroke-opacity="0.2" stroke-width="3" stroke-linecap="round"/>
+            <path d="M150 140c0-24 18-42 42-42 0 24-18 42-42 42z" fill="#0d7a5f" fill-opacity="0.22"/>
+            <path d="M150 140c-24 0-42-18-42-42 24 0 42 18 42 42z" fill="#0d7a5f" fill-opacity="0.15"/>
+            <path d="M150 140v34" stroke="#0d7a5f" stroke-opacity="0.25" stroke-width="3" stroke-linecap="round"/>
         </svg>
 
         <div class="hero-eyebrow">Kenali Stunting</div>

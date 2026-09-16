@@ -12,24 +12,24 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            /* Palet tunggal untuk seluruh halaman responden. Halaman admin
-               punya :root sendiri di layouts/admin.blade.php dan tidak ikut. */
-            --primary: #14503E;        /* hijau tua — tombol & aksen utama */
-            --primary-dark: #0E3D2F;   /* keadaan hover */
-            --primary-light: #E4F1E8;  /* mint muda — latar lembut */
-            --primary-mid: #2C7A5F;    /* hijau sedang — teks aksen */
-            --accent: #2C7A5F;
-            --on-primary: #ffffff;     /* teks di atas --primary */
-            --mint-2: #CFE7DA;         /* mint sedang — gradien & garis */
-            --peach-bg: #FDEDE3;       /* badge status */
-            --peach-ink: #C4603B;
-            --text-dark: #14332A;
-            --text-mid: #4A5B54;
-            --text-muted: #8A9A93;
-            --text-light: #B6ABA1;
-            --bg: #FBF6F1;             /* krem hangat */
+            --primary: #5EE9C7;
+            --primary-dark: #3dc9a7;
+            --primary-light: #edfdf9;
+            --primary-mid: #4ed4b3;
+            --accent: #5EE9C7;
+            /* Mint itu warna muda, jadi teks di atasnya harus gelap — bukan putih. */
+            --on-primary: #111827;
+            /* Hijau tua untuk judul dan teks aksen di atas latar terang; mint
+               sendiri terlalu muda untuk dibaca sebagai teks. */
+            --ink: #0d7a5f;
+            --mint-2: #b2f5e8;
+            --text-dark: #111827;
+            --text-mid: #374151;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --bg: #f4f7f6;
             --surface: #ffffff;
-            --border: #EFE6DD;
+            --border: #e5e7eb;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
@@ -57,7 +57,7 @@
         .nav-links { display: flex; align-items: center; gap: 2px; flex: 1; }
         .nav-link { display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-sm); text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 14px; transition: all 0.15s; white-space: nowrap; }
         .nav-link:hover { background: var(--bg); color: var(--text-dark); }
-        .nav-link.active { background: var(--primary); color: var(--on-primary); }
+        .nav-link.active { background: var(--primary); color: #111827; }
         .nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
         .nav-logout { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius-sm); color: var(--text-muted); font-size: 14px; font-weight: 500; background: none; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; white-space: nowrap; flex-shrink: 0; }
         .nav-logout:hover { color: var(--danger); background: #fef2f2; }
@@ -102,7 +102,7 @@
         /* COMPONENTS */
         .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
         .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.15s; white-space: nowrap; }
-        .btn-primary { background: var(--primary); color: var(--on-primary); width: 100%; justify-content: center; padding: 14px 20px; font-size: 15px; border-radius: var(--radius-sm); }
+        .btn-primary { background: var(--primary); color: #111827; width: 100%; justify-content: center; padding: 14px 20px; font-size: 15px; border-radius: var(--radius-sm); }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-outline { background: transparent; color: var(--text-dark); border: 1px solid var(--border); }
         .btn-outline:hover { background: var(--bg); }
