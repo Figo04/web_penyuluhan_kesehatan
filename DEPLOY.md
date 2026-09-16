@@ -95,8 +95,11 @@ composer install --no-dev --optimize-autoloader
 
 `vendor/` tidak ikut di repository, jadi harus dipasang di server atau ikut diupload.
 
-Folder `public/build/` (aset Vite) **sudah ter-build dan ikut di repository**, jadi tidak
-perlu menjalankan `npm` di server sama sekali.
+**Tidak perlu menjalankan `npm` di server.** Seluruh halaman yang dipakai aplikasi ini
+memuat CSS-nya inline di dalam Blade masing-masing; `@vite` hanya tersisa di dua view
+bawaan Breeze (`layouts/guest.blade.php` dan `welcome.blade.php`) yang tidak terhubung ke
+route mana pun. Folder `public/build/` sengaja tidak diikutkan ke repository dan memang
+tidak dibutuhkan saat runtime.
 
 ---
 
