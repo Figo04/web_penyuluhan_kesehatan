@@ -116,9 +116,9 @@ APP_URL=https://domainmu.com
 DB_CONNECTION=mysql
 DB_HOST=localhost
 DB_PORT=3306
-DB_DATABASE=USER_kenalistunting
-DB_USERNAME=USER_dbuser
-DB_PASSWORD=password-database-dari-langkah-1
+DB_DATABASE=kenw7319_kenali_stunting
+DB_USERNAME=kenw7319_kstunting
+DB_PASSWORD=XFU3MqpX!8FeZrg
 
 SESSION_SECURE_COOKIE=true
 LOG_LEVEL=warning
@@ -130,12 +130,12 @@ ADMIN_PASSWORD=password-kuat-yang-baru
 
 Empat baris yang paling menentukan:
 
-| Baris | Kalau salah |
-|---|---|
-| `APP_DEBUG=false` | Halaman error menampilkan stack trace **beserta seluruh isi environment**, termasuk password database |
-| `APP_ENV=production` | HTTPS tidak dipaksa, dan pengaman password admin default tidak aktif |
-| `SESSION_SECURE_COOKIE=true` | Cookie sesi bisa terkirim lewat koneksi http |
-| `ADMIN_PASSWORD` | Seeder **menolak jalan** kalau masih `admin123` di production — itu memang disengaja |
+| Baris                        | Kalau salah                                                                                           |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `APP_DEBUG=false`            | Halaman error menampilkan stack trace **beserta seluruh isi environment**, termasuk password database |
+| `APP_ENV=production`         | HTTPS tidak dipaksa, dan pengaman password admin default tidak aktif                                  |
+| `SESSION_SECURE_COOKIE=true` | Cookie sesi bisa terkirim lewat koneksi http                                                          |
+| `ADMIN_PASSWORD`             | Seeder **menolak jalan** kalau masih `admin123` di production — itu memang disengaja                  |
 
 ---
 
@@ -179,17 +179,17 @@ setelah aplikasi dipakai akan membuat seluruh sesi yang berjalan menjadi tidak v
 
 ## 6. Verifikasi sebelum diserahkan
 
-| # | Cek | Hasil yang benar |
-|---|---|---|
-| 1 | Buka `https://domainmu.com/.env` | **404 / Not Found**, bukan isi file |
-| 2 | Buka URL yang tidak ada, misal `/abc123` | Halaman error polos, **tanpa stack trace** |
-| 3 | Buka `http://domainmu.com` (tanpa s) | Teralihkan ke `https://` |
-| 4 | Login admin → **Kelola Lokasi** | Halaman terbuka, bisa menambah lokasi |
-| 5 | `/register` | Dropdown lokasi **terisi** |
-| 6 | `/admin/login`, salah password 6 kali | Muncul "Terlalu banyak percobaan login" |
-| 7 | Daftar responden baru | Dapat kode format `SEHAT0001` |
-| 8 | Beranda responden baru | Kartu Materi & Post-Test **terkunci** (🔒) |
-| 9 | Admin → Export Excel dan CSV | Kedua file terunduh dan bisa dibuka |
+| #   | Cek                                      | Hasil yang benar                           |
+| --- | ---------------------------------------- | ------------------------------------------ |
+| 1   | Buka `https://domainmu.com/.env`         | **404 / Not Found**, bukan isi file        |
+| 2   | Buka URL yang tidak ada, misal `/abc123` | Halaman error polos, **tanpa stack trace** |
+| 3   | Buka `http://domainmu.com` (tanpa s)     | Teralihkan ke `https://`                   |
+| 4   | Login admin → **Kelola Lokasi**          | Halaman terbuka, bisa menambah lokasi      |
+| 5   | `/register`                              | Dropdown lokasi **terisi**                 |
+| 6   | `/admin/login`, salah password 6 kali    | Muncul "Terlalu banyak percobaan login"    |
+| 7   | Daftar responden baru                    | Dapat kode format `SEHAT0001`              |
+| 8   | Beranda responden baru                   | Kartu Materi & Post-Test **terkunci** (🔒) |
+| 9   | Admin → Export Excel dan CSV             | Kedua file terunduh dan bisa dibuka        |
 
 **Nomor 5 paling sering terlewat.** Tabel lokasi kosong di pemasangan baru. Login admin
 dan isi **Kelola Lokasi** lebih dulu — kalau tidak, semua responden terdaftar tanpa
@@ -221,14 +221,13 @@ pre-test, materi, post-test, dan kontrol akses admin.
 
 ## 8. Kalau ada masalah
 
-| Gejala | Penyebab biasanya |
-|---|---|
-| Halaman putih kosong | `storage/` atau `bootstrap/cache/` tidak bisa ditulis → `chmod -R 775` |
-| "500 Server Error" tanpa keterangan | Baca `storage/logs/laravel.log`, jangan menyalakan `APP_DEBUG` di server publik |
-| Semua URL selain beranda jadi 404 | `mod_rewrite` mati, atau `public/.htaccess` tidak ikut terupload |
-| CSS/JS tidak muncul | Folder `public/build/` tidak ikut terupload |
-| Export Excel error 500 | Ekstensi `gd` atau `zip` belum aktif (langkah 1) |
-| Perubahan kode tidak terlihat | Cache lama → `php artisan config:clear route:clear view:clear` lalu cache ulang |
-| Admin dapat 403 di `/admin` | Migrasi `is_admin` belum jalan → `php artisan migrate --force` |
-| Seeder berhenti dengan pesan ADMIN_PASSWORD | Memang disengaja. Set `ADMIN_PASSWORD` di `.env`, lalu ulangi |
-
+| Gejala                                      | Penyebab biasanya                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------- |
+| Halaman putih kosong                        | `storage/` atau `bootstrap/cache/` tidak bisa ditulis → `chmod -R 775`          |
+| "500 Server Error" tanpa keterangan         | Baca `storage/logs/laravel.log`, jangan menyalakan `APP_DEBUG` di server publik |
+| Semua URL selain beranda jadi 404           | `mod_rewrite` mati, atau `public/.htaccess` tidak ikut terupload                |
+| CSS/JS tidak muncul                         | Folder `public/build/` tidak ikut terupload                                     |
+| Export Excel error 500                      | Ekstensi `gd` atau `zip` belum aktif (langkah 1)                                |
+| Perubahan kode tidak terlihat               | Cache lama → `php artisan config:clear route:clear view:clear` lalu cache ulang |
+| Admin dapat 403 di `/admin`                 | Migrasi `is_admin` belum jalan → `php artisan migrate --force`                  |
+| Seeder berhenti dengan pesan ADMIN_PASSWORD | Memang disengaja. Set `ADMIN_PASSWORD` di `.env`, lalu ulangi                   |
