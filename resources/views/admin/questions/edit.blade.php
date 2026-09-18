@@ -4,7 +4,38 @@
 
 @push('styles')
 <style>
-    /* ── Format Toggle ── */
+    /* ===== WRAPPER ===== */
+    .form-page-wrapper {
+        max-width: 780px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        padding: 32px;
+    }
+
+    /* ===== METADATA GRID ===== */
+    .form-row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+
+    /* ===== FORMAT TOGGLE ===== */
     .format-toggle {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -22,21 +53,18 @@
         user-select: none;
     }
     .format-card:hover { border-color: var(--primary); }
-    .format-card.active {
-        border-color: var(--primary);
-        background: #e6faf5;
-    }
-    .format-card .format-icon { font-size: 26px; margin-bottom: 6px; display: block; }
+    .format-card.active { border-color: var(--primary); background: #e6faf5; }
+    .format-card .format-icon { font-size: 24px; margin-bottom: 6px; display: block; }
     .format-card .format-title { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
     .format-card .format-desc  { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
     .format-card.active .format-title { color: #065f46; }
 
-    /* ── MC Options ── */
+    /* ===== MC OPTIONS ===== */
     .option-row {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 14px 16px;
+        gap: 10px;
+        padding: 12px 14px;
         border-radius: 9px;
         border: 1.5px solid var(--border);
         margin-bottom: 10px;
@@ -68,10 +96,11 @@
     }
     .option-text-input {
         flex: 1;
+        min-width: 0;
         border: none;
         background: transparent;
         font-family: inherit;
-        font-size: 15px;
+        font-size: 14px;
         color: var(--text-dark);
         outline: none;
     }
@@ -136,7 +165,7 @@
     }
     .btn-remove-option:hover { background: #fef2f2; }
 
-    /* ── Likert Preview ── */
+    /* ===== LIKERT PREVIEW ===== */
     .likert-preview {
         border-radius: 10px;
         border: 1.5px solid var(--border);
@@ -145,8 +174,8 @@
     }
     .likert-preview-header {
         background: var(--bg);
-        padding: 12px 16px;
-        font-size: 12px;
+        padding: 10px 14px;
+        font-size: 11px;
         color: var(--text-muted);
         font-weight: 600;
         border-bottom: 1px solid var(--border);
@@ -156,14 +185,15 @@
     .likert-option-row {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 11px 16px;
+        gap: 10px;
+        padding: 10px 14px;
         border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
     }
     .likert-option-row:last-child { border-bottom: none; }
     .likert-badge {
-        min-width: 42px;
-        padding: 3px 8px;
+        min-width: 38px;
+        padding: 3px 7px;
         border-radius: 100px;
         font-size: 11px;
         font-weight: 800;
@@ -181,13 +211,19 @@
         font-weight: 700;
         padding: 2px 8px;
         border-radius: 6px;
+        flex-shrink: 0;
     }
     .score-high { background: #d1fae5; color: #065f46; }
     .score-mid  { background: #f3f4f6; color: #374151; }
     .score-low  { background: #fee2e2; color: #991b1b; }
 
-    /* Favourable toggle */
-    .fav-toggle-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    /* ===== FAVOURABLE TOGGLE ===== */
+    .fav-toggle-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
     .fav-card {
         border: 2px solid var(--border);
         border-radius: 10px;
@@ -200,227 +236,249 @@
     .fav-card.active-fav   { border-color: #10b981; background: #ecfdf5; }
     .fav-card.active-unfav { border-color: #f59e0b; background: #fffbeb; }
     .fav-card .fav-title { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
-    .fav-card .fav-sub   { font-size: 12px; color: var(--text-muted); }
+    .fav-card .fav-sub   { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
     .fav-card.active-fav  .fav-title { color: #065f46; }
     .fav-card.active-unfav .fav-title { color: #92400e; }
 
+    /* ===== PANEL VISIBILITY ===== */
     .panel-mc, .panel-likert { display: none; }
     .panel-mc.visible, .panel-likert.visible { display: block; }
 
-    @media (max-width: 600px) {
-        .format-toggle, .fav-toggle-group { grid-template-columns: 1fr; }
+    /* ===== FORM ACTIONS ===== */
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 640px) {
+        .form-card { padding: 20px 16px; border-radius: 12px; }
+
+        .page-header { flex-direction: column; gap: 12px; }
+
+        .form-row-2 { grid-template-columns: 1fr; gap: 0; }
+
+        .format-toggle { grid-template-columns: 1fr; }
+
+        .fav-toggle-group { grid-template-columns: 1fr; }
+
+        .fav-card .fav-sub { white-space: normal; }
+
+        .format-card { text-align: left; display: flex; align-items: center; gap: 12px; }
+        .format-card .format-icon { margin-bottom: 0; font-size: 20px; flex-shrink: 0; }
+        .format-card-text { text-align: left; }
+
+        .form-actions { flex-direction: column; }
+        .form-actions .btn { width: 100%; justify-content: center; }
+    }
+
+    @media (min-width: 641px) and (max-width: 900px) {
+        .form-card { padding: 24px; }
     }
 </style>
 @endpush
 
 @section('content')
-<div class="page-header">
-    <div>
-        <div class="page-title">Edit Soal</div>
-        <div class="page-sub">Perbarui soal yang sudah ada</div>
+<div class="form-page-wrapper">
+    <div class="page-header">
+        <div>
+            <div class="page-title">Edit Soal</div>
+            <div class="page-sub">Perbarui soal yang sudah ada</div>
+        </div>
+        <a href="{{ route('admin.questions.index') }}" class="btn btn-outline">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Kembali
+        </a>
     </div>
-    <a href="{{ route('admin.questions.index') }}" class="btn btn-outline">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        Kembali
-    </a>
-</div>
 
-<div class="card" style="padding:32px;max-width:720px;">
-    @if($errors->any())
-    <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:24px;font-size:14px;">
-        <strong>Ada kesalahan:</strong>
-        <ul style="margin-top:6px;padding-left:20px;">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    <div class="form-card">
+        @if($errors->any())
+        <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:24px;font-size:14px;">
+            <strong>Ada kesalahan:</strong>
+            <ul style="margin-top:6px;padding-left:20px;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
-    @php
-        $currentFormat  = old('question_format', $question->question_format ?? 'multiple_choice');
-        $currentFav     = old('is_favourable', $question->is_favourable ?? true);
-        $mcOptions      = $question->options->sortBy('label')->values();
+        @php
+            $currentFormat = old('question_format', $question->question_format ?? 'multiple_choice');
+            $currentFav    = old('is_favourable', $question->is_favourable ?? true);
+            $mcOptions     = $question->options->sortBy('label')->values();
+            $currentOptionCount = old('options') ? count(old('options')) : $mcOptions->count();
+        @endphp
 
-        // Cari index opsi yang benar
-        $correctIndex = null;
-        if ($currentFormat === 'multiple_choice') {
-            $labels = ['A','B','C','D','E'];
-            foreach ($mcOptions as $i => $opt) {
-                if ($opt->is_correct) { $correctIndex = $i; break; }
-            }
-        }
-    @endphp
+        <form method="POST" action="{{ route('admin.questions.update', $question) }}" id="questionForm">
+            @csrf
+            @method('PUT')
 
-    <form method="POST" action="{{ route('admin.questions.update', $question) }}" id="questionForm">
-        @csrf
-        @method('PUT')
+            {{-- Metadata --}}
+            <div class="form-row-2">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">Tipe Soal</label>
+                    <select name="type" class="form-input" required>
+                        <option value="pre"  {{ old('type', $question->type) === 'pre'  ? 'selected' : '' }}>Pre-Test</option>
+                        <option value="post" {{ old('type', $question->type) === 'post' ? 'selected' : '' }}>Post-Test</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label class="form-label">Urutan Soal</label>
+                    <input type="number" name="order" class="form-input"
+                        value="{{ old('order', $question->order) }}" min="1" required>
+                    <div class="form-hint">Angka lebih kecil tampil lebih dulu</div>
+                </div>
+            </div>
 
-        {{-- Metadata --}}
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-            <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label">Tipe Soal</label>
-                <select name="type" class="form-input" required>
-                    <option value="pre"  {{ old('type', $question->type) === 'pre'  ? 'selected' : '' }}>Pre-Test</option>
-                    <option value="post" {{ old('type', $question->type) === 'post' ? 'selected' : '' }}>Post-Test</option>
+            {{-- Kategori --}}
+            @php $currentCategory = old('category', $question->category ?? 'umum'); @endphp
+            <div class="form-group" style="margin-top:20px;">
+                <label class="form-label">Kategori Soal</label>
+                <select name="category" class="form-input">
+                    <option value="umum" {{ $currentCategory !== 'kondisi_anak' ? 'selected' : '' }}>Pengetahuan / Sikap (dinilai)</option>
+                    <option value="kondisi_anak" {{ $currentCategory === 'kondisi_anak' ? 'selected' : '' }}>Kondisi Anak (tidak dinilai)</option>
                 </select>
+                <div class="form-hint">Kondisi Anak hanya berlaku untuk Pre-Test dan tidak perlu menandai jawaban benar.</div>
             </div>
-            <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label">Urutan Soal</label>
-                <input type="number" name="order" class="form-input"
-                    value="{{ old('order', $question->order) }}" min="1" required>
-                <div class="form-hint">Angka lebih kecil tampil lebih dulu</div>
+
+            {{-- Teks Soal --}}
+            <div class="form-group">
+                <label class="form-label">Teks Soal / Pernyataan</label>
+                <textarea name="question_text" class="form-input" rows="3" required>{{ old('question_text', $question->question_text) }}</textarea>
             </div>
-        </div>
 
-        {{-- Teks Soal --}}
-        <div class="form-group">
-            <label class="form-label">Teks Soal / Pernyataan</label>
-            <textarea name="question_text" class="form-input" rows="3" required>{{ old('question_text', $question->question_text) }}</textarea>
-        </div>
-
-        {{-- Format Toggle --}}
-        <div style="margin-bottom:8px;">
-            <label class="form-label">Format Soal</label>
-        </div>
-        <div class="format-toggle">
-            <div class="format-card {{ $currentFormat === 'multiple_choice' ? 'active' : '' }}"
-                 onclick="setFormat('multiple_choice')">
-                <span class="format-icon">🔤</span>
-                <div class="format-title">Pilihan Ganda (A–E)</div>
-                <div class="format-desc">Soal pengetahuan dengan satu jawaban benar</div>
+            {{-- Format Toggle --}}
+            <div style="margin-bottom:8px;">
+                <label class="form-label">Format Soal</label>
             </div>
-            <div class="format-card {{ $currentFormat === 'likert' ? 'active' : '' }}"
-                 onclick="setFormat('likert')">
-                <span class="format-icon">📊</span>
-                <div class="format-title">Skala Likert (Sikap)</div>
-                <div class="format-desc">SS / S / R / TS / STS — mengukur sikap responden</div>
-            </div>
-        </div>
-        <input type="hidden" name="question_format" id="questionFormat" value="{{ $currentFormat }}">
-
-        {{-- ════ Panel: Multiple Choice ════ --}}
-        <div class="panel-mc {{ $currentFormat === 'multiple_choice' ? 'visible' : '' }}"
-             id="panelMc">
-
-            <div style="margin-bottom:12px;">
-                <label class="form-label">Pilihan Jawaban</label>
-                <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
-                    Edit pilihan jawaban. Klik lingkaran untuk menandai jawaban <strong>benar</strong>.
+            <div class="format-toggle">
+                <div class="format-card {{ $currentFormat === 'multiple_choice' ? 'active' : '' }}"
+                     onclick="setFormat('multiple_choice')">
+                    <span class="format-icon">🔤</span>
+                    <div class="format-card-text">
+                        <div class="format-title">Pilihan Ganda (A–E)</div>
+                        <div class="format-desc">Soal pengetahuan dengan satu jawaban benar</div>
+                    </div>
                 </div>
-
-                <div id="optionsList">
-                    @php
-                        $labels     = ['A','B','C','D','E'];
-                        $oldOptions = old('options');
-                    @endphp
-
-                    @if($oldOptions)
-                        {{-- Old input setelah validation error --}}
-                        @foreach($oldOptions as $i => $opt)
-                        <div class="option-row" id="optionRow{{ $i }}">
-                            <div class="option-label-badge">{{ $labels[$i] }}</div>
-                            <input type="text" name="options[{{ $i }}][text]"
-                                class="option-text-input"
-                                placeholder="Pilihan {{ $labels[$i] }}..."
-                                value="{{ $opt['text'] ?? '' }}"
-                                {{ $i < 2 ? 'required' : '' }}>
-                            <input type="radio" name="correct_option" value="{{ $i }}"
-                                id="correct_{{ $i }}" class="correct-radio"
-                                {{ old('correct_option') == $i ? 'checked' : '' }}>
-                            <label for="correct_{{ $i }}" class="correct-check"></label>
-                            @if($i >= 2)
-                            <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
-                            @endif
-                        </div>
-                        @endforeach
-                    @else
-                        {{-- Data dari database --}}
-                        @foreach($mcOptions as $i => $opt)
-                        <div class="option-row" id="optionRow{{ $i }}">
-                            <div class="option-label-badge">{{ $labels[$i] ?? chr(65+$i) }}</div>
-                            <input type="text" name="options[{{ $i }}][text]"
-                                class="option-text-input"
-                                placeholder="Pilihan {{ $labels[$i] ?? chr(65+$i) }}..."
-                                value="{{ $opt->option_text }}"
-                                {{ $i < 2 ? 'required' : '' }}>
-                            <input type="radio" name="correct_option" value="{{ $i }}"
-                                id="correct_{{ $i }}" class="correct-radio"
-                                {{ $opt->is_correct ? 'checked' : '' }}>
-                            <label for="correct_{{ $i }}" class="correct-check"></label>
-                            @if($i >= 2)
-                            <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
-                            @endif
-                        </div>
-                        @endforeach
-                    @endif
+                <div class="format-card {{ $currentFormat === 'likert' ? 'active' : '' }}"
+                     onclick="setFormat('likert')">
+                    <span class="format-icon">📊</span>
+                    <div class="format-card-text">
+                        <div class="format-title">Skala Likert (Sikap)</div>
+                        <div class="format-desc">SS / S / R / TS / STS — mengukur sikap responden</div>
+                    </div>
                 </div>
+            </div>
+            <input type="hidden" name="question_format" id="questionFormat" value="{{ $currentFormat }}">
 
-                @php $currentOptionCount = $oldOptions ? count($oldOptions) : $mcOptions->count(); @endphp
+            {{-- Panel: Multiple Choice --}}
+            <div class="panel-mc {{ $currentFormat === 'multiple_choice' ? 'visible' : '' }}"
+                 id="panelMc">
+                <div style="margin-bottom:12px;">
+                    <label class="form-label">Pilihan Jawaban</label>
+                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+                        Edit pilihan jawaban. Klik lingkaran untuk menandai jawaban <strong>benar</strong>.
+                    </div>
+                    <div id="optionsList">
+                        @php $optLabels = ['A','B','C','D','E']; @endphp
+                        @if(old('options'))
+                            @foreach(old('options') as $i => $opt)
+                            <div class="option-row" id="optionRow{{ $i }}">
+                                <div class="option-label-badge">{{ $optLabels[$i] }}</div>
+                                <input type="text" name="options[{{ $i }}][text]"
+                                    class="option-text-input"
+                                    placeholder="Pilihan {{ $optLabels[$i] }}..."
+                                    value="{{ $opt['text'] ?? '' }}"
+                                    {{ $i < 2 ? 'required' : '' }}>
+                                <input type="radio" name="correct_option" value="{{ $i }}"
+                                    id="correct_{{ $i }}" class="correct-radio"
+                                    {{ old('correct_option') == $i ? 'checked' : '' }}>
+                                <label for="correct_{{ $i }}" class="correct-check"></label>
+                                @if($i >= 2)
+                                <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
+                                @endif
+                            </div>
+                            @endforeach
+                        @else
+                            @foreach($mcOptions as $i => $opt)
+                            <div class="option-row" id="optionRow{{ $i }}">
+                                <div class="option-label-badge">{{ $optLabels[$i] ?? chr(65+$i) }}</div>
+                                <input type="text" name="options[{{ $i }}][text]"
+                                    class="option-text-input"
+                                    placeholder="Pilihan {{ $optLabels[$i] ?? chr(65+$i) }}..."
+                                    value="{{ $opt->option_text }}"
+                                    {{ $i < 2 ? 'required' : '' }}>
+                                <input type="radio" name="correct_option" value="{{ $i }}"
+                                    id="correct_{{ $i }}" class="correct-radio"
+                                    {{ $opt->is_correct ? 'checked' : '' }}>
+                                <label for="correct_{{ $i }}" class="correct-check"></label>
+                                @if($i >= 2)
+                                <button type="button" class="btn-remove-option" onclick="removeOption({{ $i }})">×</button>
+                                @endif
+                            </div>
+                            @endforeach
+                        @endif
+                    </div>
+                    <button type="button" class="btn-add-option" id="btnAddOption"
+                        onclick="addOption()" {{ $currentOptionCount >= 5 ? 'style=display:none' : '' }}>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Tambah Pilihan
+                    </button>
+                    @error('correct_option')
+                        <div style="font-size:13px;color:var(--danger);margin-top:8px;">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#166534;">
+                    💡 <strong>Tips:</strong> Klik baris pilihan untuk menandai jawaban benar. Setiap jawaban benar bernilai <strong>10 poin</strong>.
+                </div>
+            </div>
 
-                <button type="button" class="btn-add-option" id="btnAddOption"
-                    onclick="addOption()" {{ $currentOptionCount >= 5 ? 'style=display:none' : '' }}>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Tambah Pilihan
+            {{-- Panel: Likert --}}
+            <div class="panel-likert {{ $currentFormat === 'likert' ? 'visible' : '' }}"
+                 id="panelLikert">
+                <div style="margin-bottom:8px;">
+                    <label class="form-label">Arah Pernyataan</label>
+                    <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
+                        Tentukan apakah pernyataan ini mendukung atau menentang pencegahan stunting.
+                    </div>
+                </div>
+                <div class="fav-toggle-group">
+                    <div class="fav-card {{ $currentFav ? 'active-fav' : '' }}"
+                         onclick="setFavourable(true)" id="cardFav">
+                        <div class="fav-title">✅ Favourable</div>
+                        <div class="fav-sub">Mendukung pencegahan stunting<br>SS=5 · S=4 · R=3 · TS=2 · STS=1</div>
+                    </div>
+                    <div class="fav-card {{ !$currentFav ? 'active-unfav' : '' }}"
+                         onclick="setFavourable(false)" id="cardUnfav">
+                        <div class="fav-title">❌ Unfavourable</div>
+                        <div class="fav-sub">Menentang pencegahan stunting<br>SS=1 · S=2 · R=3 · TS=4 · STS=5</div>
+                    </div>
+                </div>
+                <input type="hidden" name="is_favourable" id="isFavourable"
+                       value="{{ $currentFav ? '1' : '0' }}">
+                <div style="margin-bottom:8px;">
+                    <label class="form-label">Preview Skala Jawaban</label>
+                </div>
+                <div class="likert-preview" id="likertPreview"></div>
+                <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#1e40af;">
+                    📊 <strong>Info:</strong> Pilihan Likert otomatis diisi (STS/TS/R/S/SS). Skor dihitung otomatis sesuai arah pernyataan.
+                </div>
+            </div>
+
+            {{-- Submit --}}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" style="width:auto;">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Simpan Perubahan
                 </button>
-
-                @error('correct_option')
-                    <div style="font-size:13px;color:var(--danger);margin-top:8px;">{{ $message }}</div>
-                @enderror
+                <a href="{{ route('admin.questions.index') }}" class="btn btn-outline">Batal</a>
             </div>
-
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#166534;">
-                💡 <strong>Tips:</strong> Klik pada baris pilihan untuk menandai sebagai jawaban benar. Setiap jawaban benar bernilai <strong>10 poin</strong>.
-            </div>
-        </div>
-
-        {{-- ════ Panel: Likert ════ --}}
-        <div class="panel-likert {{ $currentFormat === 'likert' ? 'visible' : '' }}"
-             id="panelLikert">
-
-            <div style="margin-bottom:8px;">
-                <label class="form-label">Arah Pernyataan</label>
-                <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">
-                    Tentukan apakah pernyataan ini mendukung atau menentang pencegahan stunting.
-                </div>
-            </div>
-
-            <div class="fav-toggle-group">
-                <div class="fav-card {{ $currentFav ? 'active-fav' : '' }}"
-                     onclick="setFavourable(true)" id="cardFav">
-                    <div class="fav-title">✅ Favourable</div>
-                    <div class="fav-sub">Mendukung pencegahan stunting<br>SS=5 · S=4 · R=3 · TS=2 · STS=1</div>
-                </div>
-                <div class="fav-card {{ !$currentFav ? 'active-unfav' : '' }}"
-                     onclick="setFavourable(false)" id="cardUnfav">
-                    <div class="fav-title">❌ Unfavourable</div>
-                    <div class="fav-sub">Menentang pencegahan stunting<br>SS=1 · S=2 · R=3 · TS=4 · STS=5</div>
-                </div>
-            </div>
-            <input type="hidden" name="is_favourable" id="isFavourable"
-                   value="{{ $currentFav ? '1' : '0' }}">
-
-            <div style="margin-bottom:8px;">
-                <label class="form-label">Preview Skala Jawaban</label>
-            </div>
-            <div class="likert-preview" id="likertPreview"></div>
-
-            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:9px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#1e40af;">
-                📊 <strong>Info:</strong> Pilihan jawaban Likert sudah otomatis diisi (STS/TS/R/S/SS). Skor dihitung otomatis sesuai arah pernyataan.
-            </div>
-        </div>
-
-        {{-- Submit --}}
-        <div style="display:flex;gap:12px;">
-            <button type="submit" class="btn btn-primary" style="width:auto;">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                Simpan Perubahan
-            </button>
-            <a href="{{ route('admin.questions.index') }}" class="btn btn-outline">Batal</a>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @push('scripts')
@@ -448,8 +506,8 @@ function toggleMcInputs(enabled) {
 function setFavourable(fav) {
     isFavourable = fav;
     document.getElementById('isFavourable').value = fav ? '1' : '0';
-    document.getElementById('cardFav').className    = 'fav-card' + (fav  ? ' active-fav'   : '');
-    document.getElementById('cardUnfav').className  = 'fav-card' + (!fav ? ' active-unfav' : '');
+    document.getElementById('cardFav').className   = 'fav-card' + (fav  ? ' active-fav'   : '');
+    document.getElementById('cardUnfav').className = 'fav-card' + (!fav ? ' active-unfav' : '');
     renderLikertPreview();
 }
 
@@ -467,8 +525,7 @@ function renderLikertPreview() {
     LIKERT.forEach((opt, i) => {
         const score    = scores[i];
         const scoreCls = score >= 4 ? 'score-high' : score == 3 ? 'score-mid' : 'score-low';
-        html += `
-        <div class="likert-option-row">
+        html += `<div class="likert-option-row">
             <span class="likert-badge ${opt.cls}">${opt.label}</span>
             <span style="font-size:14px;color:var(--text-dark);">${opt.text}</span>
             <span class="likert-score-badge ${scoreCls}">Skor ${score}</span>
@@ -488,10 +545,8 @@ function addOption() {
     row.id = `optionRow${idx}`;
     row.innerHTML = `
         <div class="option-label-badge">${lbl}</div>
-        <input type="text" name="options[${idx}][text]"
-            class="option-text-input" placeholder="Pilihan ${lbl}...">
-        <input type="radio" name="correct_option" value="${idx}"
-            id="correct_${idx}" class="correct-radio">
+        <input type="text" name="options[${idx}][text]" class="option-text-input" placeholder="Pilihan ${lbl}...">
+        <input type="radio" name="correct_option" value="${idx}" id="correct_${idx}" class="correct-radio">
         <label for="correct_${idx}" class="correct-check"></label>
         <button type="button" class="btn-remove-option" onclick="removeOption(${idx})">×</button>
     `;

@@ -11,7 +11,7 @@ class RespondentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Respondent::with('location')->latest();
+        $query = Respondent::with(['location', 'child'])->latest();
 
         // Filter pencarian by nama atau kode akses
         if ($request->filled('q')) {
@@ -33,8 +33,9 @@ class RespondentController extends Controller
     {
         // Tetap pakai get() karena hasilTest tidak pakai pagination
         // answers.question & answers.option keduanya diload agar tidak error di view
-        $respondents   = Respondent::with(['answers.question', 'answers.option'])->get();
-        $preQuestions  = Question::where('type', 'pre')->orderBy('order')->get();
+        $respondents   = Respondent::with(['answers.question', 'answers.option', 'child'])->get();
+        $preQuestions  = Question::where('type', 'pre')
+            ->orderByRaw("category = 'kondisi_anak' DESC")->orderBy('order')->get();
         $postQuestions = Question::where('type', 'post')->orderBy('order')->get();
 
         return view('admin.hasil-test', compact('respondents', 'preQuestions', 'postQuestions'));

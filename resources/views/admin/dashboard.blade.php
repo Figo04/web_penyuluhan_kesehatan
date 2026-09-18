@@ -54,6 +54,27 @@
     </div>
 </div>
 
+<div style="font-size:17px;font-weight:800;margin-bottom:16px;">Grafik Data Responden</div>
+
+<div class="charts-grid">
+    <div class="card chart-card">
+        <div class="chart-title">Rata-rata Skor Pre-Test vs Post-Test</div>
+        <div class="chart-box"><canvas id="chartScores"></canvas></div>
+    </div>
+    <div class="card chart-card">
+        <div class="chart-title">Responden per Lokasi</div>
+        <div class="chart-box"><canvas id="chartLocations"></canvas></div>
+    </div>
+    <div class="card chart-card">
+        <div class="chart-title">Sebaran Umur Ibu (tahun)</div>
+        <div class="chart-box"><canvas id="chartMotherAges"></canvas></div>
+    </div>
+    <div class="card chart-card">
+        <div class="chart-title">Sebaran Umur Anak</div>
+        <div class="chart-box"><canvas id="chartChildAges"></canvas></div>
+    </div>
+</div>
+
 <div style="font-size:17px;font-weight:800;margin-bottom:16px;">Aktivitas Terbaru</div>
 
 <div class="card">
@@ -93,3 +114,45 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+    .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .chart-card  { padding: 20px; }
+    .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+    .chart-box   { position: relative; height: 260px; }
+    @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    const charts = @json($charts);
+    const teal = '#5EE9C7', blue = '#60a5fa', pink = '#f472b6', amber = '#fbbf24';
+
+    function bar(id, data, colors, opts = {}) {
+        new Chart(document.getElementById(id), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(data),
+                datasets: [{ data: Object.values(data), backgroundColor: colors, borderRadius: 6, maxBarThickness: 56 }],
+            },
+            options: Object.assign({
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+            }, opts),
+        });
+    }
+
+    bar('chartScores', charts.scores, [amber, teal], {
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => 'Rata-rata skor: ' + c.raw } } },
+    });
+    bar('chartLocations', charts.locations, blue, { indexAxis: 'y', scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } });
+    bar('chartMotherAges', charts.motherAges, teal);
+    bar('chartChildAges', charts.childAges, pink);
+})();
+</script>
+@endpush

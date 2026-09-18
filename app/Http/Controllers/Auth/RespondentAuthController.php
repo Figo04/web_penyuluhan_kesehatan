@@ -31,7 +31,7 @@ class RespondentAuthController extends Controller
             return back()->with('error', 'Kode akses tidak ditemukan.');
         }
 
-        session(['respondent_id' => $respondent->id]);
+        session(['respondent_id' => $respondent->respondent_id]);
         return redirect()->route('respondent.home');
     }
 
@@ -49,10 +49,9 @@ class RespondentAuthController extends Controller
             'gender'         => 'required|in:laki-laki,perempuan',
             'marital_status' => 'required|in:belum menikah,menikah,cerai hidup,cerai mati',
             'occupation'     => 'required|string|max:255',
-            'total_children'  => 'required|integer|min:0|max:20',
-'medical_history' => 'nullable|array',
+            'total_children' => 'required|integer|min:0|max:20',
             'medical_history'=> 'nullable|array',
-            'location_id'    => 'nullable|exists:locations,id',
+            'location_id'    => 'nullable|exists:locations,location_id',
         ]);
 
         // Generate kode akses otomatis: SEHAT + 3 digit angka random
@@ -67,11 +66,12 @@ class RespondentAuthController extends Controller
             'gender'         => $request->gender,
             'marital_status' => $request->marital_status,
             'occupation'     => $request->occupation,
+            'total_children' => $request->total_children,
             'medical_history'=> $request->medical_history ?? [],
             'location_id'    => $request->location_id,
         ]);
 
-        session(['respondent_id' => $respondent->id]);
+        session(['respondent_id' => $respondent->respondent_id]);
         return redirect()->route('respondent.home')->with('success', 'Pendaftaran berhasil! Kode akses kamu: ' . $code);
     }
 

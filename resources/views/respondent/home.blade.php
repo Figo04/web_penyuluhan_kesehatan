@@ -21,7 +21,7 @@
         border-radius: 50%;
     }
     .hero-name { font-size: 22px; font-weight: 800; color: #111827; margin-bottom: 4px; }
-    .hero-sub { font-size: 13px; color: rgba(0,0,0,0.55); line-height: 1.5; }
+    .hero-sub  { font-size: 13px; color: rgba(0,0,0,0.55); line-height: 1.5; }
     .hero-tags { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
     .hero-tag {
         display: flex; align-items: center; gap: 5px;
@@ -31,85 +31,60 @@
     }
     .hero-tag svg { width: 12px; height: 12px; }
 
-    /* ── PROGRESS STEPS (compact) ──────────── */
+    /* ── PROGRESS STEPS ── */
     .section-label {
         font-size: 13px; font-weight: 700;
         color: var(--text-muted); text-transform: uppercase;
         letter-spacing: 0.06em; margin-bottom: 12px;
     }
-
     .progress-steps {
-        display: flex;
-        align-items: center;
-        background: white;
-        border-radius: 14px;
+        display: flex; align-items: center;
+        background: white; border-radius: 14px;
         border: 1px solid var(--border);
-        padding: 16px 20px;
-        margin-bottom: 28px;
-        box-shadow: var(--shadow);
-        gap: 0;
+        padding: 16px 20px; margin-bottom: 28px;
+        box-shadow: var(--shadow); gap: 0;
     }
-
     .progress-step {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        text-decoration: none;
-        color: inherit;
-        position: relative;
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; gap: 6px;
+        text-decoration: none; color: inherit; position: relative;
     }
-
-    /* Garis connector */
     .progress-step:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        top: 16px;
-        right: -50%;
-        width: 100%;
-        height: 2px;
-        background: var(--border);
-        z-index: 0;
+        content: ''; position: absolute;
+        top: 16px; right: -50%; width: 100%; height: 2px;
+        background: var(--border); z-index: 0;
     }
-    .progress-step.done:not(:last-child)::after {
-        background: #5EE9C7;
-    }
-
+    .progress-step.done:not(:last-child)::after { background: #5EE9C7; }
     .step-dot {
-        width: 32px; height: 32px;
-        border-radius: 50%;
-        background: var(--bg);
-        border: 2px solid var(--border);
+        width: 32px; height: 32px; border-radius: 50%;
+        background: var(--bg); border: 2px solid var(--border);
         display: flex; align-items: center; justify-content: center;
-        font-size: 12px; font-weight: 800;
-        color: var(--text-muted);
-        position: relative; z-index: 1;
-        transition: all 0.2s;
+        font-size: 12px; font-weight: 800; color: var(--text-muted);
+        position: relative; z-index: 1; transition: all 0.2s;
     }
     .progress-step.done .step-dot {
-        background: #5EE9C7;
-        border-color: #5EE9C7;
-        color: #111827;
+        background: #5EE9C7; border-color: #5EE9C7; color: #111827;
     }
     .progress-step.done .step-dot svg { width: 14px; height: 14px; }
-
     .step-label {
         font-size: 11px; font-weight: 700;
-        color: var(--text-muted); text-align: center;
-        white-space: nowrap;
+        color: var(--text-muted); text-align: center; white-space: nowrap;
     }
     .progress-step.done .step-label { color: #0d7a5f; }
 
-    /* ── HIGHLIGHT SECTION ─────────────────── */
-    .highlight-section {
-        animation: fadeSlideUp 0.5s ease both;
+    /* Progress materi partial */
+    .step-progress-text {
+        font-size: 10px; color: var(--text-muted);
+        font-weight: 600; text-align: center;
+        margin-top: 2px;
     }
+
+    /* ── HIGHLIGHT SECTION ── */
+    .highlight-section { animation: fadeSlideUp 0.5s ease both; }
     @keyframes fadeSlideUp {
         from { opacity: 0; transform: translateY(20px); }
         to   { opacity: 1; transform: translateY(0); }
     }
-
     .highlight-header {
         display: flex; align-items: center; justify-content: space-between;
         margin-bottom: 14px;
@@ -120,64 +95,36 @@
         font-size: 11px; font-weight: 700;
         padding: 3px 10px; border-radius: 100px;
     }
-
-    /* Horizontal scroll container */
     .highlight-scroll {
-        display: flex;
-        gap: 12px;
-        overflow-x: auto;
-        padding-bottom: 12px;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        display: flex; gap: 12px; overflow-x: auto;
+        padding-bottom: 12px; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
     }
     .highlight-scroll::-webkit-scrollbar { display: none; }
-
     .highlight-card {
-        flex-shrink: 0;
-        width: 220px;
-        background: white;
-        border-radius: 14px;
-        border: 1.5px solid #b2f5e8;
-        padding: 18px;
-        scroll-snap-align: start;
-        text-decoration: none;
-        display: block;
-        transition: all 0.2s;
+        flex-shrink: 0; width: 220px; background: white;
+        border-radius: 14px; border: 1.5px solid #b2f5e8;
+        padding: 18px; scroll-snap-align: start;
+        text-decoration: none; display: block; transition: all 0.2s;
     }
     .highlight-card:hover, .highlight-card:active {
         border-color: #5EE9C7;
         box-shadow: 0 4px 16px rgba(94,233,199,0.3);
         transform: translateY(-2px);
     }
-
     .highlight-card-title {
         font-size: 13px; font-weight: 800;
-        color: #0d7a5f; margin-bottom: 10px;
-        line-height: 1.4;
+        color: #0d7a5f; margin-bottom: 10px; line-height: 1.4;
     }
-    .highlight-card-body {
-        font-size: 12px; color: var(--text-mid);
-        line-height: 1.6;
-    }
-    .highlight-card-body ul {
-        padding-left: 14px; margin: 4px 0 0;
-    }
+    .highlight-card-body { font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+    .highlight-card-body ul { padding-left: 14px; margin: 4px 0 0; }
     .highlight-card-body li { margin-bottom: 2px; }
-
-    /* Scroll indicator dots */
-    .scroll-dots {
-        display: flex; justify-content: center;
-        gap: 5px; margin-top: 10px;
-    }
+    .scroll-dots { display: flex; justify-content: center; gap: 5px; margin-top: 10px; }
     .scroll-dot {
-        width: 6px; height: 6px;
-        border-radius: 50%;
-        background: var(--border);
-        transition: all 0.2s;
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--border); transition: all 0.2s;
     }
     .scroll-dot.active { background: #5EE9C7; width: 18px; border-radius: 3px; }
-
     .highlight-cta {
         display: flex; align-items: center; justify-content: center; gap: 8px;
         margin-top: 16px; padding: 14px;
@@ -208,13 +155,18 @@
     </div>
 </div>
 
-{{-- PROGRESS STEPS (compact) --}}
+{{-- PROGRESS STEPS --}}
 <div class="section-label">Progres Kamu</div>
 <div class="progress-steps">
-    <a href="{{ route('respondent.pretest') }}" class="progress-step {{ $respondent->pre_test_done ? 'done' : '' }}">
+
+    {{-- Step 1: Pre-Test --}}
+    <a href="{{ route('respondent.pretest') }}"
+       class="progress-step {{ $respondent->pre_test_done ? 'done' : '' }}">
         <div class="step-dot">
             @if($respondent->pre_test_done)
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
             @else
                 1
             @endif
@@ -222,27 +174,40 @@
         <div class="step-label">Pre-Test</div>
     </a>
 
-    <a href="{{ route('respondent.material') }}" class="progress-step {{ $respondent->material_done ? 'done' : '' }}">
+    {{-- Step 2: Materi — pakai $materialDone dari controller --}}
+    <a href="{{ route('respondent.material') }}"
+       class="progress-step {{ $materialDone ? 'done' : '' }}">
         <div class="step-dot">
-            @if($respondent->material_done)
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+            @if($materialDone)
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
             @else
                 2
             @endif
         </div>
         <div class="step-label">Materi</div>
+        {{-- Tampilkan progres parsial kalau belum semua dibaca --}}
+        @if(!$materialDone && $readMaterials > 0)
+            <div class="step-progress-text">{{ $readMaterials }}/{{ $totalMaterials }}</div>
+        @endif
     </a>
 
-    <a href="{{ route('respondent.posttest') }}" class="progress-step {{ $respondent->post_test_done ? 'done' : '' }}">
+    {{-- Step 3: Post-Test --}}
+    <a href="{{ route('respondent.posttest') }}"
+       class="progress-step {{ $respondent->post_test_done ? 'done' : '' }}">
         <div class="step-dot">
             @if($respondent->post_test_done)
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                </svg>
             @else
                 3
             @endif
         </div>
         <div class="step-label">Post-Test</div>
     </a>
+
 </div>
 
 {{-- HIGHLIGHT CARDS — hanya muncul setelah pre-test selesai --}}
@@ -265,7 +230,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Kesalahan yang Sering Dilakukan Orang Tua</div>
             <div class="highlight-card-body">
@@ -276,7 +240,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Contoh Menu Sehari untuk Balita</div>
             <div class="highlight-card-body">
@@ -286,7 +249,6 @@
                 🍎 Snack: Buah atau susu
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Peran Ayah yang Sering Diabaikan</div>
             <div class="highlight-card-body">
@@ -298,7 +260,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Pentingnya Posyandu</div>
             <div class="highlight-card-body">
@@ -310,7 +271,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Lingkungan Rumah yang Sehat</div>
             <div class="highlight-card-body">
@@ -322,7 +282,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Dampak Stunting Saat Dewasa</div>
             <div class="highlight-card-body">
@@ -334,7 +293,6 @@
                 </ul>
             </div>
         </a>
-
         <a href="{{ route('respondent.material') }}" class="highlight-card">
             <div class="highlight-card-title">Langkah Mudah Mulai Hari Ini</div>
             <div class="highlight-card-body">
@@ -348,7 +306,6 @@
         </a>
     </div>
 
-    {{-- Scroll indicator dots --}}
     <div class="scroll-dots" id="scrollDots">
         @for($i = 0; $i < 8; $i++)
             <div class="scroll-dot {{ $i === 0 ? 'active' : '' }}" id="dot-{{ $i }}"></div>
@@ -357,7 +314,9 @@
 
     <a href="{{ route('respondent.material') }}" class="highlight-cta">
         Buka Materi Lengkap
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
     </a>
 </div>
 @endif
@@ -366,7 +325,6 @@
 
 @push('scripts')
 <script>
-    // ── Auto-scroll ke highlight section (pertama kali setelah pre-test selesai)
     @if($respondent->pre_test_done && session('show_highlight'))
         setTimeout(() => {
             const el = document.getElementById('highlightSection');
@@ -374,12 +332,10 @@
         }, 500);
     @endif
 
-    // ── Scroll indicator dots
     const scroll = document.getElementById('highlightScroll');
     if (scroll) {
         const cards = scroll.querySelectorAll('.highlight-card');
         const dots  = document.querySelectorAll('.scroll-dot');
-
         scroll.addEventListener('scroll', () => {
             const index = Math.round(scroll.scrollLeft / (scroll.scrollWidth / cards.length));
             dots.forEach((d, i) => d.classList.toggle('active', i === index));

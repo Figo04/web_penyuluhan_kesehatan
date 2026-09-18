@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Respondent extends Model
 {
+    protected $primaryKey = 'respondent_id';
+
     protected $fillable = [
         'access_code', 'name', 'age', 'gender',
         'marital_status', 'occupation', 'total_children',
@@ -24,16 +26,28 @@ class Respondent extends Model
 
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Location::class, 'location_id', 'location_id');
+    }
+
+    public function child()
+    {
+        return $this->hasOne(Child::class, 'respondent_id', 'respondent_id');
     }
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'respondent_id', 'respondent_id');
     }
 
     public function materialReads()
     {
-        return $this->hasMany(MaterialRead::class);
+        return $this->hasMany(MaterialRead::class, 'respondent_id', 'respondent_id');
+    }
+
+    /** Materi dianggap selesai kalau semua materi sudah dibaca */
+    public function hasFinishedMaterials(): bool
+    {
+        $total = Material::count();
+        return $total > 0 && $this->materialReads()->count() >= $total;
     }
 }

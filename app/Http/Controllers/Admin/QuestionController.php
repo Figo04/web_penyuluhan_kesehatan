@@ -41,44 +41,20 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
-        $format = $request->input('question_format', 'multiple_choice');
-
-        // Validasi dasar
-        $rules = [
-            'question_text'   => 'required|string',
-            'type'            => 'required|in:pre,post',
-            'order'           => 'required|integer|min:1',
-            'question_format' => 'required|in:multiple_choice,likert',
-        ];
-
-        $messages = [
-            'question_text.required'   => 'Teks soal wajib diisi.',
-            'correct_option.required'  => 'Pilih salah satu jawaban yang benar.',
-            'options.*.text.required'  => 'Semua pilihan jawaban wajib diisi.',
-        ];
-
-        if ($format === 'multiple_choice') {
-            $rules['options']         = 'required|array|min:2|max:5';
-            $rules['options.*.text']  = 'required|string';
-            $rules['correct_option']  = 'required|integer|min:0';
-        } else {
-            // Likert: hanya perlu is_favourable
-            $rules['is_favourable']   = 'required|boolean';
-        }
-
-        $request->validate($rules, $messages);
+        [$format, $category] = $this->validateQuestion($request);
 
         // Simpan soal
         $question = Question::create([
             'question_text'   => $request->question_text,
             'type'            => $request->type,
+            'category'        => $category,
             'order'           => $request->order,
             'question_format' => $format,
             'is_favourable'   => $format === 'likert' ? $request->boolean('is_favourable') : null,
         ]);
 
         if ($format === 'multiple_choice') {
-            $this->saveMcOptions($question, $request->options, (int) $request->correct_option);
+            $this->saveMcOptions($question, $request->options, $this->correctIndex($request, $category));
         } else {
             $this->saveLikertOptions($question, $question->is_favourable);
         }
@@ -95,35 +71,13 @@ class QuestionController extends Controller
 
     public function update(Request $request, Question $soal)
     {
-        $format = $request->input('question_format', 'multiple_choice');
-
-        $rules = [
-            'question_text'   => 'required|string',
-            'type'            => 'required|in:pre,post',
-            'order'           => 'required|integer|min:1',
-            'question_format' => 'required|in:multiple_choice,likert',
-        ];
-
-        $messages = [
-            'question_text.required'   => 'Teks soal wajib diisi.',
-            'correct_option.required'  => 'Pilih salah satu jawaban yang benar.',
-            'options.*.text.required'  => 'Semua pilihan jawaban wajib diisi.',
-        ];
-
-        if ($format === 'multiple_choice') {
-            $rules['options']        = 'required|array|min:2|max:5';
-            $rules['options.*.text'] = 'required|string';
-            $rules['correct_option'] = 'required|integer|min:0';
-        } else {
-            $rules['is_favourable']  = 'required|boolean';
-        }
-
-        $request->validate($rules, $messages);
+        [$format, $category] = $this->validateQuestion($request);
 
         // Update soal
         $soal->update([
             'question_text'   => $request->question_text,
             'type'            => $request->type,
+            'category'        => $category,
             'order'           => $request->order,
             'question_format' => $format,
             'is_favourable'   => $format === 'likert' ? $request->boolean('is_favourable') : null,
@@ -133,7 +87,7 @@ class QuestionController extends Controller
         $soal->options()->delete();
 
         if ($format === 'multiple_choice') {
-            $this->saveMcOptions($soal, $request->options, (int) $request->correct_option);
+            $this->saveMcOptions($soal, $request->options, $this->correctIndex($request, $category));
         } else {
             $this->saveLikertOptions($soal, $request->boolean('is_favourable'));
         }
@@ -154,6 +108,51 @@ class QuestionController extends Controller
     // ─── Helpers ─────────────────────────────────────────────────────────────
 
     /**
+     * Validasi form soal (dipakai store & update).
+     * Soal kondisi anak hanya untuk pre-test dan tidak punya jawaban benar.
+     * @return array{0: string, 1: string} [format, category]
+     */
+    private function validateQuestion(Request $request): array
+    {
+        $format   = $request->input('question_format', 'multiple_choice');
+        $category = $request->input('type') === 'pre' && $request->input('category') === 'kondisi_anak'
+            ? 'kondisi_anak'
+            : 'umum';
+
+        $rules = [
+            'question_text'   => 'required|string',
+            'type'            => 'required|in:pre,post',
+            'category'        => 'nullable|in:umum,kondisi_anak',
+            'order'           => 'required|integer|min:1',
+            'question_format' => 'required|in:multiple_choice,likert',
+        ];
+
+        $messages = [
+            'question_text.required'   => 'Teks soal wajib diisi.',
+            'correct_option.required'  => 'Pilih salah satu jawaban yang benar.',
+            'options.*.text.required'  => 'Semua pilihan jawaban wajib diisi.',
+        ];
+
+        if ($format === 'multiple_choice') {
+            $rules['options']        = 'required|array|min:2|max:5';
+            $rules['options.*.text'] = 'required|string';
+            $rules['correct_option'] = $category === 'kondisi_anak' ? 'nullable' : 'required|integer|min:0';
+        } else {
+            $rules['is_favourable']  = 'required|boolean';
+        }
+
+        $request->validate($rules, $messages);
+
+        return [$format, $category];
+    }
+
+    /** Indeks jawaban benar; -1 = tidak ada (soal kondisi anak) */
+    private function correctIndex(Request $request, string $category): int
+    {
+        return $category === 'kondisi_anak' ? -1 : (int) $request->correct_option;
+    }
+
+    /**
      * Simpan pilihan jawaban Multiple Choice
      * $options = array of ['text' => '...']
      * $correctIndex = indeks (0-based) yang benar
@@ -164,7 +163,7 @@ class QuestionController extends Controller
         foreach ($options as $index => $option) {
             $isCorrect = ($index === $correctIndex);
             QuestionOption::create([
-                'question_id' => $question->id,
+                'question_id' => $question->question_id,
                 'label'       => $labels[$index] ?? chr(65 + $index),
                 'option_text' => $option['text'],
                 'is_correct'  => $isCorrect,
@@ -183,7 +182,7 @@ class QuestionController extends Controller
 
         foreach (self::LIKERT_OPTIONS as $index => $opt) {
             QuestionOption::create([
-                'question_id' => $question->id,
+                'question_id' => $question->question_id,
                 'label'       => $opt['label'],
                 'option_text' => $opt['option_text'],
                 'is_correct'  => false, // Likert tidak punya "benar/salah"

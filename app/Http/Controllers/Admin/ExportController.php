@@ -8,18 +8,46 @@ use App\Models\Question;
 
 class ExportController extends Controller
 {
+    const CHILD_HEADERS = ['Nama Anak', 'Tgl Lahir Anak', 'Umur Anak (bln)', 'JK Anak', 'Anak Ke', 'BB Anak (kg)', 'TB Anak (cm)'];
+
+    private function childColumns(Respondent $r): array
+    {
+        $c = $r->child;
+        return $c
+            ? [$c->name, $c->birth_date->format('d/m/Y'), $c->ageInMonths(), $c->gender, $c->child_order, $c->weight_kg + 0, $c->height_cm + 0]
+            : array_fill(0, count(self::CHILD_HEADERS), '-');
+    }
+
+    /** Soal kondisi anak diekspor sebagai teks jawaban, soal lain sebagai label (A/B/STS/...) */
+    private function answerCell(Respondent $r, Question $q, string $testType): string
+    {
+        $answer = $r->answers->where('question_id', $q->question_id)->where('test_type', $testType)->first();
+        if (!$answer || !$answer->option) return '-';
+        return $q->category === 'kondisi_anak' ? $answer->option->option_text : $answer->option->label;
+    }
+
+    private function preQuestions()
+    {
+        return Question::where('type', 'pre')->orderByRaw("category = 'kondisi_anak' DESC")->orderBy('order')->get();
+    }
+
+    private function preHeader(Question $q): string
+    {
+        return ($q->category === 'kondisi_anak' ? 'Anak Q' : 'Pre Q') . $q->order;
+    }
+
     public function exportExcel()
     {
-        $respondents   = Respondent::with(['answers.option', 'answers.question', 'location'])->get();
-        $preQuestions  = Question::where('type', 'pre')->orderBy('order')->get();
+        $respondents   = Respondent::with(['answers.option', 'answers.question', 'location', 'child'])->get();
+        $preQuestions  = $this->preQuestions();
         $postQuestions = Question::where('type', 'post')->orderBy('order')->get();
 
         $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
         // ── Header ──────────────────────────────────────────────
-        $headers = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Jumlah Anak', 'Riwayat Penyakit', 'Lokasi'];
-        foreach ($preQuestions as $q)  $headers[] = 'Pre Q'  . $q->order;
+        $headers = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Jumlah Anak', 'Riwayat Penyakit', 'Lokasi', ...self::CHILD_HEADERS];
+        foreach ($preQuestions as $q)  $headers[] = $this->preHeader($q);
         foreach ($postQuestions as $q) $headers[] = 'Post Q' . $q->order;
         $headers[] = 'Pre-Test Selesai';
         $headers[] = 'Post-Test Selesai';
@@ -36,8 +64,9 @@ class ExportController extends Controller
         $lastCol = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($headers));
         $sheet->getStyle('A1:' . $lastCol . '1')->applyFromArray($headerStyle);
 
-        // Auto width kolom
-        foreach (range('A', $lastCol) as $col) {
+        // Auto width kolom — pakai index angka supaya aman kalau kolom > 26
+        for ($i = 1; $i <= count($headers); $i++) {
+            $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($i);
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
@@ -59,20 +88,11 @@ class ExportController extends Controller
                 $r->total_children ?? 0,
                 $medicalHistory,
                 $r->location ? $r->location->name : '-',
+                ...$this->childColumns($r),
             ];
 
-            // Jawaban Pre-Test per soal
-            foreach ($preQuestions as $q) {
-                $answer  = $r->answers->where('question_id', $q->id)->where('test_type', 'pre')->first();
-                // Null-safe: cek answer dan option tidak null sebelum akses ->label
-                $data[] = ($answer && $answer->option) ? $answer->option->label : '-';
-            }
-
-            // Jawaban Post-Test per soal
-            foreach ($postQuestions as $q) {
-                $answer  = $r->answers->where('question_id', $q->id)->where('test_type', 'post')->first();
-                $data[] = ($answer && $answer->option) ? $answer->option->label : '-';
-            }
+            foreach ($preQuestions as $q)  $data[] = $this->answerCell($r, $q, 'pre');
+            foreach ($postQuestions as $q) $data[] = $this->answerCell($r, $q, 'post');
 
             $data[] = $r->pre_test_done  ? 'Ya' : 'Belum';
             $data[] = $r->post_test_done ? 'Ya' : 'Belum';
@@ -96,8 +116,8 @@ class ExportController extends Controller
 
     public function exportCsv()
     {
-        $respondents   = Respondent::with(['answers.question', 'answers.option', 'location'])->get();
-        $preQuestions  = Question::where('type', 'pre')->orderBy('order')->get();
+        $respondents   = Respondent::with(['answers.question', 'answers.option', 'location', 'child'])->get();
+        $preQuestions  = $this->preQuestions();
         $postQuestions = Question::where('type', 'post')->orderBy('order')->get();
 
         $filename = 'data-penelitian-' . date('Ymd-His') . '.csv';
@@ -114,8 +134,8 @@ class ExportController extends Controller
             fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
 
             // ── Header CSV ──────────────────────────────────────
-            $header = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Riwayat Penyakit', 'Lokasi'];
-            foreach ($preQuestions as $q)  $header[] = 'Pre Q'  . $q->order;
+            $header = ['Kode', 'Nama', 'Umur', 'Jenis Kelamin', 'Status Perkawinan', 'Pekerjaan', 'Riwayat Penyakit', 'Lokasi', ...self::CHILD_HEADERS];
+            foreach ($preQuestions as $q)  $header[] = $this->preHeader($q);
             foreach ($postQuestions as $q) $header[] = 'Post Q' . $q->order;
             $header[] = 'Pre-Test Selesai';
             $header[] = 'Post-Test Selesai';
@@ -139,20 +159,11 @@ class ExportController extends Controller
                     $r->occupation,
                     $medicalHistory,
                     $r->location ? $r->location->name : '-',
+                    ...$this->childColumns($r),
                 ];
 
-                // Jawaban Pre-Test per soal
-                foreach ($preQuestions as $q) {
-                    $answer  = $r->answers->where('question_id', $q->id)->where('test_type', 'pre')->first();
-                    // Null-safe: cek answer dan option tidak null sebelum akses ->label
-                    $row[] = ($answer && $answer->option) ? $answer->option->label : '-';
-                }
-
-                // Jawaban Post-Test per soal
-                foreach ($postQuestions as $q) {
-                    $answer  = $r->answers->where('question_id', $q->id)->where('test_type', 'post')->first();
-                    $row[] = ($answer && $answer->option) ? $answer->option->label : '-';
-                }
+                foreach ($preQuestions as $q)  $row[] = $this->answerCell($r, $q, 'pre');
+                foreach ($postQuestions as $q) $row[] = $this->answerCell($r, $q, 'post');
 
                 $row[] = $r->pre_test_done  ? 'Ya' : 'Belum';
                 $row[] = $r->post_test_done ? 'Ya' : 'Belum';

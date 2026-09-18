@@ -1,43 +1,56 @@
 <?php
+
 namespace App\Http\Controllers\Respondent;
 
 use App\Http\Controllers\Controller;
-use App\Models\Respondent;
 use App\Models\Material;
 use App\Models\MaterialRead;
+use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
     public function index()
     {
-        $respondent = Respondent::find(session('respondent_id'));
+        $respondentId = session('respondent_id');
 
-        if (!$respondent->pre_test_done) {
-            return redirect()->route('respondent.home')->with('error', 'Selesaikan Pre-Test terlebih dahulu.');
-        }
+        $materials = Material::with(['comments.respondent'])
+            ->orderBy('order')
+            ->get();
 
-        $materials = Material::orderBy('order')->get();
-        $readMaterialIds = $respondent->materialReads()->pluck('material_id')->toArray();
-return view('respondent.material', compact('materials', 'readMaterialIds', 'respondent'));
+        $readMaterialIds = $respondentId
+            ? MaterialRead::where('respondent_id', $respondentId)
+                ->pluck('material_id')
+                ->toArray()
+            : [];
 
+        return view('respondent.material', compact('materials', 'readMaterialIds'));
     }
 
-    public function markAsRead($id)
+    public function markAsRead(Request $request, Material $material)
     {
-        $respondent = Respondent::find(session('respondent_id'));
+        $respondentId = session('respondent_id');
 
-        MaterialRead::firstOrCreate(
-            ['respondent_id' => $respondent->id, 'material_id' => $id],
-            ['read_at' => now()]
-        );
-
-        $totalMaterials = Material::count();
-        $readCount = $respondent->materialReads()->count();
-
-        if ($readCount >= $totalMaterials && $totalMaterials > 0) {
-            $respondent->update(['material_done' => true]);
+        if (!$respondentId) {
+            return response()->json(['status' => 'error', 'message' => 'Session kosong'], 401);
         }
 
-        return response()->json(['status' => 'ok', 'material_done' => $respondent->fresh()->material_done]);
+        try {
+            MaterialRead::firstOrCreate(
+                // Kondisi pencarian — cari record yang sudah ada
+                [
+                    'material_id'   => $material->material_id,
+                    'respondent_id' => $respondentId,
+                ],
+                // Nilai tambahan saat CREATE (bukan untuk pencarian)
+                [
+                    'read_at' => now(),
+                ]
+            );
+
+            return response()->json(['status' => 'ok']);
+
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 }

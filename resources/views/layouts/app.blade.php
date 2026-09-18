@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'SehatEdukasi') — Platform Penyuluhan Kesehatan Digital</title>
+    <title>@yield('title', 'Kenali Stunting') — Platform Penyuluhan Kesehatan Digital</title>
     <link rel="icon" type="image/png" href="{{ asset('kemen_icon.png') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -61,34 +61,18 @@
 
         /* BOTTOM NAV */
         .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border); z-index: 100; height: var(--bottom-nav-height); box-shadow: 0 -4px 12px rgba(0,0,0,0.06); }
-
         .bottom-nav-inner { display: flex; align-items: stretch; height: 100%; width: 100%; }
-
-        /* ✅ FIX UTAMA: form dapat flex:1 dan display:flex agar sama lebar */
         .bottom-nav-inner > a { flex: 1; display: flex; }
         .bottom-nav-inner > form { flex: 1; display: flex; }
-
         .bottom-nav-link,
         .bottom-nav-logout {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-            width: 100%;
-            padding: 8px 4px;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 600;
-            transition: all 0.15s;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: inherit;
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 3px;
+            width: 100%; padding: 8px 4px; text-decoration: none;
+            color: var(--text-muted); font-size: 10px; font-weight: 600;
+            transition: all 0.15s; background: none; border: none;
+            cursor: pointer; font-family: inherit;
         }
-
         .bottom-nav-link svg, .bottom-nav-logout svg { width: 20px; height: 20px; flex-shrink: 0; }
         .bottom-nav-link.active { color: var(--primary); }
         .bottom-nav-link.active svg { stroke: var(--primary); }
@@ -133,9 +117,9 @@
     <nav class="nav">
         <div class="nav-inner">
             <a href="{{ route('respondent.home') }}" class="nav-brand">
-    <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:32px; height:32px; border-radius:8px; object-fit:contain;">
-    SehatEdukasi
-</a>
+                <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:32px;height:32px;border-radius:8px;object-fit:contain;">
+                Kenali Stunting
+            </a>
             <div class="nav-links">
                 <a href="{{ route('respondent.home') }}" class="nav-link {{ request()->routeIs('respondent.home') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
@@ -148,6 +132,10 @@
                 <a href="{{ route('respondent.material') }}" class="nav-link {{ request()->routeIs('respondent.material') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                     Materi
+                </a>
+                <a href="{{ route('respondent.consultation') }}" class="nav-link {{ request()->routeIs('respondent.consultation') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Tanya Dokter
                 </a>
                 <a href="{{ route('respondent.profile') }}" class="nav-link {{ request()->routeIs('respondent.profile') ? 'active' : '' }}">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -174,6 +162,7 @@
         @yield('content')
     </main>
 
+    {{-- BOTTOM NAV MOBILE (6 item: Beranda, Test, Materi, Dokter, Profil, Keluar) --}}
     <nav class="bottom-nav">
         <div class="bottom-nav-inner">
             <a href="{{ route('respondent.home') }}" class="bottom-nav-link {{ request()->routeIs('respondent.home') ? 'active' : '' }}">
@@ -187,6 +176,10 @@
             <a href="{{ route('respondent.material') }}" class="bottom-nav-link {{ request()->routeIs('respondent.material') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 Materi
+            </a>
+            <a href="{{ route('respondent.consultation') }}" class="bottom-nav-link {{ request()->routeIs('respondent.consultation') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Dokter
             </a>
             <a href="{{ route('respondent.profile') }}" class="bottom-nav-link {{ request()->routeIs('respondent.profile') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>

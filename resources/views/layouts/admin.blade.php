@@ -52,6 +52,7 @@
             display: flex;
             flex-direction: column;
             padding: 0 12px 24px;
+            overflow-y: auto;
         }
 
         .sidebar-brand {
@@ -59,7 +60,6 @@
             border-bottom: 1px solid rgba(255,255,255,0.06);
             margin-bottom: 12px;
         }
-
         .sidebar-brand-logo {
             width: 36px; height: 36px;
             background: var(--primary);
@@ -68,16 +68,13 @@
             font-weight: 800; color: white; font-size: 15px;
             margin-bottom: 12px;
         }
-
         .sidebar-brand-name { font-size: 15px; font-weight: 700; color: white; }
-        .sidebar-brand-sub { font-size: 12px; color: var(--sidebar-text); margin-top: 2px; }
+        .sidebar-brand-sub  { font-size: 12px; color: var(--sidebar-text); margin-top: 2px; }
 
         .sidebar-section-label {
-            font-size: 11px;
-            font-weight: 700;
+            font-size: 11px; font-weight: 700;
             color: rgba(255,255,255,0.25);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            text-transform: uppercase; letter-spacing: 0.08em;
             padding: 12px 12px 6px;
         }
 
@@ -85,31 +82,39 @@
 
         .sidebar-link {
             display: flex; align-items: center; gap: 10px;
-            padding: 10px 12px;
-            border-radius: var(--radius-sm);
-            text-decoration: none;
-            color: var(--sidebar-text);
+            padding: 10px 12px; border-radius: var(--radius-sm);
+            text-decoration: none; color: var(--sidebar-text);
             font-size: 14px; font-weight: 500;
-            margin-bottom: 2px;
-            transition: all 0.15s;
+            margin-bottom: 2px; transition: all 0.15s;
+            position: relative;
         }
         .sidebar-link:hover { background: var(--sidebar-hover); color: white; }
         .sidebar-link.active { background: var(--sidebar-active); color: #111827; }
         .sidebar-link svg { width: 17px; height: 17px; flex-shrink: 0; }
 
+        /* Badge pending di sidebar */
+        .sidebar-badge {
+            margin-left: auto;
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 100px;
+            min-width: 18px;
+            text-align: center;
+        }
+        .sidebar-link.active .sidebar-badge { background: rgba(0,0,0,0.2); color: #111827; }
+
         .sidebar-footer {
             border-top: 1px solid rgba(255,255,255,0.06);
             padding-top: 12px;
         }
-
         .sidebar-logout {
             display: flex; align-items: center; gap: 10px;
-            width: 100%; padding: 10px 12px;
-            border-radius: var(--radius-sm);
-            color: var(--sidebar-text);
-            font-size: 14px; font-weight: 500;
-            background: none; border: none;
-            cursor: pointer; font-family: inherit;
+            width: 100%; padding: 10px 12px; border-radius: var(--radius-sm);
+            color: var(--sidebar-text); font-size: 14px; font-weight: 500;
+            background: none; border: none; cursor: pointer; font-family: inherit;
             transition: all 0.15s;
         }
         .sidebar-logout:hover { background: rgba(239,68,68,0.1); color: #f87171; }
@@ -117,21 +122,21 @@
         .admin-content { margin-left: 240px; flex: 1; padding: 32px; min-height: 100vh; }
 
         .page-header { margin-bottom: 28px; display: flex; align-items: flex-start; justify-content: space-between; }
-        .page-title { font-size: 24px; font-weight: 800; color: var(--text-dark); }
-        .page-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+        .page-title  { font-size: 24px; font-weight: 800; color: var(--text-dark); }
+        .page-sub    { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
 
         .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow); }
 
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
-        .stat-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+        .stat-card  { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
+        .stat-icon  { width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .stat-icon svg { width: 20px; height: 20px; }
-        .stat-icon-teal { background: #edfdf9; color: var(--primary); }
-        .stat-icon-blue { background: #eff6ff; color: #3b82f6; }
+        .stat-icon-teal   { background: #edfdf9; color: var(--primary); }
+        .stat-icon-blue   { background: #eff6ff; color: #3b82f6; }
         .stat-icon-purple { background: #f5f3ff; color: #8b5cf6; }
-        .stat-icon-amber { background: #fffbeb; color: #f59e0b; }
+        .stat-icon-amber  { background: #fffbeb; color: #f59e0b; }
         .stat-number { font-size: 28px; font-weight: 800; color: var(--text-dark); line-height: 1; }
-        .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+        .stat-label  { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
         .table-wrap { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
@@ -146,30 +151,30 @@
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-outline { background: transparent; color: var(--text-dark); border: 1px solid var(--border); }
         .btn-outline:hover { background: var(--bg); }
-        .btn-danger { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
+        .btn-danger  { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; }
         .btn-danger:hover { background: #fee2e2; }
         .btn-sm { padding: 6px 12px; font-size: 13px; }
 
-        .form-group { margin-bottom: 20px; }
-        .form-label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
-        .form-input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text-dark); background: var(--bg); outline: none; transition: border-color 0.15s; }
+        .form-group  { margin-bottom: 20px; }
+        .form-label  { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+        .form-input  { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; color: var(--text-dark); background: var(--bg); outline: none; transition: border-color 0.15s; }
         .form-input:focus { border-color: var(--primary); background: white; }
-        .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+        .form-hint   { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
 
-        .alert { padding: 12px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 20px; }
+        .alert         { padding: 12px 16px; border-radius: var(--radius-sm); font-size: 14px; margin-bottom: 20px; }
         .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-        .alert-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+        .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
 
-        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+        .badge         { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
         .badge-success { background: #ecfdf5; color: #065f46; }
-        .badge-muted { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+        .badge-muted   { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
 
-        .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+        .dot       { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
         .dot-green { background: var(--success); }
-        .dot-gray { background: var(--border); }
+        .dot-gray  { background: var(--border); }
 
-        .search-wrap { position: relative; margin-bottom: 20px; }
-        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 16px; height: 16px; }
+        .search-wrap  { position: relative; margin-bottom: 20px; }
+        .search-icon  { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 16px; height: 16px; }
         .search-input { width: 100%; padding: 10px 14px 10px 38px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; background: var(--bg); }
         .search-input:focus { border-color: var(--primary); background: white; }
     </style>
@@ -209,6 +214,28 @@
             <a href="{{ route('admin.materials.index') }}" class="sidebar-link {{ request()->routeIs('admin.materials.*') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                 Kelola Materi
+            </a>
+
+            {{-- INTERAKSI --}}
+            <div class="sidebar-section-label">Interaksi</div>
+            <a href="{{ route('admin.comments.index') }}" class="sidebar-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                Komentar Materi
+            </a>
+            <a href="{{ route('admin.consultations.index') }}" class="sidebar-link {{ request()->routeIs('admin.consultations.*') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                Konsultasi
+            </a>
+
+            {{-- TOOLS --}}
+            <div class="sidebar-section-label">Tools</div>
+            <a href="{{ route('admin.export.excel') }}" class="sidebar-link">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                Export Excel
+            </a>
+            <a href="{{ route('admin.backup.index') }}" class="sidebar-link {{ request()->routeIs('admin.backup.*') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                Backup Database
             </a>
 
         </nav>

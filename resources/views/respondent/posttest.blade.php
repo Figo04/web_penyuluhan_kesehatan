@@ -5,9 +5,10 @@
 @push('styles')
 <style>
     .page-header { margin-bottom: 24px; }
-    .page-title { font-size: 24px; font-weight: 800; }
-    .page-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .page-title  { font-size: 24px; font-weight: 800; }
+    .page-sub    { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
 
+    /* ── TAB ── */
     .tab-group {
         display: grid; grid-template-columns: 1fr 1fr;
         background: white; border-radius: 12px; border: 1px solid var(--border);
@@ -18,10 +19,10 @@
         padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600;
         text-decoration: none; color: var(--text-muted); transition: all 0.15s;
     }
-    .tab-link.active { background: var(--primary); color: white; }
+    .tab-link.active { background: var(--primary); color: #111827; }
     .tab-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    /* ── Petunjuk ── */
+    /* ── INSTRUCTION ── */
     .instruction-box {
         background: white; border: 1px solid var(--border);
         border-radius: 12px; margin-bottom: 20px;
@@ -62,44 +63,52 @@
         width: 6px; height: 6px; border-radius: 50%;
         background: var(--primary); flex-shrink: 0; margin-top: 7px;
     }
-    .likert-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+    /* Likert legend di petunjuk */
+    .likert-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
     .likert-chip {
         display: flex; align-items: center; gap: 5px;
-        padding: 5px 10px; border-radius: 7px; font-size: 12px; font-weight: 700;
+        padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 700;
+        border: 1.5px solid transparent;
     }
-    .chip-ss  { background: #d1fae5; color: #065f46; }
-    .chip-s   { background: #dbeafe; color: #1e40af; }
-    .chip-r   { background: #f3f4f6; color: #6b7280; }
-    .chip-ts  { background: #fef3c7; color: #92400e; }
-    .chip-sts { background: #fee2e2; color: #991b1b; }
+    .chip-sts { background: #fef2f2; color: #991b1b; border-color: #fca5a5; }
+    .chip-ts  { background: #fffbeb; color: #92400e; border-color: #fcd34d; }
+    .chip-r   { background: #f3f4f6; color: #374151; border-color: #d1d5db; }
+    .chip-s   { background: #eff6ff; color: #1e40af; border-color: #93c5fd; }
+    .chip-ss  { background: #ecfdf5; color: #065f46; border-color: #6ee7b7; }
 
-    /* ── Progress ── */
+    /* ── PROGRESS ── */
     .progress-wrap { margin-bottom: 20px; }
     .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
     .progress-bar { height: 6px; background: var(--bg); border-radius: 100px; overflow: hidden; border: 1px solid var(--border); }
     .progress-fill { height: 100%; background: var(--primary); border-radius: 100px; transition: width 0.3s ease; }
 
-    /* ── Question Card ── */
+    /* ── QUESTION CARD ── */
     .question-card {
-        background: white; border-radius: 12px; border: 1px solid var(--border);
-        padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+        background: white; border-radius: 14px; border: 1px solid var(--border);
+        padding: 22px 24px; margin-bottom: 16px; box-shadow: var(--shadow);
+        transition: border-color 0.2s;
     }
-    .question-num { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
-    .question-text { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 16px; line-height: 1.5; }
+    .question-card.answered { border-color: #a7f3d0; }
+
+    .question-top { margin-bottom: 14px; }
+    .question-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .question-num { font-size: 12px; font-weight: 700; color: var(--text-muted); }
     .question-format-badge {
         display: inline-flex; align-items: center; gap: 4px;
         font-size: 11px; font-weight: 700; padding: 2px 8px;
-        border-radius: 100px; margin-bottom: 10px;
+        border-radius: 100px;
     }
     .badge-mc     { background: #f3f4f6; color: #374151; }
     .badge-likert { background: #eff6ff; color: #1d4ed8; }
+    .question-text { font-size: 15px; font-weight: 600; color: var(--text-dark); line-height: 1.55; }
 
-    /* ── MC Options ── */
+    /* ── MC OPTIONS ── */
     .options-list { display: flex; flex-direction: column; gap: 8px; }
     .option-label {
         display: flex; align-items: center; gap: 12px; padding: 13px 16px;
         border-radius: 9px; border: 1.5px solid var(--border);
-        cursor: pointer; transition: all 0.15s; font-size: 15px; color: var(--text-dark);
+        cursor: pointer; transition: all 0.15s; font-size: 14px; color: var(--text-dark);
     }
     .option-label:hover { border-color: var(--primary); background: var(--primary-light); }
     .option-label input[type="radio"] { display: none; }
@@ -108,69 +117,92 @@
         display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s;
     }
     .option-label:has(input[type="radio"]:checked) { border-color: var(--primary); background: var(--primary-light); }
-    .option-label:has(input[type="radio"]:checked) .option-radio { border-color: var(--primary); background: var(--primary); }
+    .option-label:has(input[type="radio"]:checked) .option-radio { border-color: var(--primary-dark); background: var(--primary); }
     .option-label:has(input[type="radio"]:checked) .option-radio::after {
         content: ''; width: 8px; height: 8px; background: white; border-radius: 50%; display: block;
     }
 
-    /* ── Likert Options: vertikal berwarna via data-selected ── */
-    .likert-list { display: flex; flex-direction: column; gap: 8px; }
-    .likert-item {
-        display: flex; align-items: center; gap: 12px; padding: 14px 16px;
-        border-radius: 10px; border: 1.5px solid var(--border);
-        cursor: pointer; transition: all 0.15s; background: var(--bg);
-    }
-    .likert-item input[type="radio"] { display: none; }
-    .likert-dot {
-        width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border);
-        display: flex; align-items: center; justify-content: center;
-        flex-shrink: 0; transition: all 0.15s;
-    }
-    .likert-abbr-text {
-        font-size: 13px; font-weight: 800; min-width: 32px;
-        color: var(--text-muted); flex-shrink: 0; transition: color 0.15s;
-    }
-    .likert-full-text { font-size: 14px; color: var(--text-dark); font-weight: 500; transition: color 0.15s; }
+    /* ── LIKERT HORIZONTAL GRID ── */
+    .likert-scale { margin-top: 4px; }
 
-    /* Hover — hanya item yang belum dipilih */
-    .likert-item:not([data-selected]):hover { border-color: var(--primary); background: var(--primary-light); }
-
-    /* Dot isi putih saat dipilih */
-    .likert-item[data-selected] .likert-dot::after {
-        content: ''; width: 7px; height: 7px; background: white; border-radius: 50%; display: block;
+    .likert-labels {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin-bottom: 6px;
+        text-align: center;
+    }
+    .likert-label-text {
+        font-size: 11px; font-weight: 600;
+        color: var(--text-muted); line-height: 1.3; padding: 0 2px;
     }
 
-    /* STS — merah */
-    .likert-item[data-selected="STS"] { background: #fef2f2; border-color: #fca5a5; }
-    .likert-item[data-selected="STS"] .likert-dot { background: #ef4444; border-color: #ef4444; }
-    .likert-item[data-selected="STS"] .likert-abbr-text { color: #7f1d1d; }
-    .likert-item[data-selected="STS"] .likert-full-text { color: #991b1b; }
+    .likert-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+    }
 
-    /* TS — kuning */
-    .likert-item[data-selected="TS"] { background: #fffbeb; border-color: #fcd34d; }
-    .likert-item[data-selected="TS"] .likert-dot { background: #f59e0b; border-color: #f59e0b; }
-    .likert-item[data-selected="TS"] .likert-abbr-text { color: #451a03; }
-    .likert-item[data-selected="TS"] .likert-full-text { color: #78350f; }
+    .likert-btn { position: relative; cursor: pointer; }
+    .likert-btn input[type="radio"] { display: none; }
 
-    /* R — abu */
-    .likert-item[data-selected="R"] { background: #f9fafb; border-color: #9ca3af; }
-    .likert-item[data-selected="R"] .likert-dot { background: #6b7280; border-color: #6b7280; }
-    .likert-item[data-selected="R"] .likert-abbr-text { color: #111827; }
-    .likert-item[data-selected="R"] .likert-full-text { color: #374151; }
+    .likert-btn-inner {
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 6px; padding: 14px 8px;
+        border-radius: 10px; border: 2px solid var(--border);
+        background: var(--bg); transition: all 0.18s;
+        cursor: pointer; min-height: 72px;
+    }
+    .likert-btn:hover .likert-btn-inner {
+        border-color: var(--primary); background: var(--primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(94,233,199,0.2);
+    }
 
-    /* S — biru */
-    .likert-item[data-selected="S"] { background: #eff6ff; border-color: #93c5fd; }
-    .likert-item[data-selected="S"] .likert-dot { background: #3b82f6; border-color: #3b82f6; }
-    .likert-item[data-selected="S"] .likert-abbr-text { color: #1e3a8a; }
-    .likert-item[data-selected="S"] .likert-full-text { color: #1d4ed8; }
+    .likert-abbr {
+        font-size: 13px; font-weight: 800;
+        color: var(--text-muted); transition: color 0.15s; letter-spacing: 0.02em;
+    }
+    .likert-dot-indicator {
+        width: 10px; height: 10px; border-radius: 50%;
+        border: 2px solid var(--border); background: white; transition: all 0.15s;
+    }
 
-    /* SS — hijau */
-    .likert-item[data-selected="SS"] { background: #ecfdf5; border-color: #6ee7b7; }
-    .likert-item[data-selected="SS"] .likert-dot { background: #10b981; border-color: #10b981; }
-    .likert-item[data-selected="SS"] .likert-abbr-text { color: #064e3b; }
-    .likert-item[data-selected="SS"] .likert-full-text { color: #047857; }
+    /* Selected states */
+    .likert-btn.selected-STS .likert-btn-inner { background: #fef2f2; border-color: #f87171; box-shadow: 0 4px 12px rgba(239,68,68,0.15); transform: translateY(-2px); }
+    .likert-btn.selected-STS .likert-abbr      { color: #991b1b; }
+    .likert-btn.selected-STS .likert-dot-indicator { background: #ef4444; border-color: #ef4444; }
 
-    /* ── Lock & Done banners ── */
+    .likert-btn.selected-TS .likert-btn-inner  { background: #fffbeb; border-color: #fbbf24; box-shadow: 0 4px 12px rgba(245,158,11,0.15); transform: translateY(-2px); }
+    .likert-btn.selected-TS .likert-abbr       { color: #92400e; }
+    .likert-btn.selected-TS .likert-dot-indicator { background: #f59e0b; border-color: #f59e0b; }
+
+    .likert-btn.selected-R .likert-btn-inner   { background: #f9fafb; border-color: #9ca3af; box-shadow: 0 4px 12px rgba(107,114,128,0.12); transform: translateY(-2px); }
+    .likert-btn.selected-R .likert-abbr        { color: #374151; }
+    .likert-btn.selected-R .likert-dot-indicator { background: #6b7280; border-color: #6b7280; }
+
+    .likert-btn.selected-S .likert-btn-inner   { background: #eff6ff; border-color: #60a5fa; box-shadow: 0 4px 12px rgba(59,130,246,0.15); transform: translateY(-2px); }
+    .likert-btn.selected-S .likert-abbr        { color: #1e40af; }
+    .likert-btn.selected-S .likert-dot-indicator { background: #3b82f6; border-color: #3b82f6; }
+
+    .likert-btn.selected-SS .likert-btn-inner  { background: #ecfdf5; border-color: #34d399; box-shadow: 0 4px 12px rgba(16,185,129,0.15); transform: translateY(-2px); }
+    .likert-btn.selected-SS .likert-abbr       { color: #065f46; }
+    .likert-btn.selected-SS .likert-dot-indicator { background: #10b981; border-color: #10b981; }
+
+    .likert-scale-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-top: 8px; padding: 0 4px;
+    }
+    .likert-scale-left  { font-size: 11px; color: #991b1b; font-weight: 600; }
+    .likert-scale-line  {
+        flex: 1; height: 2px; margin: 0 8px;
+        background: linear-gradient(to right, #f87171, #fbbf24, #9ca3af, #60a5fa, #34d399);
+        border-radius: 2px; opacity: 0.5;
+    }
+    .likert-scale-right { font-size: 11px; color: #065f46; font-weight: 600; }
+
+    /* ── BANNERS ── */
     .lock-banner {
         background: #fffbeb; border: 1px solid #fde68a;
         border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 24px;
@@ -194,21 +226,94 @@
     .done-title { font-size: 18px; font-weight: 800; color: #065f46; margin-bottom: 6px; }
     .done-sub   { font-size: 14px; color: #047857; }
 
-    /* ── Error banner ── */
     .error-banner {
         background: #fef2f2; border: 1px solid #fca5a5;
         border-radius: 10px; padding: 14px 18px;
-        margin-bottom: 16px; color: #991b1b;
-        font-size: 14px; font-weight: 600;
+        margin-bottom: 16px; color: #991b1b; font-size: 14px; font-weight: 600;
     }
 
+    /* ── SUBMIT ── */
     .btn-submit {
         display: flex; align-items: center; justify-content: center; gap: 8px;
-        width: 100%; padding: 15px; background: var(--primary); color: white;
+        width: 100%; padding: 15px; background: var(--primary); color: #111827;
         border: none; border-radius: 10px; font-family: inherit; font-size: 16px;
         font-weight: 700; cursor: pointer; transition: all 0.15s; margin-top: 24px;
     }
-    .btn-submit:hover { background: var(--primary-dark); }
+    .btn-submit:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(94,233,199,0.35); }
+
+    /* ── RESULT MODAL ── */
+    .result-overlay {
+        display: none; position: fixed; inset: 0;
+        background: rgba(0,0,0,0.6); z-index: 1000;
+        align-items: center; justify-content: center; padding: 16px;
+    }
+    .result-overlay.active { display: flex; }
+    .result-box {
+        background: white; border-radius: 20px;
+        width: 100%; max-width: 480px; overflow: hidden;
+        box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+        animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+        from { transform: translateY(30px); opacity: 0; }
+        to   { transform: translateY(0);    opacity: 1; }
+    }
+    .result-header {
+        padding: 28px 24px 20px; text-align: center;
+        background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+        border-bottom: 1px solid #a7f3d0;
+    }
+    .result-emoji  { font-size: 52px; margin-bottom: 10px; line-height: 1; }
+    .result-title  { font-size: 20px; font-weight: 800; color: #065f46; margin-bottom: 4px; }
+    .result-sub    { font-size: 14px; color: #047857; }
+    .result-body   { padding: 20px 24px; }
+    .result-section-title {
+        font-size: 11px; font-weight: 800; color: var(--text-muted);
+        text-transform: uppercase; letter-spacing: 0.06em;
+        margin-bottom: 10px; margin-top: 16px;
+    }
+    .result-section-title:first-child { margin-top: 0; }
+    .result-row {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 10px 14px; border-radius: 9px; margin-bottom: 6px;
+        background: var(--bg); border: 1px solid var(--border);
+    }
+    .result-row-label { font-size: 14px; color: var(--text-dark); font-weight: 500; }
+    .result-row-value { font-size: 15px; font-weight: 800; }
+    .value-correct { color: #059669; }
+    .value-wrong   { color: #ef4444; }
+    .value-score   { color: var(--primary-dark); }
+    .value-likert  { color: #3b82f6; }
+    .result-score-big {
+        background: linear-gradient(135deg, var(--primary-light), #d1fae5);
+        border: 2px solid var(--primary); border-radius: 12px;
+        padding: 16px; text-align: center; margin: 16px 0 0;
+    }
+    .result-score-big .score-num   { font-size: 40px; font-weight: 800; color: #065f46; line-height: 1; }
+    .result-score-big .score-label { font-size: 13px; color: #047857; margin-top: 4px; font-weight: 600; }
+    .result-footer { padding: 16px 24px 24px; }
+    .btn-result-ok {
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        width: 100%; padding: 13px; background: var(--primary); color: #111827;
+        border: none; border-radius: 10px; font-family: inherit;
+        font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+    }
+    .btn-result-ok:hover { background: var(--primary-dark); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+        .likert-labels { display: none; }
+        .likert-btn-inner { padding: 12px 4px; min-height: 60px; gap: 5px; }
+        .likert-abbr { font-size: 12px; }
+        .likert-dot-indicator { width: 8px; height: 8px; }
+        .likert-scale-bar { display: none; }
+        .question-card { padding: 16px; }
+    }
+    @media (max-width: 380px) {
+        .likert-grid { gap: 4px; }
+        .likert-btn-inner { padding: 10px 2px; min-height: 54px; }
+        .likert-abbr { font-size: 11px; }
+    }
 </style>
 @endpush
 
@@ -230,7 +335,7 @@
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         Post-Test
         @if($respondent->post_test_done)
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15" style="color:rgba(255,255,255,0.8)"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="15" height="15"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         @endif
     </a>
 </div>
@@ -245,152 +350,239 @@
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </a>
     </div>
+@elseif(!$respondent->post_test_done && !$materialDone)
+    <div class="lock-banner">
+        <div class="lock-icon">🔒</div>
+        <div class="lock-title">Post-Test Belum Bisa Diakses</div>
+        <div class="lock-sub">Baca semua materi edukasi terlebih dahulu sebelum mengerjakan Post-Test.</div>
+        <a href="{{ route('respondent.material') }}" class="lock-btn">
+            Baca Materi Dulu
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="14" height="14"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+    </div>
 @else
 
-    @if($respondent->post_test_done)
-        <div class="done-banner">
-            <div class="done-icon">✅</div>
-            <div class="done-title">Post-Test Selesai!</div>
-            <div class="done-sub">Program penyuluhan telah selesai! 🎉</div>
-        </div>
-    @endif
+@php
+    $hasMc          = $questions->where('question_format', 'multiple_choice')->count() > 0;
+    $hasLikert      = $questions->where('question_format', 'likert')->count() > 0;
+    $mcCount        = $questions->where('question_format', 'multiple_choice')->count();
+    $likertCount    = $questions->where('question_format', 'likert')->count();
+    $likertOrder    = ['STS' => 1, 'TS' => 2, 'R' => 3, 'S' => 4, 'SS' => 5];
+    $answeredCount  = $answers->count();
+    $totalQuestions = $questions->count();
+@endphp
 
-    @php
-        $hasMc       = $questions->where('question_format', 'multiple_choice')->count() > 0;
-        $hasLikert   = $questions->where('question_format', 'likert')->count() > 0;
-        $mcCount     = $questions->where('question_format', 'multiple_choice')->count();
-        $likertCount = $questions->where('question_format', 'likert')->count();
-        $likertOrder = ['STS' => 1, 'TS' => 2, 'R' => 3, 'S' => 4, 'SS' => 5];
-        $answeredCount  = $answers->count();
-        $totalQuestions = $questions->count();
-    @endphp
-
-    {{-- Petunjuk --}}
-    <div class="instruction-box">
-        <div class="instruction-header" onclick="toggleInstruction()">
-            <div class="instruction-header-left">
-                <div class="instruction-icon">📋</div>
-                <span>Petunjuk Pengisian</span>
-            </div>
-            <button class="instruction-toggle open" id="instrToggleBtn" type="button">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </button>
-        </div>
-        <div class="instruction-body open" id="instrBody">
-            <div class="instruction-section">
-                <div class="instruction-section-title">Umum</div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Baca setiap soal dengan teliti sebelum menjawab.</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Jawaban tersimpan <strong>otomatis</strong> setiap kali Anda memilih pilihan.</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Pastikan semua soal dijawab sebelum menekan <strong>Selesaikan Post-Test</strong>.</span></div>
-            </div>
-            @if($hasMc)
-            <div class="instruction-section">
-                <div class="instruction-section-title">Bagian A — Pengetahuan <span style="font-weight:500;text-transform:none;font-size:11px;">({{ $mcCount }} soal)</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Pilih <strong>satu jawaban paling benar</strong> dari pilihan A, B, C, D, atau E.</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Setiap jawaban benar bernilai <strong>10 poin</strong>.</span></div>
-            </div>
-            @endif
-            @if($hasLikert)
-            <div class="instruction-section">
-                <div class="instruction-section-title">Bagian B — Sikap <span style="font-weight:500;text-transform:none;font-size:11px;">({{ $likertCount }} pernyataan)</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Pilih yang <strong>paling sesuai</strong> dengan pendapat atau perasaan Anda.</span></div>
-                <div class="instruction-item"><div class="instruction-bullet"></div><span>Tidak ada jawaban benar atau salah.</span></div>
-                <div class="likert-legend">
-                    <div class="likert-chip chip-sts">STS = Sangat Tidak Setuju</div>
-                    <div class="likert-chip chip-ts">TS = Tidak Setuju</div>
-                    <div class="likert-chip chip-r">R = Ragu-ragu / Netral</div>
-                    <div class="likert-chip chip-s">S = Setuju</div>
-                    <div class="likert-chip chip-ss">SS = Sangat Setuju</div>
-                </div>
-            </div>
-            @endif
-        </div>
+@if($respondent->post_test_done)
+    <div class="done-banner">
+        <div class="done-icon">✅</div>
+        <div class="done-title">Post-Test Selesai!</div>
+        <div class="done-sub">Program penyuluhan telah selesai! 🎉</div>
     </div>
+@endif
 
-    @if($errors->any())
-    <div class="error-banner">
-        ⚠️ {{ $errors->first() }}
-    </div>
-    @endif
-
-    <div class="progress-wrap">
-        <div class="progress-header">
-            <span>Progres pengisian</span>
-            <span id="progress-label">{{ $answeredCount }}/{{ $totalQuestions }}</span>
+{{-- PETUNJUK --}}
+<div class="instruction-box">
+    <div class="instruction-header" onclick="toggleInstruction()">
+        <div class="instruction-header-left">
+            <div class="instruction-icon">📋</div>
+            <span>Petunjuk Pengisian</span>
         </div>
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"
-                 style="width: {{ $totalQuestions > 0 ? ($answeredCount / $totalQuestions * 100) : 0 }}%"></div>
-        </div>
+        <button class="instruction-toggle open" id="instrToggleBtn" type="button">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
     </div>
+    <div class="instruction-body open" id="instrBody">
+        <div class="instruction-section">
+            <div class="instruction-section-title">Umum</div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Baca setiap soal dengan teliti sebelum menjawab.</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Jawaban tersimpan <strong>otomatis</strong> setiap kali Anda memilih pilihan.</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Pastikan semua soal dijawab sebelum menekan <strong>Selesaikan Post-Test</strong>.</span></div>
+        </div>
+        @if($hasMc)
+        <div class="instruction-section">
+            <div class="instruction-section-title">Bagian A — Pengetahuan <span style="font-weight:500;text-transform:none;font-size:11px;">({{ $mcCount }} soal)</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Pilih <strong>satu jawaban paling benar</strong> dari pilihan A, B, C, D, atau E.</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Setiap jawaban benar bernilai <strong>10 poin</strong>.</span></div>
+        </div>
+        @endif
+        @if($hasLikert)
+        <div class="instruction-section">
+            <div class="instruction-section-title">Bagian B — Sikap <span style="font-weight:500;text-transform:none;font-size:11px;">({{ $likertCount }} pernyataan)</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Pilih tombol yang <strong>paling sesuai</strong> dengan pendapat Anda.</span></div>
+            <div class="instruction-item"><div class="instruction-bullet"></div><span>Tidak ada jawaban benar atau salah.</span></div>
+        </div>
+        @endif
+    </div>
+</div>
 
-    <form method="POST" action="{{ route('respondent.posttest.submit') }}" id="test-form">
-        @csrf
-        @foreach($questions as $index => $question)
-        <div class="question-card">
 
-            @if($hasMc && $hasLikert)
-                @if($question->question_format === 'likert')
-                    <span class="question-format-badge badge-likert">📊 Sikap</span>
-                @else
-                    <span class="question-format-badge badge-mc">🔤 Pengetahuan</span>
+@if($errors->any())
+<div class="error-banner">⚠️ {{ $errors->first() }}</div>
+@endif
+
+<div class="progress-wrap">
+    <div class="progress-header">
+        <span>Progres pengisian</span>
+        <span id="progress-label">{{ $answeredCount }}/{{ $totalQuestions }}</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"
+             style="width: {{ $totalQuestions > 0 ? ($answeredCount / $totalQuestions * 100) : 0 }}%"></div>
+    </div>
+</div>
+
+<form method="POST" action="{{ route('respondent.posttest.submit') }}" id="test-form">
+    @csrf
+    @foreach($questions as $index => $question)
+    @php $isAnswered = isset($answers[$question->question_id]); @endphp
+    <div class="question-card {{ $isAnswered ? 'answered' : '' }}" id="qcard-{{ $question->question_id }}">
+
+        <div class="question-top">
+            <div class="question-meta">
+                <span class="question-num">Soal {{ $index + 1 }}</span>
+                @if($hasMc && $hasLikert)
+                    @if($question->question_format === 'likert')
+                        <span class="question-format-badge badge-likert">📊 Sikap</span>
+                    @else
+                        <span class="question-format-badge badge-mc">🔤 Pengetahuan</span>
+                    @endif
                 @endif
-            @endif
-
-            <div class="question-num">Soal {{ $index + 1 }}</div>
+            </div>
             <div class="question-text">{{ $question->question_text }}</div>
+        </div>
 
-            @if($question->question_format === 'likert')
-                @php $sortedOptions = $question->options->sortBy(fn($o) => $likertOrder[$o->label] ?? 99); @endphp
-                <div class="likert-list">
-                    @foreach($sortedOptions as $option)
-                    @php $isChecked = isset($answers[$question->id]) && $answers[$question->id]->question_option_id == $option->id; @endphp
-                    <label class="likert-item" {{ $isChecked ? 'data-selected="'.$option->label.'"' : '' }}>
+        @if($question->question_format === 'likert')
+            {{-- ── LIKERT HORIZONTAL ── --}}
+            @php
+                $sortedOptions  = $question->options->sortBy(fn($o) => $likertOrder[$o->label] ?? 99);
+                $selectedOption = $answers[$question->question_id] ?? null;
+            @endphp
+
+            <div class="likert-scale">
+                {{-- Label teks penuh di atas (desktop only) --}}
+                <div class="likert-labels">
+                    @foreach($sortedOptions as $opt)
+                    <div class="likert-label-text">{{ $opt->option_text }}</div>
+                    @endforeach
+                </div>
+
+                {{-- 5 tombol sejajar --}}
+                <div class="likert-grid" id="likert-grid-{{ $question->question_id }}">
+                    @foreach($sortedOptions as $opt)
+                    @php $isChecked = $selectedOption && $selectedOption->question_option_id == $opt->question_option_id; @endphp
+                    <label class="likert-btn {{ $isChecked ? 'selected-'.$opt->label : '' }}"
+                           id="likert-btn-{{ $question->question_id }}-{{ $opt->label }}">
                         <input type="radio"
-                            name="answers[{{ $question->id }}]"
-                            value="{{ $option->id }}"
-                            data-label="{{ $option->label }}"
+                            name="answers[{{ $question->question_id }}]"
+                            value="{{ $opt->question_option_id }}"
+                            data-qid="{{ $question->question_id }}"
+                            data-label="{{ $opt->label }}"
                             {{ $isChecked ? 'checked' : '' }}
                             {{ $respondent->post_test_done ? 'disabled' : '' }}
-                            onchange="autoSave({{ $question->id }}, {{ $option->id }})">
-                        <div class="likert-dot"></div>
-                        <span class="likert-abbr-text">{{ $option->label }}</span>
-                        <span class="likert-full-text">{{ $option->option_text }}</span>
+                            onchange="onLikertChange(this)">
+                        <div class="likert-btn-inner">
+                            <div class="likert-dot-indicator"></div>
+                            <span class="likert-abbr">{{ $opt->label }}</span>
+                        </div>
                     </label>
                     @endforeach
                 </div>
-            @else
-                <div class="options-list">
-                    @foreach($question->options as $option)
-                    <label class="option-label">
-                        <input type="radio"
-                            name="answers[{{ $question->id }}]"
-                            value="{{ $option->id }}"
-                            {{ isset($answers[$question->id]) && $answers[$question->id]->question_option_id == $option->id ? 'checked' : '' }}
-                            {{ $respondent->post_test_done ? 'disabled' : '' }}
-                            onchange="autoSave({{ $question->id }}, {{ $option->id }})">
-                        <div class="option-radio"></div>
-                        <span>{{ $option->label }}. {{ $option->option_text }}</span>
-                    </label>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-        @endforeach
 
-        @if(!$respondent->post_test_done)
-        <button type="submit" class="btn-submit">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            Selesaikan Post-Test
-        </button>
+                {{-- Skala gradien bawah --}}
+                <div class="likert-scale-bar">
+                    <span class="likert-scale-left">← Tidak Setuju</span>
+                    <div class="likert-scale-line"></div>
+                    <span class="likert-scale-right">Setuju →</span>
+                </div>
+            </div>
+
+        @else
+            {{-- ── MC OPTIONS ── --}}
+            <div class="options-list">
+                @foreach($question->options as $option)
+                <label class="option-label">
+                    <input type="radio"
+                        name="answers[{{ $question->question_id }}]"
+                        value="{{ $option->question_option_id }}"
+                        {{ isset($answers[$question->question_id]) && $answers[$question->question_id]->question_option_id == $option->question_option_id ? 'checked' : '' }}
+                        {{ $respondent->post_test_done ? 'disabled' : '' }}
+                        onchange="autoSave({{ $question->question_id }}, {{ $option->question_option_id }}); markCardAnswered({{ $question->question_id }})">
+                    <div class="option-radio"></div>
+                    <span>{{ $option->label }}. {{ $option->option_text }}</span>
+                </label>
+                @endforeach
+            </div>
         @endif
-    </form>
+    </div>
+    @endforeach
 
+    @if(!$respondent->post_test_done)
+    <button type="submit" class="btn-submit">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        Selesaikan Post-Test
+    </button>
+    @endif
+</form>
+
+{{-- RESULT MODAL --}}
+@if(session('show_result') && session('result'))
+@php $r = session('result'); @endphp
+<div class="result-overlay active" id="resultModal">
+    <div class="result-box">
+        <div class="result-header">
+            <div class="result-emoji">🎉</div>
+            <div class="result-title">Post-Test Selesai!</div>
+            <div class="result-sub">Berikut hasil jawaban Anda</div>
+        </div>
+        <div class="result-body">
+            @if($r['has_mc'])
+            <div class="result-section-title">📝 Pengetahuan (Pilihan Ganda)</div>
+            <div class="result-row">
+                <span class="result-row-label">✅ Jawaban Benar</span>
+                <span class="result-row-value value-correct">{{ $r['mc_correct'] }} / {{ $r['mc_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">❌ Jawaban Salah</span>
+                <span class="result-row-value value-wrong">{{ $r['mc_wrong'] }} / {{ $r['mc_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">🏆 Skor</span>
+                <span class="result-row-value value-score">{{ $r['mc_score'] }} / {{ $r['mc_max'] }}</span>
+            </div>
+            @endif
+            @if($r['has_likert'])
+            <div class="result-section-title">📊 Sikap (Likert)</div>
+            <div class="result-row">
+                <span class="result-row-label">📋 Jumlah Pernyataan</span>
+                <span class="result-row-value value-likert">{{ $r['likert_total'] }}</span>
+            </div>
+            <div class="result-row">
+                <span class="result-row-label">🏆 Total Skor</span>
+                <span class="result-row-value value-likert">{{ $r['likert_score'] }} / {{ $r['likert_max'] }}</span>
+            </div>
+            @endif
+            <div class="result-score-big">
+                <div class="score-num">{{ $r['mc_score'] + $r['likert_score'] }}</div>
+                <div class="score-label">Total Skor dari {{ $r['mc_max'] + $r['likert_max'] }}</div>
+            </div>
+        </div>
+        <div class="result-footer">
+            <button class="btn-result-ok" onclick="closeResult()">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Oke, Mengerti!
+            </button>
+        </div>
+    </div>
+</div>
 @endif
+
+@endif {{-- end pre_test_done check --}}
 @endsection
 
 @push('scripts')
@@ -400,28 +592,41 @@ const totalQuestions = {{ isset($totalQuestions) ? $totalQuestions : 0 }};
 function toggleInstruction() {
     const body = document.getElementById('instrBody');
     const btn  = document.getElementById('instrToggleBtn');
+    if (!body) return;
     const open = body.classList.contains('open');
     body.classList.toggle('open', !open);
     btn.classList.toggle('open', !open);
 }
 
-// Terapkan warna Likert via data-selected pada parent label
-document.querySelectorAll('.likert-item input[type="radio"]').forEach(function(input) {
-    // Saat user memilih
-    input.addEventListener('change', function() {
-        const name  = this.getAttribute('name');
-        const label = this.dataset.label;
-        const item  = this.closest('.likert-item');
+function onLikertChange(input) {
+    const qid   = input.dataset.qid;
+    const label = input.dataset.label;
+    const optId = input.value;
 
-        // Reset semua item dalam grup yang sama
-        document.querySelectorAll('input[name="' + name + '"]').forEach(function(i) {
-            i.closest('.likert-item').removeAttribute('data-selected');
-        });
-
-        // Tandai item yang dipilih
-        item.setAttribute('data-selected', label);
+    const grid = document.getElementById('likert-grid-' + qid);
+    grid.querySelectorAll('.likert-btn').forEach(function(btn) {
+        btn.className = btn.className.replace(/selected-\S+/g, '').trim();
     });
-});
+
+    input.closest('.likert-btn').classList.add('selected-' + label);
+
+    markCardAnswered(qid);
+    autoSave(qid, optId);
+}
+
+function markCardAnswered(qid) {
+    const card = document.getElementById('qcard-' + qid);
+    if (card) card.classList.add('answered');
+    updateProgress();
+}
+
+function updateProgress() {
+    const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+    const fill  = document.getElementById('progress-fill');
+    const label = document.getElementById('progress-label');
+    if (fill)  fill.style.width  = (answered / totalQuestions * 100) + '%';
+    if (label) label.textContent = answered + '/' + totalQuestions;
+}
 
 function autoSave(questionId, optionId) {
     fetch('{{ route('respondent.autosave') }}', {
@@ -430,16 +635,21 @@ function autoSave(questionId, optionId) {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         },
-        body: JSON.stringify({ question_id: questionId, question_option_id: optionId, test_type: 'post' })
+        body: JSON.stringify({
+            question_id: questionId,
+            question_option_id: optionId,
+            test_type: 'post'
+        })
     }).then(function() { updateProgress(); });
 }
 
-function updateProgress() {
-    const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-    const fill  = document.getElementById('progress-fill');
-    const label = document.getElementById('progress-label');
-    if (fill)  fill.style.width = (answered / totalQuestions * 100) + '%';
-    if (label) label.textContent = answered + '/' + totalQuestions;
+function closeResult() {
+    const modal = document.getElementById('resultModal');
+    if (modal) modal.classList.remove('active');
 }
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeResult();
+});
 </script>
 @endpush

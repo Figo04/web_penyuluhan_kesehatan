@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class QuestionOption extends Model
 {
+    protected $primaryKey = 'question_option_id';
+
     protected $fillable = [
         'question_id',
         'label',       // A/B/C/D/E (MC) atau SS/S/R/TS/STS (Likert)
@@ -20,6 +22,6 @@ class QuestionOption extends Model
 
     public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(Question::class, 'question_id', 'question_id');
     }
 }

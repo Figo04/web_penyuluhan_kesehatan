@@ -8,7 +8,9 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $respondent = Respondent::with('location')->find(session('respondent_id'));
-        return view('respondent.profile', compact('respondent'));
+        $respondent   = Respondent::with('location')->find(session('respondent_id'));
+        $materialDone = $respondent->hasFinishedMaterials();
+
+        return view('respondent.profile', compact('respondent', 'materialDone'));
     }
 }

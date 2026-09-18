@@ -70,6 +70,9 @@ function renderQuestionList($questions, $sectionType) {
                 <div style="flex:1;min-width:0;">
                     {{-- Badge format + favourable --}}
                     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+                        @if($question->category === 'kondisi_anak')
+                            <span style="background:#fdf2f8;color:#9d174d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">👶 Kondisi Anak · tidak dinilai</span>
+                        @endif
                         @if($question->question_format === 'likert')
                             <span style="background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">📊 Likert</span>
                             @if($question->is_favourable)
@@ -205,6 +208,9 @@ function renderQuestionList($questions, $sectionType) {
 
                 <div style="flex:1;min-width:0;">
                     <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+                        @if($question->category === 'kondisi_anak')
+                            <span style="background:#fdf2f8;color:#9d174d;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">👶 Kondisi Anak · tidak dinilai</span>
+                        @endif
                         @if($question->question_format === 'likert')
                             <span style="background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;">📊 Likert</span>
                             @if($question->is_favourable)

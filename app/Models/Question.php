@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
+    protected $primaryKey = 'question_id';
+
     protected $fillable = [
         'question_text',
         'type',           // pre | post
+        'category',       // umum | kondisi_anak (kondisi_anak hanya pre-test, tidak dinilai)
         'order',
         'question_format', // multiple_choice | likert
         'is_favourable',  // true/false (hanya untuk likert)
@@ -20,12 +23,12 @@ class Question extends Model
 
     public function options()
     {
-        return $this->hasMany(QuestionOption::class)->orderBy('label');
+        return $this->hasMany(QuestionOption::class, 'question_id', 'question_id')->orderBy('label');
     }
 
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id', 'question_id');
     }
 
     /**

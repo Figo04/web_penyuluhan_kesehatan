@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Respondent;
 
 use App\Http\Controllers\Controller;
@@ -9,10 +10,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $respondent = Respondent::find(session('respondent_id'));
+        $respondent     = Respondent::find(session('respondent_id'));
         $totalMaterials = Material::count();
-        $readMaterials = $respondent->materialReads()->count();
+        $readMaterials  = $respondent->materialReads()->count();
+        $materialDone   = $respondent->hasFinishedMaterials();
 
-        return view('respondent.home', compact('respondent', 'totalMaterials', 'readMaterials'));
+        return view('respondent.home', compact(
+            'respondent',
+            'totalMaterials',
+            'readMaterials',
+            'materialDone'
+        ));
     }
 }

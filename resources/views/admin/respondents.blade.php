@@ -31,6 +31,7 @@
                     <th>Umur</th>
 <th style="text-align:center;">Jml Anak</th>
 <th>Lokasi</th>
+                    <th>Data Anak</th>
                     <th style="text-align:center;">Pre</th>
                     <th style="text-align:center;">Post</th>
                 </tr>
@@ -43,6 +44,17 @@
                     <td style="color:var(--text-muted);">{{ $r->age }}</td>
 <td style="text-align:center;font-weight:600;">{{ $r->total_children ?? 0 }}</td>
 <td style="color:var(--text-muted);">{{ $r->location ? $r->location->name : '—' }}</td>
+                    <td style="font-size:13px;">
+                        @if($r->child)
+                            <div style="font-weight:600;">{{ $r->child->name }}</div>
+                            <div style="color:var(--text-muted);white-space:nowrap;">
+                                Anak ke-{{ $r->child->child_order }} · {{ $r->child->ageLabel() }} ·
+                                {{ $r->child->weight_kg + 0 }} kg · {{ $r->child->height_cm + 0 }} cm
+                            </div>
+                        @else
+                            <span style="color:var(--text-muted);">—</span>
+                        @endif
+                    </td>
                     <td style="text-align:center;">
                         <span class="dot {{ $r->pre_test_done ? 'dot-green' : 'dot-gray' }}"></span>
                     </td>
@@ -52,7 +64,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" style="text-align:center;color:var(--text-muted);padding:32px;">Belum ada responden terdaftar.</td>
+                    <td colspan="8"style="text-align:center;color:var(--text-muted);padding:32px;">Belum ada responden terdaftar.</td>
                 </tr>
                 @endforelse
             </tbody>

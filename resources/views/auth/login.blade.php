@@ -125,7 +125,7 @@
         <div class="logo-icon">
             <img src="{{ asset('kemen_icon.png') }}" alt="Logo" style="width:40px; height:40px; object-fit:contain;">
         </div>
-        <div class="logo-name">SehatEdukasi</div>
+        <div class="logo-name">Kenali Stunting</div>
         <div class="logo-sub">Platform Penyuluhan Kesehatan Digital</div>
     </div>
 
