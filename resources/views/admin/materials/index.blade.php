@@ -203,7 +203,7 @@
                 <div class="spinner"></div>
                 <span>Memuat konten...</span>
             </div>
-            <iframe id="previewIframe" src="" onload="hideLoading()" allowfullscreen></iframe>
+            <iframe id="previewIframe" src="" onload="hideLoading()" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
     </div>
 </div>
